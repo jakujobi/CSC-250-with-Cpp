@@ -116,47 +116,27 @@ void PrintMenu()
     cout << "Enter your choice: ";
 }
 
-
-//This function receives the user input and calls the option
-void ReceiveUserInput(int &UserInput);
-void ReceiveUserInput(int &UserInput)
-{
-    cin >> UserInput;
-    if (UserInput == 1)
-    {
-        CheckTeamScore();
-    }
-    else if (UserInput == 2)
-    {
-        QuitProgram();
-    }
-    else
-    {
-        cout << "Invalid Input" << endl;
-        cout << "Please enter a valid input" << endl;
-        ReceiveUserInput(UserInput);
-    }
-}
-
-
 //This function reads the team ID and checks if it is in the right format
-void ReadTeamID(int &TeamID);
-void ReadTeamID(int &TeamID)
+int GetTeamID();
+int GetTeamID()
 {
+    int TeamID;
     cout << "Enter the Team ID: ";
     cin >> TeamID;
     if (TeamID < 100 || TeamID > 999)
     {
         cout << "Invalid Team ID" << endl;
         cout << "Please enter a valid Team ID" << endl;
-        ReadTeamID(TeamID);
+        GetTeamID();
     }
+
+    return TeamID;
 }
 
 
 //This function searches the list of array and find the team or print an error message
-void SearchTeam(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize, int TeamID);
-void SearchTeam(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize, int TeamID)
+int SearchTeam(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize, int TeamID);
+int  SearchTeam(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize, int TeamID)
 {
     int i = 0;
     while (i < ArraySize)
@@ -195,25 +175,6 @@ void PrintTeamScore(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedH
 }
 
 
-//This function prints the congratulations message if the Attack hits are more than the Received hits
-void PrintCongratulationsMessage(int ArrayAttackHits[], int ArrayReceivedHits[], int TeamID);
-void PrintCongratulationsMessage(int ArrayAttackHits[], int ArrayReceivedHits[], int TeamID)
-{
-    if (ArrayAttackHits[TeamID] > ArrayReceivedHits[TeamID])
-    {
-        cout << "Congratulations! You won the snowball fight" << endl;
-    }
-}
-
-
-//This function closes the file
-void CloseFile(ifstream &file);
-void CloseFile(ifstream &file)
-{
-    file.close();
-}
-
-
 //This function prints the goodbye message
 void PrintGoodbyeMessage();
 void PrintGoodbyeMessage()
@@ -223,30 +184,11 @@ void PrintGoodbyeMessage()
 }
 
 
-//This function quits the program
-void QuitProgram();
-void QuitProgram()
-{
-    exit(0);
-}
-
-
-//This function checks the team score
-void CheckTeamScore();
-void CheckTeamScore()
-{
-    int TeamID;
-    ReadTeamID(TeamID);
-    SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamID);
-}
-
-
 
 
 //Main Function
 // !_______________________________________________________________________________________________________________________________________________________________________
 // !_______________________________________________________________________________________________________________________________________________________________________
-
 
 int main()
 {
@@ -254,9 +196,11 @@ int main()
     
     //Variables
     const int SIZE = 100;
+
     int ArrayTeamID[SIZE], ArrayAttackHits[SIZE], ArrayReceivedHits[SIZE];
     int ArraySize;
-    int TeamID;
+    int TeamPosition; //Position of the team in the array and the key for the array position
+    int TeamID; //Team ID of the team. It is a 3 digit number
 
     //Prints the welcome message
     PrintWelcomeMessage();
@@ -264,6 +208,7 @@ int main()
     //Opens and reads the file then fills the arrays
     ReadFile(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
 
+    //Loop that runs the program until the user quits
     do{
         //Prints the menu
         PrintMenu();
@@ -272,35 +217,42 @@ int main()
         cout << "Enter your choice: ";
         cin >> Option;
 
-        do{
-            cout << "Enter your choice: ";
-            cin >> Option;
+        //Executes statements for Option 1: Check Team Score
+        if (Option == 1)
+        {
+            //Gets the Team ID from the user
+            TeamID = GetTeamID();
 
-            if (Option == 1)
+            //Searches the array for the Team ID
+            TeamPosition = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamID);
+
+            //Prints the team score
+            PrintTeamScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamPosition);
+
+        }
+
+        //Executes statements for Option 2: Quit the Program and  exits the program
+        else if (Option == 2)
+        {
+            exit(0);
+        }
+
+        //Takes care of invalid input and asks the user to enter a valid input until they do
+        else
+        {
+            while (Option <1 || Option >2)
             {
-            CheckTeamScore();
-            }
-            else if (Option == 2)
-            {
-                QuitProgram();
-            }
-            else
-            {
+                //Prints the error message
                 cout << "Invalid Input" << endl;
-        }while (Option <1 || Option >2)
+                cout << "Please type in a valid option (Must be 1 or 2)" << endl;
+
+                //Receives the user input
+                cin >> Option;
+            }
+        }
         
+        cout << "Would you like to check the score of another team" << endl;
+    } while (Option != 2);
 
-    } while (Option != 2)
-    
-
-
-
-    //Prints the menu
-    PrintMenu();
-    ReceiveUserInput(UserInput);
-    CloseFile(file);
-    PrintGoodbyeMessage();
     return 0;
 }
-
-
