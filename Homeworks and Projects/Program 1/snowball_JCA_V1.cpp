@@ -46,10 +46,10 @@ Your program must be modular, with separate functions to: read the data file, so
 
 
 
-#include "iostream"
-#include "fstream"
-#include "string"
-#include "iomanip"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -74,6 +74,8 @@ using namespace std;
 void PrintWelcomeMessage();
 void PrintWelcomeMessage()
 {
+    cout <<endl;
+    cout <<endl;
     cout << "Welcome to The Snowball Fight Team Score Checker v1.0" << endl;
     cout << "This program is designed to help you check the scores of a team" << endl;
     cout << "And it tells you if they won or not." << endl;
@@ -87,9 +89,9 @@ void PrintWelcomeMessage()
 void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize);
 void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize)
 {
-    ifstream file;
+    fstream file;
 
-    file.open("snowball.txt");
+    file.open("snowball.txt", ios::in);
     if (!file)
     {
         cout << "Error opening file" << endl;
@@ -103,6 +105,9 @@ void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[],
         i++;
     }
     ArraySize = i;
+
+    //Close the file
+    file.close();
 }
 
 
