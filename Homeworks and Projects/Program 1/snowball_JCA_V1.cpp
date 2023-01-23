@@ -85,19 +85,47 @@ void PrintWelcomeMessage()
 }
 
 
-//This function reads the file and fills the arrays: ArrayTeamID, ArrayAttackHits and ArrayReceivedHits
-void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize);
-void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize)
-{
-    fstream file;
+//! rEADFILE v1.0
+// //This function reads the file and fills the arrays: ArrayTeamID, ArrayAttackHits and ArrayReceivedHits
+// void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize);
+// void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize)
+// {
+//     ifstream file("snowball.txt");
 
-    file.open("snowball.txt", ios::in);
-    if (!file)
-    {
-        cout << "Error opening file" << endl;
-        exit(1);
+//     //Open the file
+//     //file.open("snowball.txt");
+
+//     //Check if the file is opened
+//     if (!file)
+//     {
+//         cout << "Error opening file" << endl;
+//         exit(1);
+//     }
+
+//     //Fill the file contents into the 3 arrays; ArrayTeamID, ArrayAttackHits and ArrayReceivedHits
+//     int i = 0;
+//     while (file >> ArrayTeamID[i] >> ArrayAttackHits[i] >> ArrayReceivedHits[i])
+//     {
+//         i++;
+//     }
+//     ArraySize = i;
+
+//     //Close the file
+//     file.close();
+// }
+
+
+
+
+// Function to read the file and fill the arrays
+void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize) {
+    ifstream file("snowball.txt");
+
+    // check if file is open
+    if (!file.is_open()) {
+        cout << "Error: Could not open file." << endl;
+        return;
     }
-
 
     int i = 0;
     while (file >> ArrayTeamID[i] >> ArrayAttackHits[i] >> ArrayReceivedHits[i])
@@ -105,10 +133,9 @@ void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[],
         i++;
     }
     ArraySize = i;
-
-    //Close the file
     file.close();
 }
+
 
 
 //This function prints the menu
@@ -180,14 +207,41 @@ void PrintTeamScore(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedH
 }
 
 
-//This function prints the goodbye message
-void PrintGoodbyeMessage();
-void PrintGoodbyeMessage()
-{
-    cout << "Thank you for using The Snowball Fight Team Score Checker v1.0" << endl;
-    cout << "Goodbye" << endl;
-}
+// //This function prints the goodbye message
+// void PrintGoodbyeMessage();
+// void PrintGoodbyeMessage()
+// {
+//     cout << "Thank you for using The Snowball Fight Team Score Checker v1.0" << endl;
+//     cout << "Goodbye" << endl;
+// }
 
+
+//Sortthe arrays parralel to each other
+void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize);
+void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize)
+{
+    int i, j, temp;
+    for (i = 0; i < ArraySize; i++)
+    {
+        for (j = i + 1; j < ArraySize; j++)
+        {
+            if (ArrayTeamID[i] > ArrayTeamID[j])
+            {
+                temp = ArrayTeamID[i];
+                ArrayTeamID[i] = ArrayTeamID[j];
+                ArrayTeamID[j] = temp;
+
+                temp = ArrayAttackHits[i];
+                ArrayAttackHits[i] = ArrayAttackHits[j];
+                ArrayAttackHits[j] = temp;
+
+                temp = ArrayReceivedHits[i];
+                ArrayReceivedHits[i] = ArrayReceivedHits[j];
+                ArrayReceivedHits[j] = temp;
+            }
+        }
+    }
+}
 
 
 
@@ -233,7 +287,6 @@ int main()
 
             //Prints the team score
             PrintTeamScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamPosition);
-
         }
 
         //Executes statements for Option 2: Quit the Program and  exits the program
