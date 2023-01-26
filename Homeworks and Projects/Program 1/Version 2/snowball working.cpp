@@ -6,7 +6,7 @@ Date: 22nd of January 2023
 Class: CSC 250 Fall 2023
 */
 
-/* Detailed program requirements
+/* Detailed program requirements by the professor (Paula Kurtenbach)
 A text file named snowball.txt contains a 3-digit Team ID, number of times the team hit a member of another time (hits), and the number of times a member of this team was hit (times hit) for each team participating in a campus-wide snowball fight.  The data is organized on up to 50 lines in the data file, as shown below.
 
 182 37 12
@@ -26,7 +26,7 @@ Write a program that allows the user to enter a team’s ID and displays the num
 Your program must be modular, with separate functions to: read the data file, sort the arrays in parallel, input a number from the user, search, and print the results.  Your output should be well-organized, neat, and easy to read.
 */
 
-/* Draft FLowchart
+/* Draft FLowchart Version 1.0
 - Print the welcome message to the screen
 - Open the file
 - Fill the file contents into the 3 arrays; ArrayTeamID, ArrayAttackHits and ArrayReceivedHits
@@ -41,6 +41,26 @@ Your program must be modular, with separate functions to: read the data file, so
 - Repeat the loop
 - After the user chooses the quit option, close the file
 - End the program
+*/
+
+/*BUGS
+
+BUG 0: The program does not read the file correctly and does not fill the arrays
+Solution:
+    Solution 0: 23rd of January 2023
+    - I Tested it on the classmates computer and it worked. But on my computer it did not work.
+
+    Solution 1: 25th of January 2023 during CSC 250 class
+    - Informed the professor and she said it might be a problem with my the antivirus & security software on my computer.
+    - Tried to put the folder wher the program is located in the exception list of the antivirus software but it did not work.
+      - Did not try to disable the antivirus software because i borrowed the laptop from the school and i did not want to risk it.
+
+    Solution 2: 25th of January 2023
+    - I then tried reinstalling the compiler on computer (MSYS2 MinGW 64-bit) but it did not work.
+    - Then i followed the instructions on the website to install the compiler to the PATH on the computer using the control panel.
+    - I added the path to the bin folder of the compiler to the PATH and the program worked.
+
+
 */
 
 
@@ -308,6 +328,7 @@ int main()
         //add validation for choice
         while (choice < 1 || choice > 3)
         {
+            //if the choice is not in the right format, the user is asked to enter a valid choice
             cout << "Invalid choice. \nPlease enter a valid choice: ";
             cin >> choice;
         }
