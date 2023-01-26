@@ -60,6 +60,10 @@ void PrintWelcomeMessage()
     cout << "Lets get started" << endl;
     cout << endl;
 }
+//function call
+//PrintWelcomeMessage();
+
+
 
 // Function to read the file and fill the arrays
 void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize)
@@ -73,15 +77,20 @@ void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[],
         return;
     }
 
-    int i = 0;
+    int i = 0; // counter variable
+
+    // Loop to read the file and fill the arrays ArrayTeamID, ArrayAttackHits and ArrayReceivedHits
     while (file >> ArrayTeamID[i] >> ArrayAttackHits[i] >> ArrayReceivedHits[i] && i < MAX_SIZE) 
     {
-        i++;   // increment the counter
+        i++;   // increment the counter with each iteration
     }
     ArraySize = i;  // store the size of the array
 
     file.close();   // close the file
 }
+//function call
+//ReadFile(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
+
 
 // Function to sort the arrays in parallel
 void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize)
@@ -92,6 +101,7 @@ void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[
         //Inner loop to compare the elements
         for (int j = i + 1; j < ArraySize; j++)
         {
+            // Check if the element is greater than the next element
             if (ArrayTeamID[i] > ArrayTeamID[j])
             {
                 // Swap the elements
@@ -102,10 +112,15 @@ void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[
         }
     }
 }
+//function call
+//SortArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
+
+
 
 // Function to search for the team using binary search
-int BinarySearch(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize, int teamID)
+int SearchTeam(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize, int teamID)
 {
+    // Initialize the variables, left index, right index and middle index
     int left = 0;   // left index
     int right = ArraySize - 1; // right index
     int middle; // middle index
@@ -136,6 +151,9 @@ int BinarySearch(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits
 
     return -1;  // Return -1 if the team is not found which is then used to print the error message
 }
+//function call
+//int index = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, teamID);
+
 
 
 //1st version of Binary Search
@@ -194,6 +212,8 @@ void PrintScore(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[
     cout << "Uh oh, The team lost." << endl;
     }
 }
+//function call
+//PrintScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, TeamKey);
 
 
 //This function prints the menu
@@ -202,8 +222,11 @@ void PrintMenu()
 {
     cout << "Menu" << endl;
     cout << "1. Check Team Score" << endl;
-    cout << "2. Quit the Program" << endl;
+    cout << "2. Print all Team Scores" << endl;
+    cout << "3. Quit the Program" << endl;
 }
+//function call
+//PrintMenu();
 
 
 
@@ -211,10 +234,9 @@ void PrintMenu()
 //int GetTeamID();
 int GetTeamID()
 {
-    int TeamID;
-    cout << "\nEnter the Team ID: ";
+    int TeamID;  //local variable to store the TeamID
+    cout << "Enter the Team ID: ";
     cin >> TeamID;
-    cout << "\n";
 
     //add validation for TeamID
     //if the TeamID is not in the right format, the user is asked to enter a valid TeamID
@@ -223,11 +245,14 @@ int GetTeamID()
     {
         cout << "Invalid Team ID" << endl;
         cout << "Please enter a valid Team ID" << endl;
+
         GetTeamID();  //recursive call to the function making it repeat until the user enters a valid TeamID instead of using a while loop
     }
 
     return TeamID;
 }
+//function call
+//TeamID = GetTeamID();
 
 
 //This function prints the arrays in the right format: Team ID, Attack Hits, Received Hits
@@ -255,10 +280,13 @@ int main()
     int ArrayAttackHits[MAX_SIZE];  // Array to store the number of hits
     int ArrayReceivedHits[MAX_SIZE];    // Array to store the number of times hit
     int ArraySize;  // Variable to store the size of the array
+    int index;  // Variable to store the index of the team
 
     PrintWelcomeMessage();  // Print the welcome message
 
     ReadFile(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize); // Read the file
+
+    //PrintArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize); // Test to print the arrays
     
     SortArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);// Sort the arrays
 
@@ -268,10 +296,9 @@ int main()
 
     // Loop to display the menu and get the user's choice
     do {
-
         PrintMenu();   // Print the menu
         
-        //Receives the user input
+        //Prompts and receives the user input
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -281,21 +308,41 @@ int main()
         //add validation for choice
         while (choice < 1 || choice > 3)
         {
-            cout << "Invalid choice. Please enter a valid choice: ";
+            cout << "Invalid choice. \nPlease enter a valid choice: ";
             cin >> choice;
         }
 
         //Check if the user wants to check the score of a team
         if (choice == 1)
         {
-            teamID = GetTeamID(); // Get the team ID from the user
+            //Loop to get the team ID from the user if the team ID is not in the list
+            do
+            {
+                teamID = GetTeamID(); // Get the team ID from the user
+                index = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, teamID);
+
+                if (index == -1)
+                {
+                    cout << "\nThe team ID is not in the list. Please enter a valid team ID." << endl;
+                }
+
+
+
+            } while (index == -1);
+
+            //// First version
+            //teamID = GetTeamID(); // Get the team ID from the user
             //cout << "Enter team ID: ";
             //cin >> teamID;
 
             //add empty line
             cout << endl;
             
-            int index = BinarySearch(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, teamID);
+            // // Call the function to search the team
+            // index = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, teamID);
+
+            //add empty line
+            cout << endl;
 
             // Check if the team is found using the index returned by the function
             // If the index is not -1, the team is found
@@ -305,16 +352,17 @@ int main()
                 PrintScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, index);  // Print the score of the team
             }
 
-            else
-            {
-                cout << "Oops, the Team not found." << endl;
-            }
+            // // If the index is -1, the team is not found
+            // else
+            // {
+            //     cout << "Oops, the Team not found." << endl;
+            // }
         }
 
-        //Option to print the array
         else if (choice == 2)
         {
-            PrintArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize); // Print the arrays
+            SortArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
+            PrintArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
         }
 
         //add empty line
