@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "iosfwd": "cpp",
-        "iostream": "cpp"
-    }
+        "iostream": "cpp",
+        "snowball_jca_v2cpp": "cpp"
+    },
+    "cSpell.ignoreWords": [
+        "Sortv"
+    ]
 }
