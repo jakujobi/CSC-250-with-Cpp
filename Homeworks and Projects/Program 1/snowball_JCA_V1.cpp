@@ -54,13 +54,10 @@ Your program must be modular, with separate functions to: read the data file, so
 using namespace std;
 
 
-
-
-
-/* PrintWelcomeMessage Design
+/* Welcome Design
     - Prototype and Function Call
-        - `Void PrintWelcomeMessage()
-        - `PrintWelcomeMessage******()******`
+        - `Void Welcome()
+        - `Welcome******()******`
     - Description
         - Prints a welcome message to the screen
     - Pseudocode
@@ -71,8 +68,8 @@ using namespace std;
             - Lets get started
         - Print Empty line twice
 */
-void PrintWelcomeMessage();
-void PrintWelcomeMessage()
+void Welcome();
+void Welcome()
 {
     cout <<endl;
     cout <<endl;
@@ -118,15 +115,22 @@ void PrintWelcomeMessage()
 
 
 // Function to read the file and fill the arrays
-void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize) {
-    ifstream file("snowball.txt");
+void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize);
+void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int &ArraySize)
+{
+    ifstream file;  // open file
+
+    file.open("snowball.txt");  // open file
 
     // check if file is open
-    if (!file.is_open()) {
-        cout << "Error: Could not open file." << endl;
-        return;
+    if(file.is_open())
+    {
+        cout << "File opened successfully" << endl;
+    }else{
+        cout << "Error: Could not open file" << endl;
     }
 
+    // fill the file contents into the 3 arrays
     int i = 0;
     while (file >> ArrayTeamID[i] >> ArrayAttackHits[i] >> ArrayReceivedHits[i])
     {
@@ -134,6 +138,8 @@ void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[],
     }
     ArraySize = i;
     file.close();
+    
+    return;
 }
 
 
@@ -145,7 +151,6 @@ void PrintMenu()
     cout << "Menu" << endl;
     cout << "1. Check Team Score" << endl;
     cout << "2. Quit the Program" << endl;
-    cout << "Enter your choice: ";
 }
 
 //This function reads the team ID and checks if it is in the right format
@@ -153,8 +158,9 @@ int GetTeamID();
 int GetTeamID()
 {
     int TeamID;
-    cout << "Enter the Team ID: ";
+    cout << "\nEnter the Team ID: ";
     cin >> TeamID;
+    cout << "\n";
     if (TeamID < 100 || TeamID > 999)
     {
         cout << "Invalid Team ID" << endl;
@@ -186,10 +192,14 @@ int  SearchTeam(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[
         }
         i++;
     }
+
     if (i == ArraySize)
     {
         cout << "Team ID not found" << endl;
     }
+
+    int TeamKey = i;
+    return TeamKey;;
 }
 
 
@@ -200,6 +210,8 @@ void PrintTeamScore(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedH
     cout << "Team ID: " << ArrayTeamID[TeamID] << endl;
     cout << "Attack Hits: " << ArrayAttackHits[TeamID] << endl;
     cout << "Received Hits: " << ArrayReceivedHits[TeamID] << endl;
+
+    //Check if the team won the snowball fight
     if (ArrayAttackHits[TeamID] > ArrayReceivedHits[TeamID])
     {
         cout << "Congratulations! You won the snowball fight" << endl;
@@ -216,7 +228,7 @@ void PrintTeamScore(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedH
 // }
 
 
-//Sortthe arrays parralel to each other
+//Sort the arrays parallel to each other
 void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize);
 void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize)
 {
@@ -258,11 +270,11 @@ int main()
 
     int ArrayTeamID[SIZE], ArrayAttackHits[SIZE], ArrayReceivedHits[SIZE];
     int ArraySize;
-    int TeamPosition; //Position of the team in the array and the key for the array position
+    int TeamKey; //Position of the team in the array and the key for the array position
     int TeamID; //Team ID of the team. It is a 3 digit number
 
     //Prints the welcome message
-    PrintWelcomeMessage();
+    Welcome();
 
     //Opens and reads the file then fills the arrays
     ReadFile(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
@@ -283,10 +295,10 @@ int main()
             TeamID = GetTeamID();
 
             //Searches the array for the Team ID
-            TeamPosition = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamID);
+            TeamKey = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamID);
 
             //Prints the team score
-            PrintTeamScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamPosition);
+            PrintTeamScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, TeamKey);
         }
 
         //Executes statements for Option 2: Quit the Program and  exits the program
@@ -309,7 +321,7 @@ int main()
             }
         }
         
-        cout << "Would you like to check the score of another team" << endl;
+        cout << "Would you like to check the score of another team\n\n" << endl;
     } while (Option != 2);
 
     return 0;
