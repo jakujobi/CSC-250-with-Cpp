@@ -23,7 +23,8 @@ void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[],
         return;
     }
 
-    int i = 0;
+    int i = 0; // counter for the array
+    // Read the file and fill the arrays
     while (file >> ArrayTeamID[i] >> ArrayAttackHits[i] >> ArrayReceivedHits[i] && i < MAX_SIZE) {
         i++;
     }
@@ -31,9 +32,11 @@ void ReadFile(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[],
     file.close();
 }
 
+
 // Function to sort the arrays in parallel
 void SortArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize)
 {
+    // Bubble sort algorithm
     for (int i = 0; i < ArraySize - 1; i++)
     {
         for (int j = i + 1; j < ArraySize; j++)
