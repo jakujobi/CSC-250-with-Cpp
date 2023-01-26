@@ -2,7 +2,8 @@
     "files.associations": {
         "iosfwd": "cpp",
         "iostream": "cpp",
-        "snowball_jca_v2cpp": "cpp"
+        "snowball_jca_v2cpp": "cpp",
+        "fstream": "cpp"
     },
     "cSpell.ignoreWords": [
         "Sortv"
