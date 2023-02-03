@@ -146,47 +146,17 @@ using namespace std;
 const int ROWS = 5;
 const int COLS = 4;
 
-/* BUG: I attempted to use string array but it was not working, so I used switch statement instead
-const string ACTIVITIES[COLS] = {"Skiing🎿", "Curling🥌", "Ice Skating⛸️", "Sledding 🛷"};
-const string DAYS[ROWS] = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5"};
+// TODO: BUG: I attempted to use string array but it was not working, so I used switch statement instead
+// It kept showing me and error message saying "cannot convert 'const char*' to 'const string*' in initialization"
+/*  const string ACTIVITIES[COLS] = {"Skiing🎿", "Curling🥌", "Ice Skating⛸️", "Sledding 🛷"};
+    const string DAYS[ROWS] = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5"};
 */
-
-
-//This function prints the activity based on the input
-void printActivity(int activity)
-{
-    //using switch statement
-
-    switch (activity)
-    {
-        case 0:
-            cout << "Skiing🎿";
-            break;
-
-        case 1:
-            cout << "Curling🥌";
-            break;
-
-        case 2:
-            cout << "Ice Skating⛸️";
-            break;
-
-        case 3:
-            cout << "Sledding 🛷";
-            break;
-
-        default:
-            cout << "Invalid Activity";
-            break;
-    }
-}
 
 
 //This function prints the day based on the input
 void printDay(int day)
 {
-    //using switch statement
-
+    //using switch statement to print the day
     switch (day)
     {
         case 0:
@@ -210,7 +180,65 @@ void printDay(int day)
             break;
 
         default:
-            cout << "Invalid Day";
+            cout << "ERROR: Invalid Day";
+            break;
+    }
+}
+
+
+
+//This function prints the activity based on the input
+void printActivity(int activity)
+{
+    //using switch statement to print the activity
+    switch (activity)
+    {
+        case 0:
+            cout << "Skiing🎿";
+            break;
+
+        case 1:
+            cout << "Curling🥌";
+            break;
+
+        case 2:
+            cout << "Ice Skating⛸️";
+            break;
+
+        case 3:
+            cout << "Sledding 🛷";
+            break;
+
+        default:
+            cout << "ERROR: Invalid Activity";
+            break;
+    }
+}
+
+//This function prints the heading of each activity based on the input
+void printMiniActivity(int activity)
+{
+    //using switch statement to print the activity
+    switch (activity)
+    {
+        case 0:
+            cout << "Sk🎿";
+            break;
+
+        case 1:
+            cout << "Cu🥌";
+            break;
+
+        case 2:
+            cout << "Ic⛸️";
+            break;
+
+        case 3:
+            cout << "Sl🛷";
+            break;
+
+        default:
+            cout << "ERROR: Invalid Activity";
             break;
     }
 }
@@ -220,7 +248,7 @@ void printDay(int day)
 //Function to print the welcome message
 void printWelcome()
 {
-    cout << "Welcome to Winter Fun at the State Park\n"
+    cout << "\nWelcome to Winter Fun at the State Park\n"
          << "Here, you can enroll in skiing, curling, ice skating, and sledding on 5 consecutive Saturdays.\n\n";
 }
 
@@ -263,7 +291,7 @@ int getDay()
     }
 
     //Get the day choice
-    cout << "Choose a day from the list (Number between 1 - 5): \n---> ";
+    cout << "Choose a number from the list \n---> ";
     cin >> day; 
 
     //Validate the day choice
@@ -274,7 +302,7 @@ int getDay()
     }
 
     //Tell the user the day they chose
-    cout << "You chose: " << endl;
+    cout << "You chose: ";
     printDay(day - 1); //Print the day based on the input
     cout << endl;
 
@@ -289,18 +317,20 @@ int getActivity()
 {
     int activity;
 
-    // //Print the list of activities
-    // cout << "List of Activities\n"
-    //      << "1 - Sk🎿 - Skiing🎿\n"
-    //      << "2 - Cu🥌 - Curling🥌\n"
-    //      << "3 - Ic⛸️ - Ice Skating⛸️\n"
-    //      << "4 - Sl🛷 - Sledding 🛷\n"
-    //      << "Choose an activity from the list (Number between 1 - 4): ";
-    // * I decided to instead use a loop to print the activities
+    /* //Initial list of activities
+    //Print the list of activities
+    cout << "List of Activities\n"
+         << "1 - Sk🎿 - Skiing🎿\n"
+         << "2 - Cu🥌 - Curling🥌\n"
+         << "3 - Ic⛸️ - Ice Skating⛸️\n"
+         << "4 - Sl🛷 - Sledding 🛷\n"
+         << "Choose an activity from the list (Number between 1 - 4): ";
+    * I decided to instead use a loop to print the activities
+    */
 
 
     //Use a loop to print the activities
-    cout << "List of Activities\n";
+    cout << "\nList of Activities\n";
     for (int i = 0; i < COLS; i++)
     {
         cout << i + 1 << " - ";
@@ -309,18 +339,18 @@ int getActivity()
     }
 
     //Get the activity choice
-    cout << "Choose an activity from the list (Number between 1 - 4): \n--> ";    
+    cout << "Choose a number from the list \n--> ";    
     cin >> activity;
 
     //Validate the activity choice
     while (activity < 1 || activity > COLS)
     {
-        cout << "Invalid activity. Please choose a number between 1 and 4: \n--> ";
+        cout << "Invalid activity. Please choose a number between 1 and 4 \n--> ";
         cin >> activity;
     }
 
     //Tell the user the activity they chose
-    cout << "You chose: " << endl;
+    cout << "You chose: ";
     printActivity(activity - 1);  //Print the activity choice
     cout << endl;
 
@@ -340,11 +370,11 @@ void enrollInActivity(int enrollment[][COLS])
     int activity = getActivity();
 
     //Print the current enrollment
-    cout << "The last enrollment for ";
+    cout << "\nThe last enrollment for ";
     printActivity (activity);
-    cout << "\nOn day " << day + 1;
+    cout << "On day " << day + 1 << ", ";
     printDay(day);
-    cout << " is " << enrollment[day][activity] << endl;
+    cout << " is:" << enrollment[day][activity] << endl;
 
 
     //Get the new enrollment from the user
@@ -363,7 +393,7 @@ void enrollInActivity(int enrollment[][COLS])
     enrollment[day][activity] = newEnrollment;
     
     //Print the success message
-    cout << "Enrollment updated successfully!\n\n";
+    cout << "\nYay! Enrollment updated successfully!\n\n";
 }
 
 
@@ -472,20 +502,20 @@ int main()
         printMenu();
         
         //Prompts and receives the user input
-        cout << "Enter your choice: ";
+        cout << "Enter your choice \n--> ";
         cin >> choice;
 
         //add validation for choice
         while (choice < 1 || choice > 3)
         {
             //if the choice is not in the right format, the user is asked to enter a valid choice
-            cout << "\nInvalid choice: It must be 1, 2, or 3.\nPlease enter a valid choice: ";
+            cout << "\nInvalid choice: It must be 1, 2, or 3.\nTry again";
 
             // Call the function to print the menu
             printMenu();
             
             //Prompts and receives the user input
-            cout << "Enter your choice: ";
+            cout << "Enter your choice \n--> ";
             cin >> choice;
         }
 
