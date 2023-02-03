@@ -154,29 +154,30 @@ const int COLS = 4;
 
 
 //This function prints the day based on the input
+void printDay(int day);
 void printDay(int day)
 {
     //using switch statement to print the day
     switch (day)
     {
         case 0:
-            cout << "Day 1";
+            cout << "4th Feb 2023";
             break;
 
         case 1:
-            cout << "Day 2";
+            cout << "11th Feb 2023";
             break;
 
         case 2:
-            cout << "Day 3";
+            cout << "18th Feb 2023";
             break;
 
         case 3:
-            cout << "Day 4";
+            cout << "25th Feb 2023";
             break;
 
         case 4:
-            cout << "Day 5";
+            cout << "4th Mar 2023";
             break;
 
         default:
@@ -188,6 +189,7 @@ void printDay(int day)
 
 
 //This function prints the activity based on the input
+void printActivity(int activity);
 void printActivity(int activity)
 {
     //using switch statement to print the activity
@@ -216,6 +218,7 @@ void printActivity(int activity)
 }
 
 //This function prints the heading of each activity based on the input
+void printMiniActivity(int activity);
 void printMiniActivity(int activity)
 {
     //using switch statement to print the activity
@@ -243,11 +246,18 @@ void printMiniActivity(int activity)
     }
 }
 
-
+//This function prints the very long line
+void printLongLine();
+void printLongLine()
+{
+    cout << "\n----------------------------------------------------" << endl;
+}
 
 //Function to print the welcome message
+void printWelcome();
 void printWelcome()
 {
+    printLongLine();
     cout << "\nWelcome to Winter Fun at the State Park\n"
          << "Here, you can enroll in skiing, curling, ice skating, and sledding on 5 consecutive Saturdays.\n\n";
 }
@@ -255,9 +265,11 @@ void printWelcome()
 
 
 //Function to print the main menu
+void printMenu();
 void printMenu()
 {
-    cout << "-------------------------\n" << "MAIN MENU\n"
+    printLongLine();
+    cout << "MAIN MENU\n"
          << "1. Enroll in an activity\n"
          << "2. Print the current enrollment\n"
          << "3. Exit\n";
@@ -266,6 +278,7 @@ void printMenu()
 
 
 //Function to get and validate the day choice
+int getDay();
 int getDay()
 {
     int day;    //To hold the day choice
@@ -282,7 +295,7 @@ int getDay()
     */
 
     //using a loop to print the days
-    cout << "\nList of Days\n";
+    cout << "\nLIST OF DAYS\n";
     for (int i = 0; i < ROWS; i++)
     {
         cout << i + 1 << " - ";
@@ -291,13 +304,13 @@ int getDay()
     }
 
     //Get the day choice
-    cout << "Choose a number from the list \n---> ";
+    cout << "Choose a day from the list \n--->: ";
     cin >> day; 
 
     //Validate the day choice
     while (day < 1 || day > 5)
     {
-        cout << "\nInvalid day. Please choose a number between 1 and 5: \n--> ";
+        cout << "INVALID DAY: Please choose a day between 1 and 5: \n-->: ";
         cin >> day;
     }
 
@@ -313,6 +326,7 @@ int getDay()
 
 
 //Function to get and validate the activity choice
+int getActivity();
 int getActivity()
 {
     int activity;
@@ -330,7 +344,7 @@ int getActivity()
 
 
     //Use a loop to print the activities
-    cout << "\nList of Activities\n";
+    cout << "\nLIST OF ACTIVITIES\n";
     for (int i = 0; i < COLS; i++)
     {
         cout << i + 1 << " - ";
@@ -339,13 +353,13 @@ int getActivity()
     }
 
     //Get the activity choice
-    cout << "Choose a number from the list \n--> ";    
+    cout << "Choose an activity from the list \n-->: ";    
     cin >> activity;
 
     //Validate the activity choice
     while (activity < 1 || activity > COLS)
     {
-        cout << "Invalid activity. Please choose a number between 1 and 4 \n--> ";
+        cout << "INVALID ACTIVITY: Please choose an activity between 1 and 4 \n-->: ";
         cin >> activity;
     }
 
@@ -361,6 +375,7 @@ int getActivity()
 
 
 //Function to enroll in an activity
+void enrollInActivity(int enrollment[][COLS]);
 void enrollInActivity(int enrollment[][COLS])
 {
     //Get the day choice from the user
@@ -369,23 +384,24 @@ void enrollInActivity(int enrollment[][COLS])
     //Get the activity choice from the user
     int activity = getActivity();
 
+    
     //Print the current enrollment
     cout << "\nThe last enrollment for ";
     printActivity (activity);
-    cout << "On day " << day + 1 << ", ";
+    cout << "  on day " << day + 1 << ", ";
     printDay(day);
-    cout << " is:" << enrollment[day][activity] << endl;
+    cout << " is -->: " << enrollment[day][activity] << endl;
 
 
     //Get the new enrollment from the user
-    cout << "Enter the new enrollment: ";
+    cout << "Enter the new enrollment\n-->: ";
     int newEnrollment;
     cin >> newEnrollment;
     
     //validate the new enrollment making sure it is not negative
     while (newEnrollment < 0)
     {
-        cout << "Invalid enrollment. Please enter a positive number: ";
+        cout << "INVALID ENROLLMENT: Please enter a positive number \n-->: ";
         cin >> newEnrollment;
     }
 
@@ -393,11 +409,12 @@ void enrollInActivity(int enrollment[][COLS])
     enrollment[day][activity] = newEnrollment;
     
     //Print the success message
-    cout << "\nYay! Enrollment updated successfully!\n\n";
+    cout << "\nYay! Enrollment updated successfully!\n";
 }
 
 
 //Function to calculate the row totals
+void calcRowTotals(int enrollment[][COLS], int rowTotals[]);
 void calcRowTotals(int enrollment[][COLS], int rowTotals[])
 {
     for (int i = 0; i < ROWS; i++)
@@ -412,7 +429,9 @@ void calcRowTotals(int enrollment[][COLS], int rowTotals[])
 
 
 //Function to calculate the column totals
+void calcColTotals(int enrollment[][COLS], int colTotals[]);
 void calcColTotals(int enrollment[][COLS], int colTotals[])
+
 {
     for (int i = 0; i < ROWS; i++)
     {
@@ -424,15 +443,11 @@ void calcColTotals(int enrollment[][COLS], int colTotals[])
 }
 
 
-//This function prints the very long line
-void printLongLine()
-{
-    cout << "\n----------------------------------------------------" << endl;
-}
-
-
+void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], int numActivities, int numDays);
 void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], int numActivities, int numDays)
 {
+    cout << endl;
+
     // print header
     printLongLine();
     cout << "CURRENT ACTIVITY ENROLLMENT";
@@ -448,7 +463,7 @@ void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], i
         cout << "   ";
         printMiniActivity(i);
     }
-    cout << "   |  TOTAL";
+    cout << "  |  TOTAL";
 
     // print enrollment data
     for (int i = 0; i < numDays; i++)
@@ -498,6 +513,7 @@ void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], i
 
 
 //Function to print the averages
+void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[]);
 void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[])
 {
     int numberOfActivities = COLS;
@@ -548,7 +564,7 @@ int main()
         while (choice < 1 || choice > 3)
         {
             //if the choice is not in the right format, the user is asked to enter a valid choice
-            cout << "\nInvalid choice: It must be 1, 2, or 3.\nTry again";
+            cout << "\nINVALID CHOICE: Please enter 1, 2, or 3.\nTry again";
 
             // Call the function to print the menu
             printMenu();
@@ -575,6 +591,12 @@ int main()
 
             //Print the averages
             printAverages(enrollment, rowTotals, colTotals);
+        }
+
+        else if (choice == 3)
+        {
+            cout << "\nEXITING: Thank you for using the program.\nGoodbye!\n\n";
+            exit(0);
         }
 
         //add empty line
