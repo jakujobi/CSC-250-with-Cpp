@@ -145,7 +145,76 @@ using namespace std;
 
 const int ROWS = 5;
 const int COLS = 4;
+
+/* BUG: I attempted to use string array but it was not working, so I used switch statement instead
 const string ACTIVITIES[COLS] = {"Skiing🎿", "Curling🥌", "Ice Skating⛸️", "Sledding 🛷"};
+const string DAYS[ROWS] = {"Day 1", "Day 2", "Day 3", "Day 4", "Day 5"};
+*/
+
+
+//This function prints the activity based on the input
+void printActivity(int activity)
+{
+    //using switch statement
+
+    switch (activity)
+    {
+        case 0:
+            cout << "Skiing🎿";
+            break;
+
+        case 1:
+            cout << "Curling🥌";
+            break;
+
+        case 2:
+            cout << "Ice Skating⛸️";
+            break;
+
+        case 3:
+            cout << "Sledding 🛷";
+            break;
+
+        default:
+            cout << "Invalid Activity";
+            break;
+    }
+}
+
+
+//This function prints the day based on the input
+void printDay(int day)
+{
+    //using switch statement
+
+    switch (day)
+    {
+        case 0:
+            cout << "Day 1";
+            break;
+
+        case 1:
+            cout << "Day 2";
+            break;
+
+        case 2:
+            cout << "Day 3";
+            break;
+
+        case 3:
+            cout << "Day 4";
+            break;
+
+        case 4:
+            cout << "Day 5";
+            break;
+
+        default:
+            cout << "Invalid Day";
+            break;
+    }
+}
+
 
 
 //Function to print the welcome message
@@ -163,7 +232,7 @@ void printMenu()
     cout << "Main Menu\n"
          << "1. Enroll in an activity\n"
          << "2. Print the current enrollment\n"
-         << "3. Exit\n\n";
+         << "3. Exit\n";
 }
 
 
@@ -172,17 +241,31 @@ void printMenu()
 int getDay()
 {
     int day;    //To hold the day choice
-    cout << "List of Days\n"
-         << "1 - Day 1\n"
-         << "2 - Day 2\n"
-         << "3 - Day 3\n"
-         << "4 - Day 4\n"
-         << "5 - Day 5\n"
-         << "Choose a day from the list (Number between 1 - 5): ";
+    
+    // cout << "List of Days\n";
+    // cout << "1 - Day 1\n";
+    //      << "2 - Day 2\n"
+    //      << "3 - Day 3\n"
+    //      << "4 - Day 4\n"
+    //      << "5 - Day 5\n"
+    //      << "Choose a day from the list (Number between 1 - 5): ";
+    // * I decided to instead use a loop to print the days
 
-    cin >> day; //Get the day choice
 
-    while (day < 1 || day > 5)  //Validate the day choice
+    //using a loop to print the days
+    cout << "List of Days\n";
+    for (int i = 0; i < ROWS; i++)
+    {
+        cout << i + 1 << " - " << endl;
+        printDay(i);
+    }
+
+    //Get the day choice
+    cout << "Choose a day from the list (Number between 1 - 5): ";
+    cin >> day; 
+
+    //Validate the day choice
+    while (day < 1 || day > 5)
     {
         cout << "Invalid day. Please choose a number between 1 and 5: ";
         cin >> day;
@@ -198,14 +281,26 @@ int getActivity()
 {
     int activity;
 
-    //Print the list of activities
-    cout << "List of Activities\n"
-         << "1 - Sk🎿 - Skiing🎿\n"
-         << "2 - Cu🥌 - Curling🥌\n"
-         << "3 - Ic⛸️ - Ice Skating⛸️\n"
-         << "4 - Sl🛷 - Sledding 🛷\n"
-         << "Choose an activity from the list (Number between 1 - 4): ";
-    
+    // //Print the list of activities
+    // cout << "List of Activities\n"
+    //      << "1 - Sk🎿 - Skiing🎿\n"
+    //      << "2 - Cu🥌 - Curling🥌\n"
+    //      << "3 - Ic⛸️ - Ice Skating⛸️\n"
+    //      << "4 - Sl🛷 - Sledding 🛷\n"
+    //      << "Choose an activity from the list (Number between 1 - 4): ";
+    // * I decided to instead use a loop to print the activities
+
+
+    //Use a loop to print the activities
+    cout << "List of Activities\n";
+    for (int i = 0; i < COLS; i++)
+    {
+        cout << i + 1 << " - " << endl;
+        printActivity(i);
+    }
+
+    //Get the activity choice
+    cout << "Choose an activity from the list (Number between 1 - 4): ";    
     cin >> activity;
 
     while (activity < 1 || activity > 4)  //Validate the activity choice
@@ -255,6 +350,8 @@ void calcRowTotals(int enrollment[][COLS], int rowTotals[])
     }
 }
 
+
+
 //Function to calculate the column totals
 void calcColTotals(int enrollment[][COLS], int colTotals[])
 {
@@ -268,21 +365,55 @@ void calcColTotals(int enrollment[][COLS], int colTotals[])
 }
 
 
-//Function to print the averages
-void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[], ACTIVITIES[])
+
+void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], int numActivities, int numDays)
 {
-  int numberOfActivities = COLS;
-  int numberOfStudents = ROWS;
-  float average;
+    // print header
+    printf("%5s", "");
 
-  cout << "Activity Averages:" << endl; //print the header
+    for (int i = 0; i < numActivities; i++)
+    {
+        printf("%5d", i + 1);
+    }
+    printf("%9s\n", "Total");
 
-  //calculate the average for each activity
-  for (int i = 0; i < numberOfActivities; i++)
-  {
-    average = (float)colTotals[i] / (float)numberOfStudents;
-    cout << "Activity " << i + 1 << ": " << average << endl;
-  }
+    // print enrollment data
+    for (int j = 0; j < numDays; j++)
+    {
+        printf("%5d", j + 1);
+        
+        for (int i = 0; i < numActivities; i++)
+        {
+            printf("%5d", enrollment[j][i]);
+        }
+        printf("%9d\n", rowTotals[j]);
+    }
+
+    // print column totals
+    printf("%5s", "Total");
+    for (int i = 0; i < numActivities; i++)
+    {
+        printf("%5d", colTotals[i]);
+    }
+    printf("\n");
+}
+
+
+//Function to print the averages
+void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[], string ACTIVITIES[])
+{
+    int numberOfActivities = COLS;
+    int numberOfStudents = ROWS;
+    float average;
+
+    cout << "Activity Averages:" << endl; //print the header
+
+    //calculate the average for each activity
+    for (int i = 0; i < numberOfActivities; i++)
+    {
+        average = (float)colTotals[i] / (float)numberOfStudents;
+        cout << ACTIVITIES[i] << ": " << average << endl;
+    }
 
 }
 
@@ -336,6 +467,9 @@ int main()
             calcRowTotals(enrollment, rowTotals);
             calcColTotals(enrollment, colTotals);
 
+            //Print the enrollment data
+            printEnrollment(enrollment, rowTotals, colTotals, COLS, ROWS);
+
             //Print the row totals
             cout << "Row Totals: ";
             for (int i = 0; i < ROWS; i++)
@@ -352,6 +486,9 @@ int main()
             }
 
             cout << endl;
+
+            //Print the averages
+            printAverages(enrollment, rowTotals, colTotals, ACTIVITIES);
         }
 
         //add empty line
