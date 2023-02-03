@@ -424,15 +424,23 @@ void calcColTotals(int enrollment[][COLS], int colTotals[])
 }
 
 
+//This function prints the very long line
+void printLongLine()
+{
+    cout << "\n----------------------------------------------------" << endl;
+}
+
 
 void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], int numActivities, int numDays)
 {
     // print header
-    cout << "\n\nWINTER SPORTS ENROLLMENT\n" << "-----------------------------------------" <<endl;
+    printLongLine();
+    cout << "CURRENT ACTIVITY ENROLLMENT";
+    printLongLine();
 
     // print column headings which should print in the form below
     // DAYS     Sk🎿  Cu🥌   Ic⛸️   Sl🛷 | Total
-    cout << "DAYS" << "    |" << setw(4);
+    cout << "DAYS" << "    |" << setw(5);
 
     //print the column headers for the activities
     for (int i = 0; i < numActivities; i++)
@@ -440,11 +448,12 @@ void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], i
         cout << "   ";
         printMiniActivity(i);
     }
-    cout << setw(9) << "TOTAL" << endl;
+    cout << "   |  TOTAL";
 
     // print enrollment data
     for (int i = 0; i < numDays; i++)
     {
+        cout << endl;
         //print the day at the beginning of the row
         cout << "Day " << i + 1 << "   |";
 
@@ -453,17 +462,14 @@ void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], i
         {
             cout << setw(7) << enrollment[i][j];
         }
-        cout << setw(5) << " |" << setw(3) << rowTotals[i];
+        cout << setw(5) << "    |    " << rowTotals[i] << setw(6) ;
 
         //print the day at the end of the row
-        cout << setw(5) << " -   ";
+        cout << setw(5) << "    -   ";
         printDay(i);
 
-        cout << endl;
     }
-
-    // print the line
-    cout << "-----------------------------------------" << endl;
+    printLongLine();
 
     // print row totals
 
@@ -477,9 +483,15 @@ void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], i
         //add the column totals to get the total enrollment
         TotalEnrollment += colTotals[i];
     }
+    cout << setw(5) << "    |    " << TotalEnrollment << setw(6) ;
+    printLongLine();
 
     // print total enrollment
-    cout << "\n\nTotal Enrollment = " << TotalEnrollment << endl;
+    cout << "\nTotal Enrollment = " << TotalEnrollment << endl;
+
+    //print average daily enrollment
+    float averageDailyEnrollment = (float)TotalEnrollment / (float)numDays;
+    cout << "Average Daily Enrollment = " << averageDailyEnrollment << endl;
 
     printf("\n");
 }
@@ -492,7 +504,7 @@ void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[])
     int numberOfStudents = ROWS;
     float average;
 
-    cout << "Activity Averages:" << endl; //print the header
+    cout << "ACTIVITY AVERAGES" << endl; //print the header
 
     //calculate the average for each activity
     for (int i = 0; i < numberOfActivities; i++)
