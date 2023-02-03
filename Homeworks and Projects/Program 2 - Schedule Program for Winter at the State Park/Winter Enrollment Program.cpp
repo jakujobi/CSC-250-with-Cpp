@@ -257,7 +257,7 @@ void printWelcome()
 //Function to print the main menu
 void printMenu()
 {
-    cout << "Main Menu\n"
+    cout << "-------------------------\n" << "MAIN MENU\n"
          << "1. Enroll in an activity\n"
          << "2. Print the current enrollment\n"
          << "3. Exit\n";
@@ -428,32 +428,59 @@ void calcColTotals(int enrollment[][COLS], int colTotals[])
 void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], int numActivities, int numDays)
 {
     // print header
-    printf("%5s", "");
+    cout << "\n\nWINTER SPORTS ENROLLMENT\n" << "-----------------------------------------" <<endl;
 
+    // print column headings which should print in the form below
+    // DAYS     Sk🎿  Cu🥌   Ic⛸️   Sl🛷 | Total
+    cout << "DAYS" << "    |" << setw(4);
+
+    //print the column headers for the activities
     for (int i = 0; i < numActivities; i++)
     {
-        printf("%5d", i + 1);
+        cout << "   ";
+        printMiniActivity(i);
     }
-    printf("%9s\n", "Total");
+    cout << setw(9) << "TOTAL" << endl;
 
     // print enrollment data
-    for (int j = 0; j < numDays; j++)
+    for (int i = 0; i < numDays; i++)
     {
-        printf("%5d", j + 1);
-        
-        for (int i = 0; i < numActivities; i++)
+        //print the day at the beginning of the row
+        cout << "Day " << i + 1 << "   |";
+
+        //print the numbers for each activity
+        for (int j = 0; j < numActivities; j++)
         {
-            printf("%5d", enrollment[j][i]);
+            cout << setw(7) << enrollment[i][j];
         }
-        printf("%9d\n", rowTotals[j]);
+        cout << setw(5) << " |" << setw(3) << rowTotals[i];
+
+        //print the day at the end of the row
+        cout << setw(5) << " -   ";
+        printDay(i);
+
+        cout << endl;
     }
 
+    // print the line
+    cout << "-----------------------------------------" << endl;
+
+    // print row totals
+
     // print column totals
-    printf("%5s", "Total");
+    cout << "Total" << "   |";
+    int TotalEnrollment = 0;
     for (int i = 0; i < numActivities; i++)
     {
-        printf("%5d", colTotals[i]);
+        cout << setw(7) << colTotals[i];
+        
+        //add the column totals to get the total enrollment
+        TotalEnrollment += colTotals[i];
     }
+
+    // print total enrollment
+    cout << "\n\nTotal Enrollment = " << TotalEnrollment << endl;
+
     printf("\n");
 }
 
@@ -533,23 +560,6 @@ int main()
 
             //Print the enrollment data
             printEnrollment(enrollment, rowTotals, colTotals, COLS, ROWS);
-
-            //Print the row totals
-            cout << "Row Totals: ";
-            for (int i = 0; i < ROWS; i++)
-            {
-                cout << rowTotals[i] << " ";
-            }
-            cout << endl;
-
-            //Print the column totals
-            cout << "Column Totals: ";
-            for (int i = 0; i < COLS; i++)
-            {
-                cout << colTotals[i] << " ";
-            }
-
-            cout << endl;
 
             //Print the averages
             printAverages(enrollment, rowTotals, colTotals);
