@@ -242,35 +242,43 @@ int getDay()
 {
     int day;    //To hold the day choice
     
-    // cout << "List of Days\n";
-    // cout << "1 - Day 1\n";
-    //      << "2 - Day 2\n"
-    //      << "3 - Day 3\n"
-    //      << "4 - Day 4\n"
-    //      << "5 - Day 5\n"
-    //      << "Choose a day from the list (Number between 1 - 5): ";
-    // * I decided to instead use a loop to print the days
-
+    /* //Initial list of days
+    cout << "List of Days\n";
+    cout << "1 - Day 1\n";
+         << "2 - Day 2\n"
+         << "3 - Day 3\n"
+         << "4 - Day 4\n"
+         << "5 - Day 5\n"
+         << "Choose a day from the list (Number between 1 - 5): ";
+    * I decided to instead use a loop to print the days
+    */
 
     //using a loop to print the days
-    cout << "List of Days\n";
+    cout << "\nList of Days\n";
     for (int i = 0; i < ROWS; i++)
     {
-        cout << i + 1 << " - " << endl;
+        cout << i + 1 << " - ";
         printDay(i);
+        cout << endl;
     }
 
     //Get the day choice
-    cout << "Choose a day from the list (Number between 1 - 5): ";
+    cout << "Choose a day from the list (Number between 1 - 5): \n---> ";
     cin >> day; 
 
     //Validate the day choice
     while (day < 1 || day > 5)
     {
-        cout << "Invalid day. Please choose a number between 1 and 5: ";
+        cout << "\nInvalid day. Please choose a number between 1 and 5: \n--> ";
         cin >> day;
     }
 
+    //Tell the user the day they chose
+    cout << "You chose: " << endl;
+    printDay(day - 1); //Print the day based on the input
+    cout << endl;
+
+    
     return day - 1; //Return the day choice but subtract 1 to match the array index
 }
 
@@ -295,21 +303,29 @@ int getActivity()
     cout << "List of Activities\n";
     for (int i = 0; i < COLS; i++)
     {
-        cout << i + 1 << " - " << endl;
+        cout << i + 1 << " - ";
         printActivity(i);
+        cout << endl;
     }
 
     //Get the activity choice
-    cout << "Choose an activity from the list (Number between 1 - 4): ";    
+    cout << "Choose an activity from the list (Number between 1 - 4): \n--> ";    
     cin >> activity;
 
-    while (activity < 1 || activity > 4)  //Validate the activity choice
+    //Validate the activity choice
+    while (activity < 1 || activity > COLS)
     {
-        cout << "Invalid activity. Please choose a number between 1 and 4: ";
+        cout << "Invalid activity. Please choose a number between 1 and 4: \n--> ";
         cin >> activity;
     }
 
-    return activity - 1; //Return the activity choice but subtract 1 to match the array index
+    //Tell the user the activity they chose
+    cout << "You chose: " << endl;
+    printActivity(activity - 1);  //Print the activity choice
+    cout << endl;
+
+    //Return the activity choice but subtract 1 to match the array index
+    return activity - 1; 
 }
 
 
@@ -319,22 +335,35 @@ void enrollInActivity(int enrollment[][COLS])
 {
     //Get the day choice from the user
     int day = getDay();
-
+    
     //Get the activity choice from the user
     int activity = getActivity();
 
-    cout << "The last enrollment for " << ACTIVITIES[activity] << " on day " << day + 1 << " is " << enrollment[day][activity] << endl;
+    //Print the current enrollment
+    cout << "The last enrollment for ";
+    printActivity (activity);
+    cout << "\nOn day " << day + 1;
+    printDay(day);
+    cout << " is " << enrollment[day][activity] << endl;
 
 
     //Get the new enrollment from the user
     cout << "Enter the new enrollment: ";
     int newEnrollment;
     cin >> newEnrollment;
+    
+    //validate the new enrollment making sure it is not negative
+    while (newEnrollment < 0)
+    {
+        cout << "Invalid enrollment. Please enter a positive number: ";
+        cin >> newEnrollment;
+    }
 
     //Update the enrollment
     enrollment[day][activity] = newEnrollment;
     
-    cout << "Enrollment updated successfully!\n\n";  //Print success message
+    //Print the success message
+    cout << "Enrollment updated successfully!\n\n";
 }
 
 
@@ -400,7 +429,7 @@ void printEnrollment(int enrollment[][COLS], int rowTotals[], int colTotals[], i
 
 
 //Function to print the averages
-void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[], string ACTIVITIES[])
+void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[])
 {
     int numberOfActivities = COLS;
     int numberOfStudents = ROWS;
@@ -412,7 +441,9 @@ void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[], str
     for (int i = 0; i < numberOfActivities; i++)
     {
         average = (float)colTotals[i] / (float)numberOfStudents;
-        cout << ACTIVITIES[i] << ": " << average << endl;
+
+        printActivity(i);
+        cout << " : " << average << endl;
     }
 
 }
@@ -423,15 +454,19 @@ void printAverages(int enrollment[][COLS], int rowTotals[], int colTotals[], str
 //Main function
 int main()
 {
+    //Array storing the enrollment data
     int enrollment[ROWS][COLS] = {{0}};
+
+    //Array to store the row and columns totals
     int rowTotals[ROWS] = {0};
     int colTotals[COLS] = {0};
 
     int choice; //To hold the user's choice
 
+    //Call the function to print the welcome message
     printWelcome();
 
-    // Loop to display the menu and get the user's choice
+    //Loop to continue displaying the menu until the user chooses to exit
     do {
         // Call the function to print the menu
         printMenu();
@@ -452,7 +487,6 @@ int main()
             //Prompts and receives the user input
             cout << "Enter your choice: ";
             cin >> choice;
-
         }
 
         //Check if the user wants to check the score of a team
@@ -488,7 +522,7 @@ int main()
             cout << endl;
 
             //Print the averages
-            printAverages(enrollment, rowTotals, colTotals, ACTIVITIES);
+            printAverages(enrollment, rowTotals, colTotals);
         }
 
         //add empty line
