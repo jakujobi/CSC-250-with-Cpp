@@ -137,6 +137,27 @@ Average daily = ##
 
 */
 
+//! BUGS
+//! Bug 1: Fixed
+/*  I attempted to use string array to store the dates and activities but it was not working, 
+    It kept showing me error message saying "cannot convert 'const char*' to 'const string*' in initialization"
+SOLN: I created functions which used switch statement instead to print the days and activities
+    The functions created are printDay, printActivity, and printMiniActivity which prints the first 2 letters of the activity and the emoji
+TAKEAWAY: Try to learn how to use string array
+*/
+
+//! Bug 2: Fixed
+/*  The printed table from the printEnrollment function is not aligned properly
+SOLN: Made some changes to the setw() used in the printEnrollment function
+CAVEAT: The table is mostly aligned properly, but after testing on 7 online compilers, some gave a slight misalignment on the last column.
+    I tried 
+*/
+
+//! Bug 3: Fixed
+/*  There is an infinite loop when the user inputs a wrong choice in the get activity function
+SOLN: I changed the upper limit of the while loop to 4 instead of COLS
+*/
+
 
 
 #include <iostream>
@@ -357,7 +378,7 @@ int getActivity()
     cin >> activity;
 
     //Validate the activity choice
-    while (activity < 1 || activity > COLS)
+    while (activity < 1 || activity > 4)
     {
         cout << "INVALID ACTIVITY: Please choose an activity between 1 and 4 \n-->: ";
         cin >> activity;
