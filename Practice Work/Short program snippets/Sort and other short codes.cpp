@@ -61,15 +61,6 @@ void selectionSortv2 (int arr[], int size)
             i++;
         }
 
-        // //inner loop to find the smallest element
-        // for (int i = wall + 1; i < size; i++)
-        // {
-        //     if (arr[i] < arr[small_location])
-        //     {
-        //         small_location = i;
-        //     }
-        // }
-
         //swap the smallest element with the element at the wall
         int temp = arr[wall];
         arr[wall] = arr[small_location];
