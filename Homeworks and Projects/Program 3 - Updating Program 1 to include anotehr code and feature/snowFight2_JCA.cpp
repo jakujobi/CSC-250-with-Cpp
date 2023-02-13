@@ -36,7 +36,6 @@ void Welcome()
     cout << "This program is designed to help you check the scores of a team" << endl;
     cout << "And it tells you if they won or not." << endl;
     cout << "Lets get started" << endl;
-    cout << endl;
 }
 //function call
 //Welcome();
@@ -136,11 +135,21 @@ void PrintScore(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[
 //PrintScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, TeamKey);
 
 
+
+//This function prints the very long line
+void printLongLine();
+void printLongLine()
+{
+    cout << "\n----------------------------------------------------" << endl;
+}
+
+
 //This function prints the menu
 //void PrintMenu(); // Function prototype
 void PrintMenu()
 {
-    cout << "Main Menu" << endl;
+    printLongLine();
+    cout << "MAIN MENU" << endl;
     cout << "1. Check Team Score" << endl;
     cout << "2. Print all Team Scores" << endl;
     cout << "3. Quit the Program" << endl;
@@ -179,7 +188,12 @@ int GetTeamID()
 //void PrintArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize);
 void PrintArrays(int ArrayTeamID[], int ArrayAttackHits[], int ArrayReceivedHits[], int ArraySize)
 {
+    printLongLine();
+
+    //print the headers of the columns
     cout << "Team ID\t\tAttack Hits\tReceived Hits" << endl;
+
+    //print the arrays in the right format
     for (int i = 0; i < ArraySize; i++)
     {
         cout << ArrayTeamID[i] << "\t\t" << ArrayAttackHits[i] << "\t\t" << ArrayReceivedHits[i] << endl;
@@ -207,7 +221,7 @@ void ReadFile(int& n, int*& id, int*& hits, int*& times)
         exit(1);
     }
 
-    // read the number of snowballs
+    // read the number of snowfights
     inFile >> n;
 
     // allocate memory for the arrays
@@ -221,6 +235,7 @@ void ReadFile(int& n, int*& id, int*& hits, int*& times)
         inFile >> *(id + i) >> *(hits + i) >> *(times + i);
     }
 
+    // close the file
     inFile.close();
 }
 
@@ -259,30 +274,28 @@ int main()
     int choice; // Variable to store the choice of the user from the menu
     int teamID; // Variable to store the team ID
 
+    int n; // Variable to store the number of snowfights
+
+    // Declare the pointers
+    int *id;    // Pointer to the array to store the team ID
+    int *attackHits;    // Pointer to the array to store the number of hits
+    int *timesHit;  // Pointer to the array to store the number of times hit
+
     // Call the function to print the welcome message
     Welcome();
 
     // Call the function to read the file
-    //ReadFile(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
-    int n;
-    int *id, *attackHits, *timesHit;
     ReadFile(n, id, attackHits, timesHit);
 
+    // Assign the value of n to ArraySize
     ArraySize = n;
-
-    // Call the function to print the arrays
-    for (int i = 0; i < n; i++)
-    {
-        // Print the snowball ID, number of hits, and number of times hit
-        cout << "Snowball " << id[i] << ": " << attackHits[i] << " hits in " << timesHit[i] << " throws." << endl;
-    }
 
     // Call the function to copy the arrays
     copyArray(id, ArrayTeamID, ArraySize);
     copyArray(attackHits, ArrayAttackHits, ArraySize);
     copyArray(timesHit, ArrayReceivedHits, ArraySize);
 
-
+    // Deallocate the memory
     delete [] id;
     delete [] attackHits;
     delete [] timesHit;
@@ -343,7 +356,10 @@ int main()
 
         else if (choice == 2)
         {
+            //call the function to sort the arrays
             SortArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
+
+            //call the function to print the arrays
             PrintArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
         }
 
