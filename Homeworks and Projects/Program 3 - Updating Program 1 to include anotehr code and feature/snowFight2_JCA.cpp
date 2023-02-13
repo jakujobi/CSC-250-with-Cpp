@@ -1,31 +1,28 @@
 /*
-Program 1 - Snowball Fight Team Score Checker
+Program 3 - Snowball Fight Team Score Checker with dynamically allocated arrays
     It allows the user to enter a team’s ID and displays the number of hits for that team
+    Updates Program 1 to use dynamically allocated arrays
 Created by: John Akujobi
-Date: 22nd of January 2023
+Date: 11th of February 2023
 Class: CSC 250 Fall 2023
 */
 
-/* Detailed program requirements by the professor (Paula Kurtenbach)
-A text file named snowball.txt contains a 3-digit Team ID, number of times the team hit a member of another time (hits), and the number of times a member of this team was hit (times hit) for each team participating in a campus-wide snowball fight.  The data is organized on up to 50 lines in the data file, as shown below.
-
-182 37 12
-837 14 25
-374 29 28
-…
 
 
 
 /*BUGS
+The documentation for the bugs in this program are in your notion workspace
 
-
+BUG1 - The program gave errors in the copyArray function
+Solution    - I changed the function to take the address of the arrays as arguments and made several tweaks to it.
+            - I also ran it through 2 online debuggers and found the errors
 */
 
 
 
-#include <iostream>
-#include <fstream>
-#include <iomanip>
+#include <iostream>  // For cin, cout, endl
+#include <fstream>  // For file input and output
+#include <iomanip>  // For setw
 using namespace std;
 
 // Max size of the arrays
@@ -268,8 +265,8 @@ int main()
     // Call the function to read the file
     //ReadFile(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize);
     int n;
-    int *id, *hits, *timesHit;
-    ReadFile(n, id, hits, timesHit);
+    int *id, *attackHits, *timesHit;
+    ReadFile(n, id, attackHits, timesHit);
 
     ArraySize = n;
 
@@ -277,17 +274,17 @@ int main()
     for (int i = 0; i < n; i++)
     {
         // Print the snowball ID, number of hits, and number of times hit
-        cout << "Snowball " << id[i] << ": " << hits[i] << " hits in " << timesHit[i] << " throws." << endl;
+        cout << "Snowball " << id[i] << ": " << attackHits[i] << " hits in " << timesHit[i] << " throws." << endl;
     }
 
     // Call the function to copy the arrays
     copyArray(id, ArrayTeamID, ArraySize);
-    copyArray(hits, ArrayAttackHits, ArraySize);
+    copyArray(attackHits, ArrayAttackHits, ArraySize);
     copyArray(timesHit, ArrayReceivedHits, ArraySize);
 
 
     delete [] id;
-    delete [] hits;
+    delete [] attackHits;
     delete [] timesHit;
 
     //PrintArrays(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize); // Test to print the arrays
@@ -331,14 +328,6 @@ int main()
 
             } while (index == -1);
 
-            //// First version
-            //teamID = GetTeamID(); // Get the team ID from the user
-            //cout << "Enter team ID: ";
-            //cin >> teamID;
-            
-            // // Call the function to search the team
-            // index = SearchTeam(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, ArraySize, teamID);
-
             //add empty line
             cout << endl;
 
@@ -350,12 +339,6 @@ int main()
                 cout << endl;
                 PrintScore(ArrayTeamID, ArrayAttackHits, ArrayReceivedHits, index);  // Print the score of the team
             }
-
-            // // If the index is -1, the team is not found
-            // else
-            // {
-            //     cout << "Oops, the Team not found." << endl;
-            // }
         }
 
         else if (choice == 2)
