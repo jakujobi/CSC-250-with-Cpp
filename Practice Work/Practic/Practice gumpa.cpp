@@ -45,38 +45,74 @@ Store the row totals into a separate 1D array.
 Pass both arrays into the function along with the number of rows in the 2D array.
 */
 
-void calculateRowTotals(int rows, int columns, int main2DArray[][5], int rowTotals[]);
-void calculateRowTotals(int rows, int columns, int main2DArray[][5], int rowTotals[])
+// void calculateRowTotals(int rows, int columns, int main2DArray[][5], int rowTotals[]);
+// void calculateRowTotals(int rows, int columns, int main2DArray[][5], int rowTotals[])
+// {
+//     int rowSum = 0; // used to store the sum of each row
+
+//     for (int i = 0; i < rows; i++)
+//     {
+//         rowSum = 0; // reset the rowSum to 0 for each row
+//         for (int j = 0; j < columns; j++)
+//         {
+//             rowSum += main2DArray[i][j];  // increments the rowSum by the value in the 2D array
+//         }
+
+//         rowTotals[i] = rowSum;  // stores the rowSum into the rowTotals array
+//     }
+// }
+// //The function call is:
+// //calculateRowTotals(3, 5, twoDArray, rowTotals);
+
+// int main() {
+//     int twoDArray[3][5] = { {1, 2, 3, 4, 5},
+//                             {6, 7, 8, 9, 10},
+//                             {11, 12, 13, 14, 15}};
+//     int rowTotals[3];
+//     calculateRowTotals(3, 5, twoDArray, rowTotals);
+
+//     // print the rowTotals array
+//     for (int i = 0; i < 3; i++)
+//     {
+//         cout << "Row" << i + 1 << " total is: " << rowTotals[i] << endl;
+//     }
+
+
+//     return 0;
+// }
+
+
+// const int ROWS = 2;
+// const int COLS = 3;
+
+// int main()
+// {
+//     float array[ROWS][COLS] = { {3.3 , 2.2, 1.1},
+//                                 {31.5, 6.8} };
+
+
+//     cout << fixed << setprecision(1);
+
+//     for (int row = 0; row < ROWS; row++)
+//     {
+//         for (int col = 0; col < COLS; col++)
+//         {
+//             cout << setw(5) << array[row][col];
+//         }
+//         cout << endl;
+//     }
+    
+// }
+
+int main ()
 {
-    int rowSum = 0; // used to store the sum of each row
+// float x = 3.75;
+// float * ptr = &x;
+// cout << ptr;
 
-    for (int i = 0; i < rows; i++)
-    {
-        rowSum = 0; // reset the rowSum to 0 for each row
-        for (int j = 0; j < columns; j++)
-        {
-            rowSum += main2DArray[i][j];  // increments the rowSum by the value in the 2D array
-        }
+const int SIZE = 7;
+int data[SIZE] = {24, 55, 34, 72, 49};
+cout << *(data+2);
 
-        rowTotals[i] = rowSum;  // stores the rowSum into the rowTotals array
-    }
-}
-//The function call is:
-//calculateRowTotals(3, 5, twoDArray, rowTotals);
-
-int main() {
-    int twoDArray[3][5] = { {1, 2, 3, 4, 5},
-                            {6, 7, 8, 9, 10},
-                            {11, 12, 13, 14, 15}};
-    int rowTotals[3];
-    calculateRowTotals(3, 5, twoDArray, rowTotals);
-
-    // print the rowTotals array
-    for (int i = 0; i < 3; i++)
-    {
-        cout << "Row" << i + 1 << " total is: " << rowTotals[i] << endl;
-    }
-
-
-    return 0;
+return 0;
 }
