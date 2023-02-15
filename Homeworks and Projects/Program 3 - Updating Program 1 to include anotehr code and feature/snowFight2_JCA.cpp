@@ -32,10 +32,11 @@ const int MAX_SIZE = 100;
 // Function to print welcome message
 void Welcome()
 {
-    cout << "\nWelcome to The Snowball Fight Team Score Checker v1.0" << endl;
-    cout << "This program is designed to help you check the scores of a team" << endl;
-    cout << "And it tells you if they won or not." << endl;
-    cout << "Lets get started" << endl;
+    cout << "\nWelcome to The Snowball Fight Team Score Checker v1.0" 
+        << "\nThis program is designed to help you check the scores of a team"
+        << "\nAnd it tells you if they won or not."
+        << "\nLets get started"
+        << endl;
 }
 //function call
 //Welcome();
@@ -149,10 +150,10 @@ void printLongLine()
 void PrintMenu()
 {
     printLongLine();
-    cout << "MAIN MENU" << endl;
-    cout << "1. Check Team Score" << endl;
-    cout << "2. Print all Team Scores" << endl;
-    cout << "3. Quit the Program" << endl;
+    cout << "MAIN MENU"
+        << "\n1. Check Team Score"
+        << "\n2. Print all Team Scores"
+        << "\n3. Quit the Program" << endl;
 }
 //function call
 //PrintMenu();
@@ -172,8 +173,8 @@ int GetTeamID()
     //The ID must be a 3 digit number, so that means it must be between 100 and 999
     if (TeamID < 100 || TeamID > 999)
     {
-        cout << "\nInvalid Team ID: It must be between 100 and 999" << endl;
-        cout << "Please enter a valid Team ID" << endl;
+        cout << "\nInvalid Team ID: It must be between 100 and 999"
+            << "\nPlease enter a valid Team ID" << endl;
 
         GetTeamID();  //recursive call to the function making it repeat until the user enters a valid TeamID instead of using a while loop
     }
@@ -224,6 +225,16 @@ void ReadFile(int& n, int*& id, int*& hits, int*& times)
     // read the number of snowfights
     inFile >> n;
 
+    // check if the number of snowfights is valid
+    if (n < 1)
+    {
+        cout << "Error"
+            << "\nInvalid number of snowfights" 
+            << "\nThe first number in the file seems to be less than 1" 
+            << endl;
+        exit(1);
+    }
+
     // allocate memory for the arrays
     id = new int[n]; 
     hits = new int[n];
@@ -238,7 +249,6 @@ void ReadFile(int& n, int*& id, int*& hits, int*& times)
     // close the file
     inFile.close();
 }
-
 
 
 // This function copies the contents of one array to another array
@@ -354,6 +364,15 @@ int main()
             }
         }
 
+        //Check if the user wants to quit the program
+        else if (choice == 3)
+        {
+            //Print goodbye
+            cout << "\nGoodbye!" << endl;
+            exit(0);
+        }
+
+        //Check if the user wants to print the arrays
         else if (choice == 2)
         {
             //call the function to sort the arrays
