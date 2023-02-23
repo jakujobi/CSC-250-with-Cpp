@@ -21,15 +21,15 @@ void convertToWords(char* num);
 void convertToWords(char* num)
 {
     // Get the number of digits in the given number using the length of the string
-    int len = strlen(num);
+    int lengthOfNum= strlen(num);
 
     // If there are no digits in the given number, print an error message
-    if (len == 0)
+    if (lengthOfNum== 0)
     {
         cout << "\nError\nUH OH! It seems there is nothing in the input " << endl;
         return;
     }
-    if (len > 4)
+    if (lengthOfNum> 4)
     {
         cout << "\nError\nOOPS! Please put a number less than 9999" << endl;
         return;
@@ -41,21 +41,22 @@ void convertToWords(char* num)
     //char* singleDigits[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
     // Array to store number as a string
-    char* numArr[len + 1];
+    char* numArr[lengthOfNum+ 1];
 
     // Copy the input string to the array
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < lengthOfNum; i++)
     {
         // Convert the character to integer
         numArr[i] = &num[i];
     }
 
     // Add a null character to the end of the array
-    numArr[len] = "\\0";
+    numArr[lengthOfNum] = "\\0";
 
     // If the number is a single digit, print the corresponding word from the ones array
-    if (len == 1)
+    if (lengthOfNum== 1)
     {
+        // Print the corresponding word from the ones array
         cout << ones[*numArr[0] - '0'] << endl;
         return;
     }
@@ -64,9 +65,9 @@ void convertToWords(char* num)
     int flag = 0;
 
     // Loop through the input string
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < lengthOfNum; i++)
     {
-        // If the first digit is a zero, skip it
+        // If the digit is a zero, skip it
         if (*numArr[i] == '0')
         {
             flag = 1;
@@ -74,24 +75,29 @@ void convertToWords(char* num)
         }
 
         // Print thousands place
-        if ((len - i) == 4)
+        if ((lengthOfNum- i) == 4)
         {
+            // IF there are 4 digits in the number
+            // print the corresponding word from the ones array and "thousand"
             cout << ones[*numArr[i] - '0'] << " thousand, ";
         }
 
         // Print hundreds place
-        else if ((len - i) == 3)
+        else if ((lengthOfNum- i) == 3)
         {
+            // IF there are 3 digits in the number
+            // print the corresponding word from the ones array and "hundred"
             cout << ones[*numArr[i] - '0'] << " hundred ";
         }
 
         // Print tens place
-        else if ((len - i) == 2)
+        else if ((lengthOfNum- i) == 2)
         {
             // If the current digit is a 1, print the corresponding teens word
             if (*numArr[i] == '1')
             {
-                // Print the teens word
+                // If the first digit is a 1
+                //Print the corresponding teens word
                 cout << elevenToNineteen[*numArr[i + 1] - '0' - 1] << endl;
                 return;
             }
@@ -99,6 +105,8 @@ void convertToWords(char* num)
             // Print the tens word
             else
             {
+                // if the number isnt a teens number
+                // print the corresponding tens word
                 cout << tens[*numArr[i] - '0'] << " ";
             }
         }
@@ -109,6 +117,7 @@ void convertToWords(char* num)
             // If the previous digit was a zero, print "and"
             if (flag == 1)  // If the previous digit was a zero, print "and"
             {
+                // add the word "and" to the output
                 cout << "and ";
                 flag = 0; // Reset the flag
             }
@@ -126,16 +135,18 @@ void convertToWords(char* num)
 
 int main()
 {
-    int num;
-    char numString[100];
+    // Declare variables
+    int num;    // Integer to be converted to words
+    char numString[100];    // C-string to store the integer
 
+    // Ask our user for input
     cout << "Enter an integer: ";
     cin >> num;
 
     // Convert integer to C-string
     sprintf(numString, "%d", num);
 
-    // Call function to convert to words
+    // Call the function to convert to words
     convertToWords(numString);
 
     return 0;
