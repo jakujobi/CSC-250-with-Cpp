@@ -1,122 +1,119 @@
-#include <iostream> //for cin and cout
-#include <cstring>  //for strcpy, strlen and strcat
+#include <iostream>
+#include <cstring>
 
 using namespace std;
 
-// array of strings for numbers from 0 to 9
-const char* const ones[] = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
+void convertToWords(char* num);
 
-// array of strings for numbers from 10 to 19
-const char* const teens[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+char* ones[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
-// array of strings for numbers from 20 to 90
-const char* const tens[] = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+char* tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
-// array of strings for numbers from 100 to 900
-const char* const thousands[] = { "", "Thousand", "Million", "Billion" };
-
-
-// This function converts a number to words up to billions.
-void convert_num_to_words(char* words, int number)
-{
-    // If the number is 0, then print "Zero"
-    if (number == 0)
-    {
-        strcpy(words, "Zero");
-        return;
-    }
-
-    char temp[20];  // temporary string to hold the words for each 3-digit number
-    int index = 0;  // index for thousands[] array
-
-    do  // loop until number is not equal to 0
-    {
-        int n = number % 1000;  // extract the last 3 digits
-
-        if (n != 0) // if the last 3 digits are not 0, then print the number in words
-        {
-            strcpy(temp, "");
-
-            // Code path for numbers less than 10
-            if (n < 10)
-            {
-                strcat(temp, ones[n]);
-            }
-
-            // Code path for numbers less than 20
-            else if (n < 20)
-            {
-                strcat(temp, teens[n - 10]);
-            }
-
-            // Code path for numbers less than 100
-            else if (n < 100)
-            {
-                strcat(temp, tens[n / 10]);
-
-                // If the last digit is not 0, then print the number in words
-                if ((n % 10) != 0)
-                {
-                    strcat(temp, " ");
-                    strcat(temp, ones[n % 10]);
-                }
-            }
-
-            else 
-            {
-                strcat(temp, ones[n / 100]);
-                strcat(temp, " Hundred");
-
-                if ((n % 100) != 0)
-                {
-                    strcat(temp, " and ");
-
-                    if ((n % 100) < 10)
-                    {
-                        strcat(temp, ones[n % 100]);
-                    }
-
-                    else if ((n % 100) < 20)
-                    {
-                        strcat(temp, teens[(n % 100) - 10]);
-                    }
-
-                    else
-                    {
-                        strcat(temp, tens[(n % 100) / 10]);
-                        if ((n % 10) != 0)
-                        {
-                            strcat(temp, " ");
-                            strcat(temp, ones[n % 10]);
-                        }
-                    }
-                }
-            }
-
-            strcat(temp, " ");  // add space after each 3-digit number
-            strcat(temp, thousands[index]); // add thousands[] string after each 3-digit number
-            strcat(temp, " ");
-            strcat(words, temp);
-        }
-
-        // remove the last 3 digits from the number
-        number /= 1000;
-
-        index++;    // increment index
-
-    } while (number > 0);   // loop until number is not equal to 0
-}
+char* elevenToNineteen[] = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
 
 int main()
 {
-    int number;
-    cout << "Enter an integer number: ";
-    cin >> number;
+    int num;
+    char numString[100];
 
-    char words[100];
-    convert_num_to_words(words, number);
+    cout << "Enter an integer: ";
+    cin >> num;
 
-    cout << "In words: " << words << endl;
+    // Convert integer to C-string
+    sprintf(numString, "%d", num);
+
+    // Call function to convert to words
+    convertToWords(numString);
 
     return 0;
+}
+
+void convertToWords(char* num)
+{
+    int len = strlen(num);
+
+    if (len == 0)
+    {
+        cout << "empty string" << endl;
+        return;
+    }
+    if (len > 4)
+    {
+        cout << "Length more than 4 is not supported" << endl;
+        return;
+    }
+
+    char* singleDigits[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+
+    // Array to store number as a string
+    char* numArr[len + 1];
+
+    // Copy the input string to the array
+    for (int i = 0; i < len; i++)
+    {
+        numArr[i] = &num[i];
+    }
+    numArr[len] = "\\0";
+
+    if (len == 1)
+    {
+        cout << singleDigits[*numArr[0] - '0'] << endl;
+        return;
+    }
+
+    // Initialize a flag variable
+    int flag = 0;
+
+    // Loop through the input string
+    for (int i = 0; i < len; i++)
+    {
+        // If the first digit is a zero, skip it
+        if (*numArr[i] == '0')
+        {
+            flag = 1;
+            continue;
+        }
+
+        // Print thousands place
+        if ((len - i) == 4)
+        {
+            cout << ones[*numArr[i] - '0'] << " thousand ";
+        }
+
+        // Print hundreds place
+        else if ((len - i) == 3)
+        {
+            cout << ones[*numArr[i] - '0'] << " hundred ";
+        }
+
+        // Print tens place
+        else if ((len - i) == 2)
+        {
+            // If the current digit is a 1, print the corresponding teens word
+            if (*numArr[i] == '1')
+            {
+                cout << elevenToNineteen[*numArr[i + 1] - '0' - 1] << endl;
+                return;
+            }
+
+            // Print the tens word
+            else
+            {
+                cout << tens[*numArr[i] - '0'] << " ";
+            }
+        }
+
+        // Print ones place
+        else
+        {
+            // If the previous digit was a zero, print "and"
+            if (flag == 1)
+            {
+                cout << "and ";
+                flag = 0;
+            }
+
+            cout << ones[*numArr[i] - '0'] << " ";
+        }
+    }
 }
