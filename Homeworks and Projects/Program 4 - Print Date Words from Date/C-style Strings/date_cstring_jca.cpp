@@ -66,10 +66,21 @@ void printError ()
 int checkDateFormat(char* date)
 {
     // Check if the input string has length 10
-    if (strlen(date) != 10)
+    if (strlen(date) > 10)
     {
         printError(); //Prints the error message
-        cout << "It seems that there are more characters than needed\n";
+        cout << "It seems that there are more characters than needed\n"
+            << "Check if you added an extra character\n"
+            << "Like an space or something\n";
+        return 1;
+    }
+
+    else if (strlen(date) < 10)
+    {
+        printError(); //Prints the error message
+        cout << "It seems that there are fewer characters than needed\n"
+            << "Check if you are missing a character\n"
+            << "Like missing the zero in front of the month or day\n";
         return 1;
     }
 
@@ -315,41 +326,60 @@ int main()
             << "This program converts a date in the format mm/dd/yyyy into words.\n"
             << "Where mm is the month, dd is the day, and yyyy is the year.\n";
 
-    //A loop that asks the user for input and checks if the input is valid using the checkDate function
-    //If the input is valid, the loop breaks
-    //If the input is invalid, the loop continues
-    
-    //use a do while loop to ask the user for input
-    do
+    char choice = 'y'; // Variable to store the user's choice to continue or not
+    do 
     {
-        // Ask our user for input and store it in the date variable using the getDate function
-        getDate (date);
+        //A loop that asks the user for input and checks if the input is valid using the checkDate function
+        //If the input is valid, the loop breaks
+        //If the input is invalid, the loop continues
+        //use a do while loop to ask the user for input
 
-        // Check if the date is valid
-        datecheck = checkDateFormat(date);
-
-        // //print the datecheck variable to see if it is working
-        // cout << datecheck << endl;
-        // //print the date variable to see if it is working
-        // cout << date << endl;
+        datecheck = 0; // Reset the datecheck variable to 0
         
-        // Check if the input is valid
-        if (datecheck == 0)
+        do
         {
-            // If the input is valid, break the loop
-            //break;
-        }
-        else if (datecheck = 1)
+            // Ask our user for input and store it in the date variable using the getDate function
+            getDate (date);
+
+            // Check if the date is valid
+            datecheck = checkDateFormat(date);
+
+            // //print the datecheck variable to see if it is working
+            // cout << datecheck << endl;
+            // //print the date variable to see if it is working
+            // cout << date << endl;
+            
+            // Check if the input is valid
+            if (datecheck == 0)
+            {
+                // If the input is valid, break the loop
+                //break;
+            }
+            else if (datecheck = 1)
+            {
+                // If the input is invalid, print an error message
+                cout << "Error\nThe date you entered is invalid. Please try again." << endl;
+            }
+        } while (datecheck == 1);
+        
+        // cout << "\nHEYY If you can see this, that means the loop worked!!!" << endl;
+        
+        // Split the date into its parts and print it in words
+        printDateIntoWords(date);
+
+
+        // Ask the user if they want to continue
+        cout << "Would you like to continue? (y/n): ";
+        cin >> choice;
+
+        // Check if the user entered a valid choice
+        if (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N')
         {
-            // If the input is invalid, print an error message
-            cout << "Error\nThe date you entered is invalid. Please try again." << endl;
+            // If the user entered an invalid choice, ask them to enter a valid choice
+            cout << "Invalid choice. Please enter a valid choice." << endl;
         }
-    } while (datecheck == 1);
+    } while (choice == 'y' || choice == 'Y');
     
-    // cout << "\nHEYY If you can see this, that means the loop worked!!!" << endl;
-    
-    // Split the date into its parts and print it in words
-    printDateIntoWords(date);
 
     return 0;
 }
