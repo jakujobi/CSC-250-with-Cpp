@@ -48,8 +48,11 @@ const char* const months[] = {"", "January", "February", "March", "April", "May"
 void getDate(char* date);
 void getDate(char* date)
 {
+    //Clear the input buffer
+    cin.clear();
+
     // Ask the user to enter a date in the format MM/DD/YYYY
-    cout << "Enter a date in the format MM/DD/YYYY: ";
+    cout << "INPUT\nEnter a date in the format MM/DD/YYYY: ";
     cin.getline(date, 11);
 
     //Clear the input buffer
@@ -63,7 +66,7 @@ void getDate(char* date)
 void printError ();
 void printError ()
 {
-    cout << "Error\nPlease make sure that the date is in the format MM/DD/YYYY\n";
+    cout << "ERROR!\nPlease make sure that the date is in the format MM/DD/YYYY\n";
 }
 
 
@@ -76,8 +79,7 @@ int checkDateFormat(char* date)
     {
         printError(); //Prints the error message
         cout << "It seems that there are more characters than needed\n"
-            << "Check if you added an extra character\n"
-            << "Like an space or something\n";
+            << "Check if you added an extra character\n";
         return 1;
     }
 
@@ -302,6 +304,9 @@ void printDateIntoWords(char* date)
     int day = stoi(strtok(NULL, "/")); // Get the day
     int year = stoi(strtok(NULL, "/")); // Get the year
 
+    // Print the original date
+    cout << "\nOUTPUT\n" << month << "/" << day << "/" << year << " would be displayed as:"<< endl;
+
     // Print the date in words
 
     // print the month in words
@@ -312,7 +317,7 @@ void printDateIntoWords(char* date)
     convertDayToWords(day);
 
     // print the year in words
-    cout << " " ;
+    cout << ", " ;
     convertNumToWords(year);
     
     cout << endl;
@@ -341,26 +346,15 @@ int main()
         //If the input is invalid, the loop continues
         //use a do while loop to ask the user for input
 
-        datecheck = 0; // Reset the datecheck variable to 0
+        datecheck = 1; // Reset the datecheck variable to 0
         
-        do
+        while (datecheck == 1)
         {
-            cout << " " << endl;
-            
-            //Clear the input buffer
-            cin.clear();
-            
-            // Ask our user for input and store it in the date variable using the getDate function
-            getDate (date);
+            cout << " " << endl;    // Print a blank line
+            cin.clear();   //clear the input buffer
+            getDate (date); // Get the date from the user
+            datecheck = checkDateFormat(date); // Check if the date is valid
 
-            // Check if the date is valid
-            datecheck = checkDateFormat(date);
-
-            // //print the datecheck variable to see if it is working
-            // cout << datecheck << endl;
-            // //print the date variable to see if it is working
-            // cout << date << endl;
-            
             // Check if the input is valid
             if (datecheck == 0)
             {
@@ -370,22 +364,17 @@ int main()
             else if (datecheck == 1)
             {
                 // If the input is invalid, print an error message
-                cout << "Error\nThe date you entered is invalid. Please try again." << endl;
+                cout << "Please try again.";
             }
-        } while (datecheck == 1);
-        
+        }
         // cout << "\nHEYY If you can see this, that means the loop worked!!!" << endl;
         
-        // Split the date into its parts and print it in words
-        printDateIntoWords(date);
-
+        printDateIntoWords(date);   // Print the date in words using the printDateIntoWords function
 
         // Ask the user if they want to continue
-        cout << "Would you like to continue? (y/n): ";
-        cin >> choice;
-
-        //clear the input buffer
-        cin.clear();
+        cout << "\n\nWould you like to continue? (y/n): ";
+        cin >> choice;        
+        cin.clear();    //clear the input buffer
 
         // Check if the user entered a valid choice
         if (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N')
@@ -394,7 +383,6 @@ int main()
             cout << "Invalid choice. Please enter a valid choice." << endl;
         }
     } while (tolower(choice) == 'y');
-    
 
     return 0;
 }
