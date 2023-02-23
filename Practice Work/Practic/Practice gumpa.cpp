@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <fstream>
 #include <iomanip>
 using namespace std;
@@ -104,15 +105,134 @@ Pass both arrays into the function along with the number of rows in the 2D array
     
 // }
 
-int main ()
+// int main ()
+// {
+// // float x = 3.75;
+// // float * ptr = &x;
+// // cout << ptr;
+
+// const int SIZE = 7;
+// int data[SIZE] = {24, 55, 34, 72, 49};
+// cout << *(data+2);
+
+// return 0;
+// }
+
+
+
+
+// // The following function accepts a pointer to a C-string as an argument.
+// //The function should count the number of alphabetic characters in the string and return that number.
+// int countChars (char str[])
+// {
+//    int count = 0;   // To hold the number of characters
+//    int loc = 0; // To hold the array subscript
+
+//    // Count the number of alphabetic characters in str.
+//    while (str[loc] != '\0')
+//    {
+//         // if (str[loc] >= 'A' && str[loc] <= 'Z' || str[loc] >= 'a' && str[loc] <= 'z')
+//         if (isalpha(str[loc]))
+//         {
+//             count++;
+//         }
+//         loc++;
+//    }
+//    return count;
+// }
+
+// int main ()
+// {
+//     char str[] = "14AGT23";
+//     cout << countChars(str);
+//     return 0;
+// }
+
+
+
+// int main ()
+// {
+//     const int SIZE = 21;
+
+//     char name[SIZE];
+
+//     int s = 0;
+
+//     strcpy (name, "Janis");
+
+//     s = strlen(name);
+
+//     cout << s;
+// }
+
+
+// int main ()
+// {
+//     const int SIZE = 21;
+
+//    // char name[SIZE];
+
+//     // int s = 0;
+//     // strcpy (name, "Janis");
+//     // s = strlen(name);
+
+	
+	
+	
+	
+// string name;
+// int s = 0;
+// name = "Janis";
+// s = strlen(name);
+
+//     cout << s;
+//     return 0;
+// }
+
+
+
+// int main ()
+// {
+//     int n = 4, m = 2;
+//     cout << n << " " << m << endl;
+    
+//     int *p = &m;
+//     *p = (*p) + 3;
+
+//     p = &n;
+//     *p = n * m;
+
+//     cout << n << " " << m << endl;
+//     return 0;
+// }
+
+
+// int main ()
+// {
+//     int array[5] = {1, 2, 3, 4, 5};
+
+//     if(&array[1] < &array[2])
+//     {
+//         cout << "true";
+//     }
+//     else
+//     {
+//         cout << "false";
+//     }
+//     return 0;
+// }
+
+//Write a function that's dynamically allocates an array of decimal values and returns the arrays address. The array size is passed into the function. In the function validate size returning nullptr if size is <= 0. You may use a reference parameter or return value for the array's address.
+
+double *dynamic_array(int size)
 {
-// float x = 3.75;
-// float * ptr = &x;
-// cout << ptr;
-
-const int SIZE = 7;
-int data[SIZE] = {24, 55, 34, 72, 49};
-cout << *(data+2);
-
-return 0;
+    if (size <= 0)
+    {
+        return nullptr;
+    }
+    else
+    {
+        double *array = new double[size];
+        return array;
+    }
 }
