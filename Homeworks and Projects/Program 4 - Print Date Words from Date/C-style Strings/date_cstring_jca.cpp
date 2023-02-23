@@ -3,50 +3,41 @@
 
 using namespace std;
 
-void convertToWords(char* num);
 
-char* ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+
+const char* const ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
 //char* ones[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
-char* tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+const char* const tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
 //char* tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
-char* elevenToNineteen[] = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+const char* const elevenToNineteen[] = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
 //char* elevenToNineteen[] = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
 
-int main()
-{
-    int num;
-    char numString[100];
 
-    cout << "Enter an integer: ";
-    cin >> num;
-
-    // Convert integer to C-string
-    sprintf(numString, "%d", num);
-
-    // Call function to convert to words
-    convertToWords(numString);
-
-    return 0;
-}
-
+// This function prints a given number in words
+// The number is assumed to be less than 9999
+void convertToWords(char* num);
 void convertToWords(char* num)
 {
+    // Get the number of digits in the given number using the length of the string
     int len = strlen(num);
 
+    // If there are no digits in the given number, print an error message
     if (len == 0)
     {
-        cout << "empty string" << endl;
+        cout << "\nError\nUH OH! It seems there is nothing in the input " << endl;
         return;
     }
     if (len > 4)
     {
-        cout << "Length more than 4 is not supported" << endl;
+        cout << "\nError\nOOPS! Please put a number less than 9999" << endl;
         return;
     }
 
-    char* singleDigits[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+    // Tries to use this array of strings for single digit numbers
+    // but instead used the ones array
+    //char* singleDigits[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
     //char* singleDigits[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
     // Array to store number as a string
@@ -55,13 +46,17 @@ void convertToWords(char* num)
     // Copy the input string to the array
     for (int i = 0; i < len; i++)
     {
+        // Convert the character to integer
         numArr[i] = &num[i];
     }
+
+    // Add a null character to the end of the array
     numArr[len] = "\\0";
 
+    // If the number is a single digit, print the corresponding word from the ones array
     if (len == 1)
     {
-        cout << singleDigits[*numArr[0] - '0'] << endl;
+        cout << ones[*numArr[0] - '0'] << endl;
         return;
     }
 
@@ -81,7 +76,7 @@ void convertToWords(char* num)
         // Print thousands place
         if ((len - i) == 4)
         {
-            cout << ones[*numArr[i] - '0'] << " thousand ";
+            cout << ones[*numArr[i] - '0'] << " thousand, ";
         }
 
         // Print hundreds place
@@ -96,6 +91,7 @@ void convertToWords(char* num)
             // If the current digit is a 1, print the corresponding teens word
             if (*numArr[i] == '1')
             {
+                // Print the teens word
                 cout << elevenToNineteen[*numArr[i + 1] - '0' - 1] << endl;
                 return;
             }
@@ -111,13 +107,36 @@ void convertToWords(char* num)
         else
         {
             // If the previous digit was a zero, print "and"
-            if (flag == 1)
+            if (flag == 1)  // If the previous digit was a zero, print "and"
             {
                 cout << "and ";
-                flag = 0;
+                flag = 0; // Reset the flag
             }
 
             cout << ones[*numArr[i] - '0'] << " ";
         }
     }
+}
+
+
+
+
+
+
+
+int main()
+{
+    int num;
+    char numString[100];
+
+    cout << "Enter an integer: ";
+    cin >> num;
+
+    // Convert integer to C-string
+    sprintf(numString, "%d", num);
+
+    // Call function to convert to words
+    convertToWords(numString);
+
+    return 0;
 }
