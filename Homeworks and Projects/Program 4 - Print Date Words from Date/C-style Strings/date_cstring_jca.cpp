@@ -6,15 +6,15 @@ using namespace std;
 //THE ARRAY OF STRINGS FOR THE WORDS
 // The array of strings for the ones place
 const char* const ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
-//char* ones[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
 // The array of strings for the tens place
 const char* const tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
-//char* tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
 // The array of strings for the teens
 const char* const elevenToNineteen[] = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-//char* elevenToNineteen[] = {"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+
+// The array of strings for the months
+char* months[] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 
 // THE FUNCTIONS
@@ -236,7 +236,7 @@ void convertNumToWords(int num)
 
 
 // This function splits the date into its parts
-void splitDateIntoParts(char* date);
+void Spli(char* date);
 void splitDateIntoParts(char* date)
 {
     // Get the number of digits in the given number using the length of the string
@@ -253,50 +253,17 @@ void splitDateIntoParts(char* date)
     cout << months[month] << " ";
 
     // print the day in words
+    // Use the convertNumToWords function to print the day integer into words
     convertNumToWords(day);
-    if (day >= 11 && day <= 19)
+
+    // print the day suffix like "st", "nd", "rd", or "th"
+    if (day >= 11 && day <= 19) //for all the teens
     {
         cout << "th";
     }
-    else if (day % 10 == 1)
+    else if (day % 10 == 1) //for all the first days of the month
     {
-        cout << ones[day] << "st";
-    }
-    else if (day % 10 == 2)
-    {
-        cout << ones[day] << "nd";
-    }
-    else if (day % 10 == 3)
-    {
-        cout << ones[day] << "rd";
-    }
-    else
-    {
-        cout << ones[day] << "th";
-    }
-
-    // print the year in words
-    cout << " " << ones[year / 1000] << " thousand, ";
-    
-    cout << endl;
-}
-
-// This function prints the date in words
-// The date is assumed to be in the format mm/dd/yyyy
-void printDateInWords(int month, int day, int year);
-void printDateInWords(int month, int day, int year)
-{
-    // To print the month in words
-    cout << months[month] << " " << ones[day] << " ";
-
-    // To print the day in words
-    if (day >= 11 && day <= 19)
-    {
-        cout << "th";
-    }
-    else if (day % 10 == 1)
-    {
-        cout << "st";
+        cout  << "st";
     }
     else if (day % 10 == 2)
     {
@@ -306,16 +273,17 @@ void printDateInWords(int month, int day, int year)
     {
         cout << "rd";
     }
-    else
+    else    //for all the other days higher than 3 and lower than 11
     {
         cout << "th";
     }
 
-    cout << ", " << year << endl;
+    // print the year in words
+    cout << " " ;
+    convertNumToWords(year);
+    
+    cout << endl;
 }
-
-
-
 
 
 
@@ -323,11 +291,7 @@ int main()
 {
     // Declare variables
     int num;    // Integer to be converted to words
-    char date[11]; // C-string to store the date
-
-    // Convert date to words
-    convertToWords(date);
-    
+    char date[11]; // C-string to store the date    
     char numString[100];    // C-string to store the integer
 
     // Print the program welcome message
