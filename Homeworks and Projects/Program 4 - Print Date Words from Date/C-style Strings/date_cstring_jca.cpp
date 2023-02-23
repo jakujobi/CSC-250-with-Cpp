@@ -51,7 +51,11 @@ void getDate(char* date)
     // Ask the user to enter a date in the format MM/DD/YYYY
     cout << "Enter a date in the format MM/DD/YYYY: ";
     cin.getline(date, 11);
+
+    //Clear the input buffer
+    cin.clear();
 }
+
 
 
 // Prints the error message which will
@@ -63,6 +67,8 @@ void printError ()
 }
 
 
+// This function will check if the date is in the correct format
+int checkDateFormat(char* date);
 int checkDateFormat(char* date)
 {
     // Check if the input string has length 10
@@ -327,6 +333,7 @@ int main()
             << "Where mm is the month, dd is the day, and yyyy is the year.\n";
 
     char choice = 'y'; // Variable to store the user's choice to continue or not
+    
     do 
     {
         //A loop that asks the user for input and checks if the input is valid using the checkDate function
@@ -338,6 +345,11 @@ int main()
         
         do
         {
+            cout << " " << endl;
+            
+            //Clear the input buffer
+            cin.clear();
+            
             // Ask our user for input and store it in the date variable using the getDate function
             getDate (date);
 
@@ -353,9 +365,9 @@ int main()
             if (datecheck == 0)
             {
                 // If the input is valid, break the loop
-                //break;
+                break;
             }
-            else if (datecheck = 1)
+            else if (datecheck == 1)
             {
                 // If the input is invalid, print an error message
                 cout << "Error\nThe date you entered is invalid. Please try again." << endl;
@@ -372,13 +384,16 @@ int main()
         cout << "Would you like to continue? (y/n): ";
         cin >> choice;
 
+        //clear the input buffer
+        cin.clear();
+
         // Check if the user entered a valid choice
         if (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N')
         {
             // If the user entered an invalid choice, ask them to enter a valid choice
             cout << "Invalid choice. Please enter a valid choice." << endl;
         }
-    } while (choice == 'y' || choice == 'Y');
+    } while (tolower(choice) == 'y');
     
 
     return 0;
