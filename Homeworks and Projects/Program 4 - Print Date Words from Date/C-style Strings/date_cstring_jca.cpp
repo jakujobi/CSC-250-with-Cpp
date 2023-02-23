@@ -122,11 +122,12 @@ int checkDateFormat(char* date)
 
 // This function prints a given number in words
 // The number is assumed to be less than 9999
-void convertToWords(char* num);
-void convertToWords(char* num)
+void convertNumToWords(int num);
+void convertNumToWords(int num)
 {
     // Get the number of digits in the given number using the length of the string
-    int lengthOfNum= strlen(num);
+    //int lengthOfNum= strlen(num);
+    int lengthOfNum = to_string(num).length();
 
     // If there are no digits in the given number, print an error message
     if (lengthOfNum== 0)
@@ -232,35 +233,63 @@ void convertToWords(char* num)
     }
 }
 
-void convertToWords(char* date);
-void convertToWords(char* date)
+
+
+// This function splits the date into its parts
+void splitDateIntoParts(char* date);
+void splitDateIntoParts(char* date)
 {
     // Get the number of digits in the given number using the length of the string
     //then using strtok to get the month, day, and year
     //then using stoi to convert the month, day, and year to ints
-    //strtok function description: https://www.tutorialspoint.com/c_standard_library/c_function_strtok.htm
-    int month = stoi(strtok(date, "/"));    // Get the month
-    int day = stoi(strtok(NULL, "/"));
-    int year = stoi(strtok(NULL, "/"));
+    //I got the strtok function description from: https://www.tutorialspoint.com/c_standard_library/c_function_strtok.htm
+    int month = stoi(strtok(date, "/")); // Get the month
+    int day = stoi(strtok(NULL, "/")); // Get the day
+    int year = stoi(strtok(NULL, "/")); // Get the year
 
-    if (month < 1 || month > 12)
+    // Print the date in words
+
+    // print the month in words
+    cout << months[month] << " ";
+
+    // print the day in words
+    convertNumToWords(day);
+    if (day >= 11 && day <= 19)
     {
-        cout << "Invalid month" << endl;
-        return;
+        cout << "th";
     }
-    if (day < 1 || day > 31)
+    else if (day % 10 == 1)
     {
-        cout << "Invalid day" << endl;
-        return;
+        cout << ones[day] << "st";
     }
-    if (year < 0 || year > 9999)
+    else if (day % 10 == 2)
     {
-        cout << "Invalid year" << endl;
-        return;
+        cout << ones[day] << "nd";
+    }
+    else if (day % 10 == 3)
+    {
+        cout << ones[day] << "rd";
+    }
+    else
+    {
+        cout << ones[day] << "th";
     }
 
+    // print the year in words
+    cout << " " << ones[year / 1000] << " thousand, ";
+    
+    cout << endl;
+}
+
+// This function prints the date in words
+// The date is assumed to be in the format mm/dd/yyyy
+void printDateInWords(int month, int day, int year);
+void printDateInWords(int month, int day, int year)
+{
+    // To print the month in words
     cout << months[month] << " " << ones[day] << " ";
 
+    // To print the day in words
     if (day >= 11 && day <= 19)
     {
         cout << "th";
@@ -282,37 +311,7 @@ void convertToWords(char* date)
         cout << "th";
     }
 
-    cout << ", ";
-
-    if (year >= 1000)
-    {
-        cout << ones[year / 1000] << " thousand ";
-        year %= 1000;
-    }
-    if (year >= 100)
-    {
-        cout << ones[year / 100] << " hundred ";
-        year %= 100;
-    }
-    if (year >= 20)
-    {
-        cout << tens[year / 10] << " ";
-        year %= 10;
-    }
-    if (year >= 11 && year <= 19)
-    {
-        cout << elevenToNineteen[year - 11];
-    }
-    else if (year >= 1 && year <= 9)
-    {
-        cout << ones[year];
-    }
-    else if (year == 10)
-    {
-        cout << "ten";
-    }
-
-    cout << endl;
+    cout << ", " << year << endl;
 }
 
 
