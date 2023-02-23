@@ -1,3 +1,25 @@
+
+
+//BUGS
+/*BUG 1: The program does not print the error message when the date is invalid
+*/
+
+/*BUG 2: The program does not print the error message when the date is invalid
+
+Error Message
+{  
+    Welcome to the Number to Words Converter!
+    Enter a date in the format MM/DD/YYYY: 02/22/2023
+    Good Job, The date is valid
+    Error
+    The date you entered is invalid. Please try again.
+    Good Job, The date is valid
+    Error
+}
+*/
+
+
+
 #include <iostream> // for cout, cin, endl
 #include <cstring> // for strlen, strcpy, strcmp
 
@@ -7,6 +29,9 @@ using namespace std;
 // The array of strings for the ones place
 const char* const ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
 
+// The array of strings for the ones place
+const char* const oneths[] = {"", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"};
+
 // The array of strings for the tens place
 const char* const tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
 
@@ -14,14 +39,14 @@ const char* const tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty
 const char* const elevenToNineteen[] = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
 
 // The array of strings for the months
-char* months[] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+const char* const months[] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 
 // THE FUNCTIONS
 
 // This function will get the input from the user
-void getInput(char* date);
-void getInput(char* date)
+void getDate(char* date);
+void getDate(char* date)
 {
     // Ask the user to enter a date in the format MM/DD/YYYY
     cout << "Enter a date in the format MM/DD/YYYY: ";
@@ -34,7 +59,7 @@ void getInput(char* date)
 void printError ();
 void printError ()
 {
-    cout << "Error\n  with dateThe date is invalid\nPlease make sure that the date is in the format MM/DD/YYYY\n";
+    cout << "Error\nPlease make sure that the date is in the format MM/DD/YYYY\n";
 }
 
 
@@ -118,6 +143,49 @@ int checkDateFormat(char* date)
 }
 
 
+void convertDayToWords(int day);
+void convertDayToWords(int day)
+{
+    // Check if the input number is between 1 and 31
+    if (day < 1 || day > 31)
+    {
+        cout << "Invalid day" << endl;
+        return;
+    }
+
+    // Print the word form of the input day
+    if (day >= 11 && day <= 19)
+    {
+        cout << elevenToNineteen[day - 11];
+        return;
+    }
+    else if (day % 10 == 1)
+    {
+        cout << oneths[day];
+        return;
+    }
+    else if (day % 10 == 2)
+    {
+        cout << tens[2] << "-" << oneths[day % 10];
+        return;
+    }
+    else if (day % 10 == 3)
+    {
+        cout << tens[3] << "-" << oneths[day % 10];
+        return;
+    }
+    else if (day % 10 >= 4 && day % 10 <= 9)
+    {
+        cout << tens[day / 10] << "-" << oneths[day % 10];
+        return;
+    }
+    else
+    {
+        cout << tens[day / 10] << "-" << ones[day % 10] << "th";
+        return;
+    }
+}
+
 
 
 // This function prints a given number in words
@@ -125,120 +193,90 @@ int checkDateFormat(char* date)
 void convertNumToWords(int num);
 void convertNumToWords(int num)
 {
-    // Get the number of digits in the given number using the length of the string
-    //int lengthOfNum= strlen(num);
-    int lengthOfNum = to_string(num).length();
-
-    // If there are no digits in the given number, print an error message
-    if (lengthOfNum== 0)
+    // Check if the input number is between 0 and 9999
+    if (num < 0 || num > 9999)
     {
-        cout << "\nError\nUH OH! It seems there is nothing in the input " << endl;
-        return;
-    }
-    if (lengthOfNum> 4)
-    {
-        cout << "\nError\nOOPS! Please put a number less than 9999" << endl;
+        cout << "Number out of range" << endl;
         return;
     }
 
-    // Tries to use this array of strings for single digit numbers
-    // but instead used the ones array
-    //char* singleDigits[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
-    //char* singleDigits[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    // Convert the input integer to a string
+    string numStr = to_string(num);
 
-    // Array to store number as a string
-    char* numArr[lengthOfNum+ 1];
-
-    // Copy the input string to the array
-    for (int i = 0; i < lengthOfNum; i++)
+    // Add leading zeros if necessary to make the string length 4
+    while (numStr.length() < 4)
     {
-        // Convert the character to integer
-        numArr[i] = &num[i];
+        numStr = "0" + numStr;
     }
 
-    // Add a null character to the end of the array
-    numArr[lengthOfNum] = "\\0";
-
-    // If the number is a single digit, print the corresponding word from the ones array
-    if (lengthOfNum== 1)
+    // Convert the input string to an array of strings, with each element representing a digit in the input integer
+    string numArr[4];
+    for (int i = 0; i < 4; i++)
     {
-        // Print the corresponding word from the ones array
-        cout << ones[*numArr[0] - '0'] << endl;
+        numArr[i] = numStr[i];
+    }
+
+    // Print the word form of the input integer
+    // checking if the number is zero
+    if (num == 0)
+    {
+        cout << "zero" << endl;
         return;
     }
 
-    // Initialize a flag variable
-    int flag = 0;
-
-    // Loop through the input string
-    for (int i = 0; i < lengthOfNum; i++)
+    // Print the thousands place like the 1 in 1000
+    if (numArr[0] != "0")
     {
-        // If the digit is a zero, skip it
-        if (*numArr[i] == '0')
+        cout << ones[stoi(numArr[0])] << " thousand ";
+    }
+
+    // Print the hundreds place like the 1 in 100
+    if (numArr[1] != "0")
+    {
+        cout << ones[stoi(numArr[1])] << " hundred ";
+    }
+
+    // Print the tens place like 20, 30, 40, and so on
+    if (numArr[2] != "0")
+    {
+        // If the current digit is a 1, print the corresponding teens word
+        if (numArr[2] == "1")
         {
-            flag = 1;
-            continue;
+            cout << elevenToNineteen[stoi(numArr[3]) - 1] << endl;
+            return;
         }
 
-        // Print thousands place
-        if ((lengthOfNum- i) == 4)
-        {
-            // IF there are 4 digits in the number
-            // print the corresponding word from the ones array and "thousand"
-            cout << ones[*numArr[i] - '0'] << " thousand, ";
-        }
-
-        // Print hundreds place
-        else if ((lengthOfNum- i) == 3)
-        {
-            // IF there are 3 digits in the number
-            // print the corresponding word from the ones array and "hundred"
-            cout << ones[*numArr[i] - '0'] << " hundred ";
-        }
-
-        // Print tens place
-        else if ((lengthOfNum- i) == 2)
-        {
-            // If the current digit is a 1, print the corresponding teens word
-            if (*numArr[i] == '1')
-            {
-                // If the first digit is a 1
-                //Print the corresponding teens word
-                cout << elevenToNineteen[*numArr[i + 1] - '0' - 1] << endl;
-                return;
-            }
-
-            // Print the tens word
-            else
-            {
-                // if the number isnt a teens number
-                // print the corresponding tens word
-                cout << tens[*numArr[i] - '0'] << " ";
-            }
-        }
-
-        // Print ones place
+        // Print the tens word like 20, 30, 40, and so on
         else
         {
-            // If the previous digit was a zero, print "and"
-            if (flag == 1)  // If the previous digit was a zero, print "and"
-            {
-                // add the word "and" to the output
-                cout << "and ";
-                flag = 0; // Reset the flag
-            }
-
-            cout << ones[*numArr[i] - '0'] << " ";
+            cout << tens[stoi(numArr[2])] << " ";
         }
+    }
+
+    // Print ones place
+    if (numArr[3] != "0")
+    {
+        // If the previous digit was a zero, print "and"
+        if (numArr[2] == "0")
+        {
+            cout << "and ";
+        }
+
+        // Print the ones word
+        cout << ones[stoi(numArr[3])];
     }
 }
 
 
 
+
 // This function splits the date into its parts
-void Spli(char* date);
-void splitDateIntoParts(char* date)
+void printDateIntoWords(char* date);
+void printDateIntoWords(char* date)
 {
+    // //print "Slit function entered"
+    // cout << "\nSplit function entered" << endl;
+
     // Get the number of digits in the given number using the length of the string
     //then using strtok to get the month, day, and year
     //then using stoi to convert the month, day, and year to ints
@@ -254,29 +292,7 @@ void splitDateIntoParts(char* date)
 
     // print the day in words
     // Use the convertNumToWords function to print the day integer into words
-    convertNumToWords(day);
-
-    // print the day suffix like "st", "nd", "rd", or "th"
-    if (day >= 11 && day <= 19) //for all the teens
-    {
-        cout << "th";
-    }
-    else if (day % 10 == 1) //for all the first days of the month
-    {
-        cout  << "st";
-    }
-    else if (day % 10 == 2)
-    {
-        cout << "nd";
-    }
-    else if (day % 10 == 3)
-    {
-        cout << "rd";
-    }
-    else    //for all the other days higher than 3 and lower than 11
-    {
-        cout << "th";
-    }
+    convertDayToWords(day);
 
     // print the year in words
     cout << " " ;
@@ -287,54 +303,53 @@ void splitDateIntoParts(char* date)
 
 
 
+// !_____________________________MAIN FUNCTION_____________________________!
 int main()
 {
     // Declare variables
-    int num;    // Integer to be converted to words
-    char date[11]; // C-string to store the date    
-    char numString[100];    // C-string to store the integer
+    char date[11]; // C-string to store the date
+    int datecheck = 0; // Variable to store the result of the checkDate function    
 
     // Print the program welcome message
-    cout << "Welcome to the Number to Words Converter!\n";
+    cout << "Welcome to the Number to Words Converter!\n"
+            << "This program converts a date in the format mm/dd/yyyy into words.\n"
+            << "Where mm is the month, dd is the day, and yyyy is the year.\n";
 
     //A loop that asks the user for input and checks if the input is valid using the checkDate function
     //If the input is valid, the loop breaks
     //If the input is invalid, the loop continues
-    while (true)
+    
+    //use a do while loop to ask the user for input
+    do
     {
-        // Get user input
-        getInput(date);
+        // Ask our user for input and store it in the date variable using the getDate function
+        getDate (date);
 
+        // Check if the date is valid
+        datecheck = checkDateFormat(date);
 
-        // Convert integer to C-string
-        sprintf(numString, "%d", num);
-
-        // Call the function to convert to words
-        convertToWords(numString);
-
-        // Ask the user if they want to continue
-        cout << "Do you want to continue? (y/n): ";
-        char choice;
-        cin >> choice;
-
-        // If the user does not want to continue, break the loop
-        if (choice == 'n' || choice == 'N')
+        // //print the datecheck variable to see if it is working
+        // cout << datecheck << endl;
+        // //print the date variable to see if it is working
+        // cout << date << endl;
+        
+        // Check if the input is valid
+        if (datecheck == 0)
         {
-            break;
+            // If the input is valid, break the loop
+            //break;
         }
-    }
-
-
-
-    // Ask our user for input
-    cout << "Enter an integer: ";
-    cin >> num;
-
-    // Convert integer to C-string
-    sprintf(numString, "%d", num);
-
-    // Call the function to convert to words
-    convertToWords(numString);
+        else if (datecheck = 1)
+        {
+            // If the input is invalid, print an error message
+            cout << "Error\nThe date you entered is invalid. Please try again." << endl;
+        }
+    } while (datecheck == 1);
+    
+    // cout << "\nHEYY If you can see this, that means the loop worked!!!" << endl;
+    
+    // Split the date into its parts and print it in words
+    printDateIntoWords(date);
 
     return 0;
 }
