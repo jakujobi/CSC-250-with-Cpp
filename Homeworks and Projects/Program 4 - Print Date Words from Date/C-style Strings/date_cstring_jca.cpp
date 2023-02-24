@@ -19,6 +19,15 @@ Error Message
 */
 
 
+/* List of functions in the program
+void getDate(char* date);
+void printError();
+int checkDateFormat(char* date);
+void printDateIntoWords(char* date);
+void convertDayToWords(int day);
+void convertNumToWords(int num);
+*/
+
 
 #include <iostream> // for cout, cin, endl
 #include <cstring> // for strlen, strcpy, strcmp
@@ -346,7 +355,7 @@ int main()
         //If the input is invalid, the loop continues
         //use a do while loop to ask the user for input
 
-        datecheck = 1; // Reset the datecheck variable to 0
+        datecheck = 1; // Reset the datecheck variable to 1
         
         while (datecheck == 1)
         {
@@ -372,7 +381,7 @@ int main()
         printDateIntoWords(date);   // Print the date in words using the printDateIntoWords function
 
         // Ask the user if they want to continue
-        cout << "\n\nWould you like to continue? (y/n): ";
+        cout << "\nnWould you like to continue? (y/n): ";
         cin >> choice;        
         cin.clear();    //clear the input buffer
 
