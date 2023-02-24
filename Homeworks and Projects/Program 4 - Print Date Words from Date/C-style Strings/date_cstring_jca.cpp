@@ -1,21 +1,50 @@
+/* Program 4A: Date to words converter
+This program accepts a date in the format mm/dd/yyyy and prints the date in words. (US style format)
+For example:
+Input: 11/15/2021
+Output: November Fifteenth, Two Thousand Twenty-One
 
+Date: 21st of January 2023
+
+Name: John Akujobi
+
+Class: CSC 250 - Paula Kurtenbach - Spring 2023
+*/
 
 //BUGS
 /*BUG 1: The program does not print the error message when the date is invalid
+  Solved: Logic error in the if statement
 */
 
-/*BUG 2: The program does not print the error message when the date is invalid
+/*BUG 2: The program keeps printing the error message when repeating the loop
+        It still works, but it prints the error message after the user enters Y for continuing the program
+*/
 
-Error Message
-{  
-    Welcome to the Number to Words Converter!
-    Enter a date in the format MM/DD/YYYY: 02/22/2023
-    Good Job, The date is valid
-    Error
-    The date you entered is invalid. Please try again.
-    Good Job, The date is valid
-    Error
-}
+/* Lessons
+
+    - I feel that i am getting better at debugging to an extent
+        - In this program, i was able to place print statements
+        - Use descriptive names for variables and functions
+        - Copy and paste variable names to avoid repeating typing
+
+    - I am learning to use extensions and tools better especially in VS Code
+        - Learned to set up Code Spell Checker, Draw.io, and Intellicode
+        - indent-rainbow helps me use tabs and indentation better
+
+    - I am having a hard time retaining the concept of c-strings, and its functions
+        - There are so many things to remeber, including several functions
+        - I am able to work with them, but i find myself refering to my notes, articles online and definitions
+        - I hope this is'nt how it is in the real world where i'll cram so many things without being able to reference.
+
+        - Since i am referring to many things, i need to find a way to cram as much as possible for the exams
+            - We would'nt have the help of our notes, definitions, articles, codex, stack overflow or the likes to refer to.
+        - Make sure to meet Avera for help with ADHD before the exams
+        
+        Things to cram before exams
+        - All the functions for c-string
+        - Functions like cin.get, strlen, .length, cin.getchar
+        - syntax for defining char constants
+
 */
 
 
@@ -165,7 +194,7 @@ int checkDateFormat(char* date)
     }
 
     // If all checks pass, then return true
-    //Woohoo!
+    //cout << "Woohoo!";"
     cout << "Good Job, The date is valid\n";
     return 0;
 }
@@ -184,7 +213,7 @@ void convertDayToWords(int day)
     // Print the word form of the input day
     if (day >= 11 && day <= 19)
     {
-        cout << elevenToNineteen[day - 11];
+        cout << elevenToNineteen[day - 11] << "th";
         return;
     }
     else if (day % 10 == 1)
@@ -338,15 +367,15 @@ void printDateIntoWords(char* date)
 int main()
 {
     // Declare variables
-    char date[11]; // C-string to store the date
-    int datecheck = 0; // Variable to store the result of the checkDate function    
+    char date[11]; // C-string to store the date 
+    int datecheck = 0; // Variable to store the result of the checkDate function (0 = valid, 1 = invalid)
+    char choice = 'y'; // Variable to store the user's choice to continue or not (y = yes, n = no)
 
     // Print the program welcome message
     cout << "Welcome to the Number to Words Converter!\n"
             << "This program converts a date in the format mm/dd/yyyy into words.\n"
             << "Where mm is the month, dd is the day, and yyyy is the year.\n";
 
-    char choice = 'y'; // Variable to store the user's choice to continue or not
     
     do 
     {
