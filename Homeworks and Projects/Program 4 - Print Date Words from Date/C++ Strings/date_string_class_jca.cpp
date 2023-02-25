@@ -33,39 +33,39 @@ void convertNumToWords(int num);
 
 
 #include <iostream> // for cout, cin, endl
-#include <cstring> // for strlen, strcpy, strcmp
+#include <string> // for strlen, strcpy, strcmp
 
 using namespace std;
 
 //THE ARRAY OF STRINGS FOR THE WORDS
 // The array of strings for the ones place
-const char* const ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+const string ones[] = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
 
 // The array of strings for the ones place
-const char* const oneths[] = {"", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"};
+const string oneths[] = {"", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"};
 
 // The array of strings for the tens place
-const char* const tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+const string tens[] = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
 
 // The array of strings for the teens
-const char* const elevenToNineteen[] = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+const string elevenToNineteen[] = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
 
 // The array of strings for the months
-const char* const months[] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+const string months[] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 
 // THE FUNCTIONS
 
 // This function will get the input from the user
-void getDate(char* date);
-void getDate(char* date)
+void getDate(string& date);
+void getDate(string& date)
 {
     //Clear the input buffer
     cin.clear();
 
     // Ask the user to enter a date in the format MM/DD/YYYY
     cout << "INPUT\nEnter a date in the format MM/DD/YYYY: ";
-    cin.getline(date, 11);
+    getline(cin, date);
 
     //Clear the input buffer
     cin.clear();
@@ -83,11 +83,11 @@ void printError ()
 
 
 // This function will check if the date is in the correct format
-int checkDateFormat(char* date);
-int checkDateFormat(char* date)
+int checkDateFormat(string& date);
+int checkDateFormat(string& date)
 {
     // Check if the input string has length 10
-    if (strlen(date) > 10)
+    if (date.length() > 10)
     {
         printError(); //Prints the error message
         cout << "It seems that there are more characters than needed\n"
@@ -95,7 +95,7 @@ int checkDateFormat(char* date)
         return 1;
     }
 
-    else if (strlen(date) < 10)
+    else if (date.length() < 10)
     {
         printError(); //Prints the error message
         cout << "It seems that there are fewer characters than needed\n"
@@ -105,7 +105,7 @@ int checkDateFormat(char* date)
     }
 
     // Check if the first two characters are digits representing a valid month
-    int month = stoi(string(date).substr(0, 2));
+    int month = stoi(date.substr(0, 2));
     if (month < 1 || month > 12)
     {
         printError();   //Prints the error message
@@ -114,7 +114,7 @@ int checkDateFormat(char* date)
     }
 
     // Check if the third character is a forward slash
-    if (date[2] != '/')
+    if (date.at(2) != '/')
     {
         printError();   //Prints the error message
         cout << "The third character is not a forward slash\n";
@@ -122,7 +122,7 @@ int checkDateFormat(char* date)
     }
 
     // Check if the fourth and fifth characters are digits representing a valid day
-    int day = stoi(string(date).substr(3, 2));
+    int day = stoi(date.substr(3, 2));
     if (day < 1 || day > 31)
     {
         printError();   //Prints the error message
@@ -131,7 +131,7 @@ int checkDateFormat(char* date)
     }
 
     // Check if the sixth character is a forward slash
-    if (date[5] != '/')
+    if (date.at(5) != '/')
     {
         printError(); //Prints the error message
         cout << "The sixth character is not a forward slash\n";
@@ -139,7 +139,7 @@ int checkDateFormat(char* date)
     }
 
     // Check if the last four characters are digits representing a valid year
-    int year = stoi(string(date).substr(6, 4));
+    int year = stoi(date.substr(6, 4));
     if (year < 0 || year > 9999)
     {
         printError(); //Prints the error message
@@ -302,8 +302,8 @@ void convertNumToWords(int num)
 
 
 // This function splits the date into its parts
-void printDateIntoWords(char* date);
-void printDateIntoWords(char* date)
+void printDateIntoWords(string& date);
+void printDateIntoWords(string& date)
 {
     // //print "Slit function entered"
     // cout << "\nSplit function entered" << endl;
@@ -341,7 +341,7 @@ void printDateIntoWords(char* date)
 int main()
 {
     // Declare variables
-    char date[11]; // C-string to store the date 
+    string date; // C-string to store the date 
     int datecheck = 0; // Variable to store the result of the checkDate function (0 = valid, 1 = invalid)
     char choice = 'y'; // Variable to store the user's choice to continue or not (y = yes, n = no)
 
