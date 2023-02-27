@@ -1,4 +1,4 @@
-/* Program 4A: Date to words converter
+/* Program 4A: Date to words converter with c-strings
 This program accepts a date in the format mm/dd/yyyy and prints the date in words. (US style format)
 For example:
 Input: 11/15/2021
@@ -18,33 +18,7 @@ Class: CSC 250 - Paula Kurtenbach - Spring 2023
 
 /*BUG 2: The program keeps printing the error message when repeating the loop
         It still works, but it prints the error message after the user enters Y for continuing the program
-*/
-
-/* Lessons
-
-    - I feel that i am getting better at debugging to an extent
-        - In this program, i was able to place print statements
-        - Use descriptive names for variables and functions
-        - Copy and paste variable names to avoid repeating typing
-
-    - I am learning to use extensions and tools better especially in VS Code
-        - Learned to set up Code Spell Checker, Draw.io, and Intellicode
-        - indent-rainbow helps me use tabs and indentation better
-
-    - I am having a hard time retaining the concept of c-strings, and its functions
-        - There are so many things to remeber, including several functions
-        - I am able to work with them, but i find myself refering to my notes, articles online and definitions
-        - I hope this is'nt how it is in the real world where i'll cram so many things without being able to reference.
-
-        - Since i am referring to many things, i need to find a way to cram as much as possible for the exams
-            - We would'nt have the help of our notes, definitions, articles, codex, stack overflow or the likes to refer to.
-        - Make sure to meet Avera for help with ADHD before the exams
-        
-        Things to cram before exams
-        - All the functions for c-string
-        - Functions like cin.get, strlen, .length, cin.getchar
-        - syntax for defining char constants
-
+    Solved: Added a cin.ignore() after the getline() function
 */
 
 
@@ -405,14 +379,15 @@ int main()
                 cout << "Please try again.";
             }
         }
-        // cout << "\nHEYY If you can see this, that means the loop worked!!!" << endl;
+        // cout << "\nHEY If you can see this, that means the loop worked!!!" << endl;
         
         printDateIntoWords(date);   // Print the date in words using the printDateIntoWords function
 
         // Ask the user if they want to continue
-        cout << "\nnWould you like to continue? (y/n): ";
+        cout << "\nWould you like to continue? (y/n): ";
         cin >> choice;        
         cin.clear();    //clear the input buffer
+        cin.ignore();   // ignore the newline character
 
         // Check if the user entered a valid choice
         if (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N')
