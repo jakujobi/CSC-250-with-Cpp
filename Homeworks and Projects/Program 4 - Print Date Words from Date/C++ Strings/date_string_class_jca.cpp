@@ -1,4 +1,4 @@
-/* Program 4A: Date to words converter
+/* Program 4b: Date to words converter with string class
 This program accepts a date in the format mm/dd/yyyy and prints the date in words. (US style format)
 For example:
 Input: 11/15/2021
@@ -18,6 +18,8 @@ Class: CSC 250 - Paula Kurtenbach - Spring 2023
 
 /*BUG 2: The program keeps printing the error message when repeating the loop
         It still works, but it prints the error message after the user enters Y for continuing the program
+
+    Solved: Added a cin.ignore() after the getline() function
 */
 
 
