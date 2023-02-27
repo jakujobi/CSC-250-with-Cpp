@@ -23,17 +23,17 @@ Class: CSC 250 - Paula Kurtenbach - Spring 2023
 
 
 /* List of functions in the program
-void getDate(char* date);
+void getDate(string& date);
 void printError();
-int checkDateFormat(char* date);
-void printDateIntoWords(char* date);
+int checkDateFormat(string& date);
+void printDateIntoWords(string& date);
 void convertDayToWords(int day);
 void convertNumToWords(int num);
 */
 
 
 #include <iostream> // for cout, cin, endl
-#include <string> // for strlen, strcpy, strcmp
+#include <string> // for string object operations
 
 using namespace std;
 
@@ -140,10 +140,11 @@ int checkDateFormat(string& date)
 
     // Check if the last four characters are digits representing a valid year
     int year = stoi(date.substr(6, 4));
-    if (year < 0 || year > 9999)
+    if (year < 1900 || year > 9999)
     {
         printError(); //Prints the error message
-        cout << "The year must be between 0 and 9999\n";
+        cout << "The year must be between 1900 and 9999\n";
+        //cout << "Unless you are using a time machine, then okay\n";
         return 1;
     }
 
@@ -312,9 +313,9 @@ void printDateIntoWords(string& date)
     //then using strtok to get the month, day, and year
     //then using stoi to convert the month, day, and year to ints
     //I got the strtok function description from: https://www.tutorialspoint.com/c_standard_library/c_function_strtok.htm
-    int month = stoi(strtok(date, "/")); // Get the month
-    int day = stoi(strtok(NULL, "/")); // Get the day
-    int year = stoi(strtok(NULL, "/")); // Get the year
+    int month = stoi(date.substr(0, 2)); // Get the month
+    int day = stoi(date.substr(3, 2)); // Get the day
+    int year = stoi(date.substr(6, 4)); // Get the year
 
     // Print the original date
     cout << "\nOUTPUT\n" << month << "/" << day << "/" << year << " would be displayed as:"<< endl;
@@ -376,7 +377,7 @@ int main()
             else if (datecheck == 1)
             {
                 // If the input is invalid, print an error message
-                cout << "Please try again.";
+                cout << "Please try again.\n";
             }
         }
         // cout << "\nHEYY If you can see this, that means the loop worked!!!" << endl;
@@ -384,9 +385,10 @@ int main()
         printDateIntoWords(date);   // Print the date in words using the printDateIntoWords function
 
         // Ask the user if they want to continue
-        cout << "\nnWould you like to continue? (y/n): ";
+        cout << "\nWould you like to continue? (y/n): ";
         cin >> choice;        
         cin.clear();    //clear the input buffer
+        cin.ignore();    //ignore the newline character
 
         // Check if the user entered a valid choice
         if (choice != 'y' && choice != 'Y' && choice != 'n' && choice != 'N')
