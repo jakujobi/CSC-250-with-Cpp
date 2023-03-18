@@ -103,7 +103,8 @@ struct Shirt {
 
     //Methods or Member Functions of the Shirt Structure
     void printShirt() {
-        cout << setw(4) << id              << setw(1) << "|"
+        cout << setw(2) << "||"
+            << setw(4) << id              << setw(1) << "|"
             << setw(30) << productName     << setw(1) << "|"
             << setw(6) << cost             << setw(1) << "|"
             << setw(4) << Qty              << setw(1) << "|"
@@ -141,7 +142,7 @@ void printCart(Shirt shirts[])
     Line(80);
     cout << endl;
     
-    cout << setw(1) << "|"
+    cout << setw(2) << "||"
         << setw(4) << "ID"             << setw(1) << "|"
         << setw(30) << "Product Name"   << setw(1) << "|"
         << setw(6) << "Cost"            << setw(1) << "|"
@@ -150,7 +151,7 @@ void printCart(Shirt shirts[])
         << setw(20)<< "Details"         << setw(2) << "||"
         << endl;
 
-    cout << setw(1) << "|"
+    cout << setw(2) << "||"
         << setw(4) << " "          << setw(1) << "|"
         << setw(30) << " "          << setw(1) << "|"
         << setw(6) << "  $  "       << setw(1) << "|"
@@ -158,4 +159,11 @@ void printCart(Shirt shirts[])
         << setw(8) << "Cost*Qty"    << setw(2) << "||"
         << setw(20)<< "Details"     << setw(2) << "||"
         << endl;
+
+    Line(80);
+
+    //Print the shirts in the cart
+    for (int i = 0; i < NUM_SHIRTS; i++) {
+        shirts[i].printShirt();
+    }
 }
