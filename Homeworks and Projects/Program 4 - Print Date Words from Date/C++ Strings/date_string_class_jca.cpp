@@ -13,7 +13,7 @@ Class: CSC 250 - Paula Kurtenbach - Spring 2023
 
 //BUGS
 /*BUG 1: The program does not print the error message when the date is invalid
-  Solved: Logic error in the if statement
+    Solved: Logic error in the if statement
 */
 
 /*BUG 2: The program keeps printing the error message when repeating the loop
