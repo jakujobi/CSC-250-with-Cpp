@@ -83,6 +83,7 @@ using namespace std;
 
 //Global Constants
 const int NUM_SHIRTS = 5;
+Shirt sdsuShirts[NUM_SHIRTS]; // array of structures that stores the vendor's menu
 
 enum ShirtSize { S, M, L, XL, XXL };
 
@@ -91,40 +92,48 @@ enum ShirtSize { S, M, L, XL, XXL };
 struct Shirt {
     //Fields or Member Variables of the Shirt Structure
     int id;
-    string productName;
+    string Name;
     float cost;
     int quantity[5];
 
     int Qty = 0;
+
     for (int i = 0; i < NUM_SHIRTS; i++) {
         Qty += quantity[i];
     }
 
+}; //End of Shirt Structure
 
-    //Methods or Member Functions of the Shirt Structure
-    void printShirt() {
+
+//function to print shirt
+void printShirt(Shirt sdsuShirt);
+void printShirt(Shirt sdsuShirt) {
+        for (int i = 0; i < NUM_SHIRTS; i++) {
         cout << setw(2) << "||"
-            << setw(4) << id              << setw(1) << "|"
-            << setw(30) << productName     << setw(1) << "|"
-            << setw(6) << cost             << setw(1) << "|"
-            << setw(4) << Qty              << setw(1) << "|"
-            << setw(8) << cost * Qty       << setw(2) << "||" ;
+            << setw(4) << sdsuShirts[i].id          << setw(1) << "|"
+            << setw(30) << sdsuShirts[i].Name       << setw(1) << "|"
+            << setw(6) << sdsuShirts[i].cost        << setw(1) << "|"
+            << setw(4) << sdsuShirts[i].Qty         << setw(1) << "|"
+            << setw(8) << sdsuShirts[i].cost * sdsuShirts[i].Qty
+            << setw(2) << "||" ;
 
         for (int i = 0; i < 5; i++) {
-            cout << setw(4) << quantity[i] ;
+            cout << setw(4) << sdsuShirts[i].quantity[i] ;
         }
 
         cout << setw(2) << "||" << endl;
-
     }
 
-}; //End of Shirt Structure
+}
+
+
 
 //Functions
-void readShirtFIle(Shirt shirts[]);
-void printMainMenu(Shirt shirts[]);
+void readShirtFIle(Shirt sdsuShirts[]);
 
-void printBill(Shirt shirts[]);
+void printMainMenu(Shirt sdsuShirts[]);
+
+void printBill(Shirt sdsuShirts[]);
 
 void Line(int num);
 void Line(int num) {
@@ -134,8 +143,8 @@ void Line(int num) {
     cout << endl;
 }
 
-void printCart(Shirt shirts[]);
-void printCart(Shirt shirts[])
+void printCart(Shirt sdsuShirts[]);
+void printCart(Shirt sdsuShirts[])
 {
     Line(80);
     cout << "YOUR CART" << endl;
@@ -156,18 +165,18 @@ void printCart(Shirt shirts[])
         << setw(30) << " "          << setw(1) << "|"
         << setw(6) << "  $  "       << setw(1) << "|"
         << setw(4) << " "           << setw(1) << "|"
-        << setw(8) << "Cost*Qty"    << setw(2) << "||" ;
-        
-        for (int i = 0; i < 5; i++) {
-            cout << setw(4) << ShirtSize[i] ;
-        }
-        
-        cout << setw(2) << "||"   << endl;
+        << setw(8) << "Cost*Qty"    << setw(2) << "||"
+
+        << setw(4) << "S"
+        << setw(4) << "M"
+        << setw(4) << "L"
+        << setw(4) << "XL"
+        << setw(4) << "XXL"
+
+        << setw(2) << "||"   << endl;
 
     Line(80); //Print a line to separate the header from the shirts
 
-    //Print the shirts in the cart
-    for (int i = 0; i < NUM_SHIRTS; i++) {
-        shirt[i].printShirt();
-    }
+    printShirt(Shirt sdsuShirt);
+
 }
