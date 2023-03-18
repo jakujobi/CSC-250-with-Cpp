@@ -156,14 +156,18 @@ void printCart(Shirt shirts[])
         << setw(30) << " "          << setw(1) << "|"
         << setw(6) << "  $  "       << setw(1) << "|"
         << setw(4) << " "           << setw(1) << "|"
-        << setw(8) << "Cost*Qty"    << setw(2) << "||"
-        << setw(20)<< "Details"     << setw(2) << "||"
-        << endl;
+        << setw(8) << "Cost*Qty"    << setw(2) << "||" ;
+        
+        for (int i = 0; i < 5; i++) {
+            cout << setw(4) << ShirtSize[i] ;
+        }
+        
+        cout << setw(2) << "||"   << endl;
 
-    Line(80);
+    Line(80); //Print a line to separate the header from the shirts
 
     //Print the shirts in the cart
     for (int i = 0; i < NUM_SHIRTS; i++) {
-        shirts[i].printShirt();
+        shirt[i].printShirt();
     }
 }
