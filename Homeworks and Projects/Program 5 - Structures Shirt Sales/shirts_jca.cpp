@@ -95,25 +95,26 @@ struct Shirt {
     float cost;
     int quantity[5];
 
-    int Qnty;
+    int Qty = 0;
     for (int i = 0; i < NUM_SHIRTS; i++) {
-        Qnty += quantity[i];
+        Qty += quantity[i];
     }
 
 
     //Methods or Member Functions of the Shirt Structure
     void printShirt() {
-        cout << setw(4) << id               << setw(1) << "|"
-            << setw(30) << productName      << setw(1) << "|"
-            << setw(6) << cost              << setw(1) << "|"
-            << setw(4) << Qnty              << setw(1) << "|"
-            << setw(8) << cost * Qnty       << setw(1) << "|"
-            << setw(20) << "Details" << setw(1) << "|"
-            << endl;
-        for (int i = 0; i < 20; i++) {
-            cout << "setw(4)" ;
+        cout << setw(4) << id              << setw(1) << "|"
+            << setw(30) << productName     << setw(1) << "|"
+            << setw(6) << cost             << setw(1) << "|"
+            << setw(4) << Qty              << setw(1) << "|"
+            << setw(8) << cost * Qty       << setw(2) << "||" ;
+
+        for (int i = 0; i < 5; i++) {
+            cout << setw(4) << quantity[i] ;
         }
-        cout << setw(4) << quantity[0] << setw(4) << quantity[1] << setw(4) << quantity[2] << " " << quantity[3] << " " << quantity[4];
+
+        cout << setw(2) << "||" << endl;
+
     }
 
 }; //End of Shirt Structure
@@ -135,25 +136,26 @@ void Line(int num) {
 void printCart(Shirt shirts[]);
 void printCart(Shirt shirts[])
 {
-    
+    Line(80);
     cout << "YOUR CART" << endl;
-    for (int i = 0; i < 40; i++) {
-        cout << "_";
-    }
+    Line(80);
     cout << endl;
     
-    cout << setw(4) << "ID"             << setw(1) << "|"
+    cout << setw(1) << "|"
+        << setw(4) << "ID"             << setw(1) << "|"
         << setw(30) << "Product Name"   << setw(1) << "|"
         << setw(6) << "Cost"            << setw(1) << "|"
         << setw(4) << "Qty"             << setw(1) << "|"
-        << setw(8) << "Total"           << setw(1) << "|"
-        << setw(20)<< "Details"         << setw(1) << "|"
+        << setw(8) << "Total"           << setw(2) << "||"
+        << setw(20)<< "Details"         << setw(2) << "||"
         << endl;
 
-    cout << setw(4) << " " << "|"
-        << setw(30) << " "
-        << setw(6) << "  $  "
-        << setw(4) << " "
-        << setw(8) << "Cost*Qty"
-        << setw(20)<< "Details" << endl;
+    cout << setw(1) << "|"
+        << setw(4) << " "          << setw(1) << "|"
+        << setw(30) << " "          << setw(1) << "|"
+        << setw(6) << "  $  "       << setw(1) << "|"
+        << setw(4) << " "           << setw(1) << "|"
+        << setw(8) << "Cost*Qty"    << setw(2) << "||"
+        << setw(20)<< "Details"     << setw(2) << "||"
+        << endl;
 }
