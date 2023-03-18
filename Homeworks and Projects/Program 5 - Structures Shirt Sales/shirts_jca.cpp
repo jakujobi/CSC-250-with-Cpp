@@ -78,44 +78,42 @@ Use separate functions to read the file, print the menu and print the bill.  Yo
 #include <iomanip>
 #include <fstream>
 #include <string>
-
 using namespace std;
 
 //Global Constants
-const int NUM_SHIRTS = 5;
-Shirt sdsuShirts[NUM_SHIRTS]; // array of structures that stores the vendor's menu
-
-enum ShirtSize { S, M, L, XL, XXL };
-
+const int NUM_SHIRTS = 5;   //the number of shirts in the vendor's menu
+enum ShirtSize { S, M, L, XL, XXL };    //the enumerated type for the shirt size
 
 //Structures
 struct Shirt {
     //Fields or Member Variables of the Shirt Structure
     int id;
-    string Name;
+    string name;
     float cost;
     int quantity[5];
-
-    int Qty = 0;
-
-    for (int i = 0; i < NUM_SHIRTS; i++) {
-        Qty += quantity[i];
-    }
-
 }; //End of Shirt Structure
+
+Shirt sdsuShirts[NUM_SHIRTS]; // array of structures that stores the vendor's menu
+
+//Functions
+//!_________________________________________________________________________________________________________________________________________
 
 
 //function to print shirt
-void printShirt(Shirt sdsuShirt);
-void printShirt(Shirt sdsuShirt) {
+void printShirt();
+void printShirt() {
+        int qty = 0;
         for (int i = 0; i < NUM_SHIRTS; i++) {
         cout << setw(2) << "||"
             << setw(4) << sdsuShirts[i].id          << setw(1) << "|"
-            << setw(30) << sdsuShirts[i].Name       << setw(1) << "|"
-            << setw(6) << sdsuShirts[i].cost        << setw(1) << "|"
-            << setw(4) << sdsuShirts[i].Qty         << setw(1) << "|"
-            << setw(8) << sdsuShirts[i].cost * sdsuShirts[i].Qty
-            << setw(2) << "||" ;
+            << setw(30) << sdsuShirts[i].name       << setw(1) << "|"
+            << setw(6) << sdsuShirts[i].cost        << setw(1) << "|";
+
+            for (int i = 0; i < NUM_SHIRTS; i++) {
+                qty += sdsuShirts[i].quantity[i];
+            }
+        cout << setw(4) << qty                      << setw(1) << "|"
+            << setw(8) << sdsuShirts[i].cost * qty  << setw(2) << "||" ;
 
         for (int i = 0; i < 5; i++) {
             cout << setw(4) << sdsuShirts[i].quantity[i] ;
@@ -129,7 +127,40 @@ void printShirt(Shirt sdsuShirt) {
 
 
 //Functions
-void readShirtFIle(Shirt sdsuShirts[]);
+void readShirtFIle();
+void readShirtFIle() {
+    int costread = 0;
+
+    ifstream shirtFile("shirts.txt");
+
+    // Check if file is open
+    if (!shirtFile) {
+        cout << "\nError!\nUnable to open file shirts.txt" << endl;
+        exit(1);
+    }
+
+    // Read the file
+    for (int i = 0; i < NUM_SHIRTS; i++)
+    {
+        getline(shirtFile, sdsuShirts[i].name);
+        shirtFile >> sdsuShirts[i].cost;
+
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                sdsuShirts[i].quantity[j] = 0;
+            }
+        }
+
+        shirtFile.ignore();
+    }
+
+    // Close the file
+    shirtFile.close();
+}
+
+
 
 void printMainMenu(Shirt sdsuShirts[]);
 
@@ -143,8 +174,8 @@ void Line(int num) {
     cout << endl;
 }
 
-void printCart(Shirt sdsuShirts[]);
-void printCart(Shirt sdsuShirts[])
+void printCart();
+void printCart()
 {
     Line(80);
     cout << "YOUR CART" << endl;
@@ -177,6 +208,6 @@ void printCart(Shirt sdsuShirts[])
 
     Line(80); //Print a line to separate the header from the shirts
 
-    printShirt(Shirt sdsuShirt);
+    printShirt();
 
 }
