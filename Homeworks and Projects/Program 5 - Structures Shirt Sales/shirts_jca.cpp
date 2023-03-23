@@ -350,10 +350,32 @@ void orderShirt(int ID){
     // Get the size of the shirt
     int sizeChoice = getShirtSize();
 
-    // Calculate the cost of the shirt
-    
+    // This function adds the user's order to the quantity of the selected shirt in the menu
+    for (int i = 0; i < NUM_SHIRTS; i++)
+    {
+        sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
 
-    //sdsuShirts[shirtID].quantity[size - 1] += qty;
+        // switch (sizeChoice){
+        //     case 1
+        //         shirts[ID].qty[0] += qtyChoice;
+        //         break;
+        //     case 2
+        //         shirts[ID].qty[1] += qtyChoice;
+        //         break;
+        //     case 3
+        //         shirts[ID].qty[2] += qtyChoice;
+        //         break;
+        //     case 4
+        //         shirts[ID].qty[3] += qtyChoice;
+        //         break;
+        //     case 5
+        //         shirts[ID].qty[4] += qtyChoice;
+        //         break;
+        //     default:
+        //         cout << "Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
+        //         break;
+        // }
+    }
 }
 
 // Calculates the total cost of the order
@@ -401,16 +423,16 @@ int main (){
             }
         }
 
-        switch (menuChoice){
-            case 6:
-                checkOut();
-                break;
-            case 7:
-                exit(0);
-                break;
-            default:
-                cout << "Invalid choice.\nPlease choose a valid number between 1 and 7." << endl;
-                break;
+        if (menuChoice == 6){
+            checkOut();
+        }
+        else if (menuChoice == 7){
+            break;
+        }
+        else{
+            cout << "Invalid menu choice. Please enter number from 1 to 7" << endl;
+        }
+
         }
     } while (menuChoice != 7); // End of the do-while loop
 
