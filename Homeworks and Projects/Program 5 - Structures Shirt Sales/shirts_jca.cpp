@@ -1,5 +1,9 @@
 /*
 Shirt Sales Program
+Allows the user to order a shirt from a SDSU T-shirt vendor.
+Stores the vendor's menu in a structure and displays it in a table format.
+Lets the user to choose between ordering, checking out or exiting.
+
 John Akujobi
 CSC 250
 03/17/2023
@@ -43,13 +47,6 @@ Loop back to re-display the menu with the quantities reset to 0 to take the next
 
 Use separate functions to read the file, print the menu and print the bill.  Your output should be well-organized, neat, and easy to read.
 
-### **Additional Features to Add**
-
-- Add the ability for the user to select the shirt size and quantity they wish to order.
-- Implement error checking to ensure that the user enters a valid choice.
-- Add the ability for the user to view their order history and reorder previous orders.
-- Implement a search function to allow the user to search for a specific item in the menu.
-- Allow the user to add custom text to the shirt, such as a name or custom message.
 
 ### **Concepts to Use**
 
@@ -85,6 +82,7 @@ using namespace std;
 //the number of shirts in the vendor's menu
 const int NUM_SHIRTS = 5;
 const int MAX_QTY = 100;
+const float TAX_RATE = 0.065; //tax rate at 6.5%
 
 //the enumerated type for the shirt size
 enum ShirtSize { S, M, L, XL, XXL };
@@ -106,9 +104,61 @@ Shirt sdsuShirts[NUM_SHIRTS];
 //Functions
 //!_________________________________________________________________________________________________________________________________________
 
+void readShirtFIle();   //Read the file and set the values of the shirt structure
+void Line(int num);     //Print a line of dashes
+void printShirt();      //Print the menu in a table format
+void printCart();       //Print the cart in a table format
+int getMenuChoice();    //Get the user's menu choice
+int getShirtSize();    //Get the user's shirt size choice
+int getShirtQuantity(); //Get the user's shirt quantity choice
+void orderShirt(int ID); //Order a shirt
+float calcTotal();      //Calculate the total cost of the order
+void checkOut();        //Check out the cart and print the bill
 
+
+
+
+
+//Main Function
+//!_________________________________________________________________________________________________________________________________________
+int main (){
+    int UID; // To hold the user's shirt ID
+    int UserSize; // To hold the user's size
+    int UserQuantity; // To hold the user's quantity
+    int menuChoice; // To hold the user's menu choice
+
+    readShirtFIle();    // Read the shirts from the file
+
+    do{
+        printCart(); // Print the cart
+
+        menuChoice = getMenuChoice();   // Get the user's menu choice
+
+        if (menuChoice > 0 && menuChoice < 6){
+            UID = menuChoice - 1; // Get the shirt ID from the menu choice
+            orderShirt(UID);
+        }
+
+        if (menuChoice == 6){   // Option to check out and reset the cart
+            checkOut();
+        }
+
+        else if (menuChoice == 7){  // Exit the program
+            exit(0);
+        }
+
+        if (menuChoice < 1 || menuChoice > 7){
+            cout << "Invalid choice. Please enter number from 1 to 7" << endl;
+        }
+
+    } while (menuChoice != 7); // End of the do-while loop
+
+    return 0;
+}
+
+
+//!_________________________________________________________________________________________________________________________________________
 //Functions to read the file and set the values of the shirt structure
-void readShirtFIle();
 void readShirtFIle() {
     // Open the file
     ifstream shirtFile("shirts.txt");
@@ -145,7 +195,6 @@ void readShirtFIle() {
 
 
 // Prints a line of dashes
-void Line(int num);
 void Line(int num) {
     for (int i = 0; i < num; i++) {
         cout << "-";
@@ -155,7 +204,6 @@ void Line(int num) {
 
 
 //function to print shirt
-void printShirt();
 void printShirt() {
 
     for (int i = 0; i < NUM_SHIRTS; i++) {
@@ -187,11 +235,15 @@ void printShirt() {
 
 
 // Function to print the cart
-void printCart();
 void printCart()
 {
-    Line(100);
-    cout << "  YOUR CART" << endl;
+    Line(100); // Print a line of dashes
+
+    // for (int i = 0; i < 50; i++) {  // Print spaces for the cart title
+    //     cout << " ";
+    // }
+
+    cout << "  YOUR CART - " << endl;
     Line(100);
     
     cout << setw(3) << " | "
@@ -225,7 +277,7 @@ void printCart()
 
     float total = calcTotal();
     cout << setw(3) << " | "
-        << "TOTAL COST: $" << setw(8) << total << setw(4) << " || " << endl;
+        << "TOTAL COST: $ " << setw(8) << total << setw(4) << " || " << endl;
 
     Line(100); //Print a line to separate the shirts from the footer
     
@@ -233,13 +285,12 @@ void printCart()
 
 
 // This function prints a menu and returns the user's choice
-int getMenuChoice();
 int getMenuChoice()
 {
     int choice;
 
     do {
-        cout << "MAIN MENU" << endl;
+        cout << "\nMAIN MENU" << endl;
 
         for (int i = 0; i < NUM_SHIRTS; i++)
         {
@@ -262,10 +313,9 @@ int getMenuChoice()
 
 
 // Get the size of the shirt
-int getShirtSize();
 int getShirtSize(){
     int sizeChoice;
-
+    Line(50);
     // Print the shirt sizes and get the user's choice
     do{
         cout << "\nWhich size do you want to purchase?" << endl;
@@ -289,11 +339,10 @@ int getShirtSize(){
 }
 
 
-
-int getShirtQuantity();
+// Get the quantity of the shirts that the user wants to purchase
 int getShirtQuantity(){
-    int qtyChoice;
-
+    int qtyChoice; // The quantity of shirts that the user wants to purchase
+    Line(50);   // Print line
     // Get the quantity of the shirt
     do{
         cout << "\nHow many shirts do you want to purchase?" << endl;
@@ -312,7 +361,6 @@ int getShirtQuantity(){
 
 
 // Order the shirts
-void orderShirt(int ID);
 void orderShirt(int ID){
     
     cout << "You have chosen" << sdsuShirts[ID].name << endl;   // Print the name of the shirt (For testing)
@@ -332,7 +380,6 @@ void orderShirt(int ID){
 }
 
 // Calculates the total cost of the order
-float calcTotal();
 float calcTotal(){
     float subtotal = 0; // Initialize the subtotal to 0
 
@@ -344,7 +391,7 @@ float calcTotal(){
         }
     }
 
-    float tax = subtotal * 0.065;    // 0.065 is the tax
+    float tax = subtotal * TAX_RATE;    // 0.065 is the tax
 
     float total = subtotal + tax;   // add the tax to the subtotal
 
@@ -353,11 +400,10 @@ float calcTotal(){
 
 
 //Checks the user out
-void checkOut();
 void checkOut(){
-
-    float total = calcTotal();
-    cout << "Your total is: $" << fixed << setprecision(2) << total << endl;
+    float total = calcTotal();    // Calculate the total cost of the order
+    cout << "Your total is: $ " << fixed << setprecision(2) << total << endl;
+    cout << "You have checked out.\nHave an awesome day!!" << endl;
 
     // Reset the cart
     for (int i = 0; i < NUM_SHIRTS; i++)
@@ -367,51 +413,4 @@ void checkOut(){
             sdsuShirts[i].quantity[j] = 0;
         }
     }
-}
-
-
-//Main Function
-//!_________________________________________________________________________________________________________________________________________
-int main (){
-    int UID; // To hold the user's shirt ID
-    int UserSize; // To hold the user's size
-    int UserQuantity; // To hold the user's quantity
-    int menuChoice; // To hold the user's menu choice
-
-    readShirtFIle();    // Read the shirts from the file
-
-    do{
-        printCart(); // Print the cart
-
-        menuChoice = getMenuChoice();   // Get the user's menu choice
-
-        if (menuChoice > 0 && menuChoice < 6){
-            UID = menuChoice - 1; // Get the shirt ID from the menu choice
-            orderShirt(UID);
-        }
-
-        // // Process the user's menu choice
-        // for (int i = 0; i < NUM_SHIRTS; i++)
-        // {
-        //     if (menuChoice == sdsuShirts[i].id + 1)
-        //     {
-        //         orderShirt(sdsuShirts[i].id);
-        //     }
-        // }
-
-        if (menuChoice == 6){   // Option to check out and reset the cart
-            checkOut();
-        }
-
-        else if (menuChoice == 7){  // Exit the program
-            exit(0);
-        }
-
-        if (menuChoice < 1 || menuChoice > 7){
-            cout << "Invalid choice. Please enter number from 1 to 7" << endl;
-        }
-
-    } while (menuChoice != 7); // End of the do-while loop
-
-    return 0;
 }
