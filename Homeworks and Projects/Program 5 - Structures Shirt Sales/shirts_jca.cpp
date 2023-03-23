@@ -160,7 +160,7 @@ void printShirt() {
 
     for (int i = 0; i < NUM_SHIRTS; i++) {
         int qty = 0;
-        
+
         cout << setw(3) << " | "
             << setw(2) << sdsuShirts[i].id + 1              << setw(3) << " | "
             << setw(30) << left << sdsuShirts[i].name       << setw(3) << " | "
@@ -222,6 +222,13 @@ void printCart()
     printShirt();
 
     Line(100); //Print a line to separate the shirts from the footer
+
+    float total = calcTotal();
+    cout << setw(3) << " | "
+        << "TOTAL COST: $" << setw(8) << total << setw(4) << " || " << endl;
+
+    Line(100); //Print a line to separate the shirts from the footer
+    
 }
 
 
@@ -304,68 +311,63 @@ int getShirtQuantity(){
 }
 
 
-
-
+// Order the shirts
 void orderShirt(int ID);
 void orderShirt(int ID){
     
-    cout << "You have chosen" << sdsuShirts[ID].name << endl;
+    cout << "You have chosen" << sdsuShirts[ID].name << endl;   // Print the name of the shirt (For testing)
 
     // Get the quantity of the shirt
     int qtyChoice = getShirtQuantity();
-    cout << "You have chosen " << qtyChoice << " shirts." << endl;
+    cout << "You have chosen " << qtyChoice << " shirts." << endl;   // Print the quantity of the shirt (For testing)
 
     // Get the size of the shirt
     int sizeChoice = getShirtSize();
-    cout << "You have chosen " << sizeChoice << " size." << endl;
+    cout << "You have chosen " << sizeChoice << " size." << endl;   // Print the size of the shirt (For testing)
 
-
+    // Add the shirts to the cart by updating the quantity of the shirt
     sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
 
-    // // This function adds the user's order to the quantity of the selected shirt in the menu
-    // for (int ID = 0; ID < NUM_SHIRTS; ID++)
-    // {
-    //     // sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
-
-    //     switch (sizeChoice){
-    //     case 1:
-    //         sdsuShirts[ID].quantity[0] += qtyChoice;
-    //         break;
-    //     case 2:
-    //         sdsuShirts[ID].quantity[1] += qtyChoice;
-    //         break;
-    //     case 3:
-    //         sdsuShirts[ID].quantity[2] += qtyChoice;
-    //         break;
-    //     case 4:
-    //         sdsuShirts[ID].quantity[3] += qtyChoice;
-    //         break;
-    //     case 5:
-    //         sdsuShirts[ID].quantity[4] += qtyChoice;
-    //         break;
-    //     default:
-    //         cout << "Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
-    //         break;
-    //      }
-        // }
-
+    return;
 }
 
 // Calculates the total cost of the order
-int calcTotal();
-int calcTotal(){
-    return 1;
+float calcTotal();
+float calcTotal(){
+    float subtotal = 0; // Initialize the subtotal to 0
+
+    for (int i = 0; i < NUM_SHIRTS; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            subtotal += sdsuShirts[i].quantity[j] * sdsuShirts[i].cost;
+        }
+    }
+
+    float tax = subtotal * 0.065;    // 0.065 is the tax
+
+    float total = subtotal + tax;   // add the tax to the subtotal
+
+    return total;
 }
 
 
 //Checks the user out
 void checkOut();
 void checkOut(){
-    
+
+    float total = calcTotal();
+    cout << "Your total is: $" << fixed << setprecision(2) << total << endl;
+
+    // Reset the cart
+    for (int i = 0; i < NUM_SHIRTS; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            sdsuShirts[i].quantity[j] = 0;
+        }
+    }
 }
-
-
-
 
 
 //Main Function
@@ -397,11 +399,12 @@ int main (){
         //     }
         // }
 
-        if (menuChoice == 6){
+        if (menuChoice == 6){   // Option to check out and reset the cart
             checkOut();
         }
-        else if (menuChoice == 7){
-            break;
+
+        else if (menuChoice == 7){  // Exit the program
+            exit(0);
         }
 
         if (menuChoice < 1 || menuChoice > 7){
