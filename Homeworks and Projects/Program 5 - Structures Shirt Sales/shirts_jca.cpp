@@ -350,32 +350,10 @@ void orderShirt(int ID){
     // Get the size of the shirt
     int sizeChoice = getShirtSize();
 
-    // This function adds the user's order to the quantity of the selected shirt in the menu
-    for (int i = 0; i < NUM_SHIRTS; i++)
-    {
-        sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
+    // Calculate the cost of the shirt
+    
 
-        // switch (sizeChoice){
-        //     case 1
-        //         shirts[ID].qty[0] += quantity;
-        //         break;
-        //     case 2
-        //         shirts[ID].qty[1] += quantity;
-        //         break;
-        //     case 3
-        //         shirts[ID].qty[2] += quantity;
-        //         break;
-        //     case 4
-        //         shirts[ID].qty[3] += quantity;
-        //         break;
-        //     case 5
-        //         shirts[ID].qty[4] += quantity;
-        //         break;
-        //     default:
-        //         cout << "Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
-        //         break;
-        // }
-    }
+    //sdsuShirts[shirtID].quantity[size - 1] += qty;
 }
 
 // Calculates the total cost of the order
