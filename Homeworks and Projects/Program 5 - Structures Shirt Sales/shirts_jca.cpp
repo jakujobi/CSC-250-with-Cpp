@@ -10,12 +10,10 @@ CSC 250
 */
 
 /* Description of program:
-## **Shirt Sales Program**
-
+Shirt Sales Program
 The Shirt Sales program allows the user to order a shirt from a SDSU T-shirt vendor. The program stores the vendor's menu in a structure and displays it in a table format. The program allows the user to choose between ordering, checking out or exiting.
 
-### **Program Features**
-
+Program Features:
 - Store vendor's menu in a structure that includes name, cost, and quantity for each size.
     
     
@@ -38,7 +36,6 @@ The Shirt Sales program allows the user to order a shirt from a SDSU T-shirt ven
 - Set the qty fields to 0 when you read the file.
 
 Using a loop, do the following:
-
 - Display the menu in a numbered table with columns for the name, cost, and quantity for each size. Include an additional column for the total (cost*qty) for each item and print the order total at the bottom of the total column.
 - Allow the user to choose between ordering, checking out, or exiting.
 - Use separate functions to read the file, print the menu and print the bill.
@@ -48,8 +45,7 @@ Loop back to re-display the menu with the quantities reset to 0 to take the next
 Use separate functions to read the file, print the menu and print the bill.  Your output should be well-organized, neat, and easy to read.
 
 
-### **Concepts to Use**
-
+Concepts to Use:
 - Structured programming concepts, including structures, functions, and loops.
 - Input and output operations in C.
 - String classes
@@ -80,8 +76,8 @@ using namespace std;
 //Global Constants
 
 //the number of shirts in the vendor's menu
-const int NUM_SHIRTS = 5;
-const int MAX_QTY = 100;
+const int NUM_SHIRTS = 5;   //Number of shirts in the vendor's menu
+const int MAX_QTY = 100;    //Maximum number of shirts that can be ordered
 const float TAX_RATE = 0.065; //tax rate at 6.5%
 
 //the enumerated type for the shirt size
@@ -103,7 +99,6 @@ Shirt sdsuShirts[NUM_SHIRTS];
 
 //Functions
 //!_________________________________________________________________________________________________________________________________________
-
 void readShirtFIle();   //Read the file and set the values of the shirt structure
 void Line(int num);     //Print a line of dashes
 void printShirt();      //Print the menu in a table format
@@ -127,7 +122,11 @@ int main (){
     int UserQuantity; // To hold the user's quantity
     int menuChoice; // To hold the user's menu choice
 
-    readShirtFIle();    // Read the shirts from the file
+    cout << "\nHIYAA, JackRabbit!\nWelcome to the SDSU Shirt Sales program!" 
+    << "Here, you can order from a variety of SDSU shirts and sizes, check out, or exit at any time."
+    << "I hope you enjoy the convenience and ease of using this program." << endl;
+
+    readShirtFIle();    // Read the shirts from the file and set the values of the shirt structure
 
     do{
         printCart(); // Print the cart
@@ -136,11 +135,11 @@ int main (){
 
         if (menuChoice > 0 && menuChoice < 6){
             UID = menuChoice - 1; // Get the shirt ID from the menu choice
-            orderShirt(UID);
+            orderShirt(UID);    // Order the shirt
         }
 
         if (menuChoice == 6){   // Option to check out and reset the cart
-            checkOut();
+            checkOut();   // Check out the cart and print the bill
         }
 
         else if (menuChoice == 7){  // Exit the program
@@ -165,7 +164,7 @@ void readShirtFIle() {
 
     // Check if file is open
     if (!shirtFile) {
-        cout << "\nError!\nUnable to open file shirts.txt" << endl;
+        cout << "\nOOPS! Error!\nUnable to open file shirts.txt" << endl;
         exit(1);
     }
 
@@ -304,7 +303,7 @@ int getMenuChoice()
         cin.clear();
 
         if (choice < 1 || choice > 7) {
-            cout << "Invalid choice. Please enter number from 1 to 7" << endl;
+            cout << "OOPS! Invalid choice. Please enter number from 1 to 7" << endl;
         }
     } while (choice < 1 || choice > 7);
     cin.ignore(); // ignore the newline character
@@ -331,7 +330,7 @@ int getShirtSize(){
         cin.ignore();
 
         if (sizeChoice < 1 || sizeChoice > 5){
-            cout << "Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
+            cout << "WHOOPS! Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
         }
     } while (sizeChoice < 1 || sizeChoice > 5);
 
@@ -352,7 +351,7 @@ int getShirtQuantity(){
         cin.ignore();
 
         if (qtyChoice < 1 || qtyChoice > MAX_QTY){
-            cout << "\nInvalid quantity.\nPlease enter a number between 1 and " << MAX_QTY << endl;
+            cout << "\nOOPSIE! Invalid quantity.\nPlease enter a number between 1 and " << MAX_QTY << endl;
         }
     } while (qtyChoice < 1 || qtyChoice > MAX_QTY);
 
