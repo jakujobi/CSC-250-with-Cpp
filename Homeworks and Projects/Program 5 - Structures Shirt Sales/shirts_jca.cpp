@@ -157,24 +157,27 @@ void Line(int num) {
 //function to print shirt
 void printShirt();
 void printShirt() {
-        int qty = 0;
 
     for (int i = 0; i < NUM_SHIRTS; i++) {
+        int qty = 0;
+        
         cout << setw(3) << " | "
             << setw(2) << sdsuShirts[i].id + 1              << setw(3) << " | "
             << setw(30) << left << sdsuShirts[i].name       << setw(3) << " | "
             << setw(6) << sdsuShirts[i].cost                << setw(3) << " | ";
 
-        for (int i = 0; i < NUM_SHIRTS; i++) {
-            qty += sdsuShirts[i].quantity[i];
+        
+        for (int j = 0; j < 5; j++) {
+                qty +=  sdsuShirts[i].quantity[j] ;
         }
 
         cout << setw(4) << qty                          << setw(3) << " | "
             << setw(8) << sdsuShirts[i].cost * qty      << setw(4) << " || " ;
 
-        for (int i = 0; i < 5; i++) {
-            cout << setw(4) << sdsuShirts[i].quantity[i] ;
+        for (int j = 0; j < 5; j++) {
+        cout << setw(4) << sdsuShirts[i].quantity[j] ;
         }
+
 
         cout << setw(4) << " || " << endl;
     }
@@ -306,15 +309,15 @@ int getShirtQuantity(){
 void orderShirt(int ID);
 void orderShirt(int ID){
     
-    cout << "You have chosen " << sdsuShirts[ID].name << endl;
+    cout << "You have chosen" << sdsuShirts[ID].name << endl;
 
     // Get the quantity of the shirt
     int qtyChoice = getShirtQuantity();
-    cout << "\nYou have chosen " << qtyChoice << " shirts." << endl;
+    cout << "You have chosen " << qtyChoice << " shirts." << endl;
 
     // Get the size of the shirt
     int sizeChoice = getShirtSize();
-    cout << "\nYou have chosen " << sizeChoice << " size." << endl;
+    cout << "You have chosen " << sizeChoice << " size." << endl;
 
 
     sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
@@ -400,8 +403,9 @@ int main (){
         else if (menuChoice == 7){
             break;
         }
-        else{
-            cout << "Invalid menu choice. Please enter number from 1 to 7" << endl;
+
+        if (menuChoice < 1 || menuChoice > 7){
+            cout << "Invalid choice. Please enter number from 1 to 7" << endl;
         }
 
     } while (menuChoice != 7); // End of the do-while loop
