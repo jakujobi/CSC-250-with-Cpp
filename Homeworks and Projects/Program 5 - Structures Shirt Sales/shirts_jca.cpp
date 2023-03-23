@@ -123,6 +123,7 @@ void readShirtFIle() {
     for (int i = 0; i < NUM_SHIRTS; i++)
     {
         shirtFile >> sdsuShirts[i].cost;
+        
         getline(shirtFile, sdsuShirts[i].name);
 
         sdsuShirts[i].id = i;    // Set the id of the shirt
@@ -232,7 +233,7 @@ int getMenuChoice()
 
         for (int i = 0; i < NUM_SHIRTS; i++)
         {
-            cout << sdsuShirts[i].id + 1 << ". " << sdsuShirts[i].name << endl;
+            cout << sdsuShirts[i].id + 1 << "." << sdsuShirts[i].name << endl;
         }
 
         cout << "6. CHECKOUT" << endl;
@@ -304,16 +305,19 @@ int getShirtQuantity(){
 
 void orderShirt(int ID);
 void orderShirt(int ID){
-    int qtyChoice;
+    
+    cout << "You have chosen " << sdsuShirts[ID].name << endl;
 
     // Get the quantity of the shirt
-    qtyChoice = getShirtQuantity();
+    int qtyChoice = getShirtQuantity();
+    cout << "\nYou have chosen " << qtyChoice << " shirts." << endl;
 
     // Get the size of the shirt
     int sizeChoice = getShirtSize();
+    cout << "\nYou have chosen " << sizeChoice << " size." << endl;
 
 
-    sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;  
+    sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
 
     // // This function adds the user's order to the quantity of the selected shirt in the menu
     // for (int ID = 0; ID < NUM_SHIRTS; ID++)
@@ -377,7 +381,8 @@ int main (){
         menuChoice = getMenuChoice();   // Get the user's menu choice
 
         if (menuChoice > 0 && menuChoice < 6){
-            orderShirt(menuChoice - 1);
+            UID = menuChoice - 1; // Get the shirt ID from the menu choice
+            orderShirt(UID);
         }
 
         // // Process the user's menu choice
