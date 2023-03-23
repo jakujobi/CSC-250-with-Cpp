@@ -107,6 +107,52 @@ Shirt sdsuShirts[NUM_SHIRTS];
 //!_________________________________________________________________________________________________________________________________________
 
 
+//Functions to read the file and set the values of the shirt structure
+void readShirtFIle();
+void readShirtFIle() {
+    // Open the file
+    ifstream shirtFile("shirts.txt");
+
+    // Check if file is open
+    if (!shirtFile) {
+        cout << "\nError!\nUnable to open file shirts.txt" << endl;
+        exit(1);
+    }
+
+    // Read the file
+    for (int i = 0; i < NUM_SHIRTS; i++)
+    {
+        shirtFile >> sdsuShirts[i].cost;
+        getline(shirtFile, sdsuShirts[i].name);
+
+        sdsuShirts[i].id = i;    // Set the id of the shirt
+
+        // Set the quantity of the shirt to 0
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                sdsuShirts[i].quantity[j] = 0;
+            }
+        }
+    }
+
+    // Close the file
+    shirtFile.close();
+}
+
+
+
+// Prints a line of dashes
+void Line(int num);
+void Line(int num) {
+    for (int i = 0; i < num; i++) {
+        cout << "-";
+    }
+    cout << endl;
+}
+
+
 //function to print shirt
 void printShirt();
 void printShirt() {
@@ -134,57 +180,6 @@ void printShirt() {
 
 }
 
-
-
-//Functions to read the file and set the values of the shirt structure
-void readShirtFIle();
-void readShirtFIle() {
-    // Open the file
-    ifstream shirtFile("shirts.txt");
-
-    // Check if file is open
-    if (!shirtFile) {
-        cout << "\nError!\nUnable to open file shirts.txt" << endl;
-        exit(1);
-    }
-
-    // Read the file
-    for (int i = 0; i < NUM_SHIRTS; i++)
-    {
-        shirtFile >> sdsuShirts[i].cost;
-        getline(shirtFile, sdsuShirts[i].name);
-
-        // Set the id of the shirt
-        sdsuShirts[i].id = i;
-
-        // Set the quantity of the shirt to 0
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 5; j++)
-            {
-                sdsuShirts[i].quantity[j] = 0;
-            }
-        }
-
-        // Ignore the newline character
-        //shirtFile.ignore();
-        //Nah, found out that doing this removes the first character of the next line
-    }
-
-    // Close the file
-    shirtFile.close();
-}
-
-
-
-// Prints a line of dashes
-void Line(int num);
-void Line(int num) {
-    for (int i = 0; i < num; i++) {
-        cout << "-";
-    }
-    cout << endl;
-}
 
 
 // Function to print the cart
@@ -255,39 +250,6 @@ int getMenuChoice()
 }
 
 
-/*
-// This function prints a menu of shirts and returns the user's choice
-int getShirtChoice();
-int getShirtChoice(){
-    int shirtID;
-
-    do{
-        cout << "\nWhich shirt do you want to purchase?" << endl;
-        cout << "SHIRTS" << endl;
-        
-        for (int i = 0; i < NUM_SHIRTS; i++) {
-            cout << sdsuShirts[i].id << ". " << sdsuShirts[i].name << endl;
-        }
-
-        // Get the user's choice
-        cout << "\nEnter your choice -->:";
-        cin >> shirtID;
-        cin.clear();
-        cin.ignore();
-
-        if (shirtID < 1 || shirtID > NUM_SHIRTS){
-            cout << "Invalid choice.\nPlease type in a number between 1 and " << NUM_SHIRTS << endl;
-        }
-
-    } while (shirtID < 1 || shirtID > NUM_SHIRTS);
-
-    shirtID --; // Decrement the shirtID by 1 to get the index of the shirt
-    cout << "Shirt ID: " << shirtID << endl;
-    return shirtID;
-}
-*/
-
-
 // Get the size of the shirt
 int getShirtSize();
 int getShirtSize(){
@@ -350,32 +312,36 @@ void orderShirt(int ID){
     // Get the size of the shirt
     int sizeChoice = getShirtSize();
 
-    // This function adds the user's order to the quantity of the selected shirt in the menu
-    for (int i = 0; i < NUM_SHIRTS; i++)
-    {
-        sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
 
-        // switch (sizeChoice){
-        //     case 1
-        //         shirts[ID].qty[0] += qtyChoice;
-        //         break;
-        //     case 2
-        //         shirts[ID].qty[1] += qtyChoice;
-        //         break;
-        //     case 3
-        //         shirts[ID].qty[2] += qtyChoice;
-        //         break;
-        //     case 4
-        //         shirts[ID].qty[3] += qtyChoice;
-        //         break;
-        //     case 5
-        //         shirts[ID].qty[4] += qtyChoice;
-        //         break;
-        //     default:
-        //         cout << "Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
-        //         break;
+    sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;  
+
+    // // This function adds the user's order to the quantity of the selected shirt in the menu
+    // for (int ID = 0; ID < NUM_SHIRTS; ID++)
+    // {
+    //     // sdsuShirts[ID].quantity[sizeChoice - 1] += qtyChoice;
+
+    //     switch (sizeChoice){
+    //     case 1:
+    //         sdsuShirts[ID].quantity[0] += qtyChoice;
+    //         break;
+    //     case 2:
+    //         sdsuShirts[ID].quantity[1] += qtyChoice;
+    //         break;
+    //     case 3:
+    //         sdsuShirts[ID].quantity[2] += qtyChoice;
+    //         break;
+    //     case 4:
+    //         sdsuShirts[ID].quantity[3] += qtyChoice;
+    //         break;
+    //     case 5:
+    //         sdsuShirts[ID].quantity[4] += qtyChoice;
+    //         break;
+    //     default:
+    //         cout << "Invalid size. Please enter 1, 2, 3, 4, or 5." << endl;
+    //         break;
+    //      }
         // }
-    }
+
 }
 
 // Calculates the total cost of the order
@@ -403,25 +369,25 @@ int main (){
     int UserQuantity; // To hold the user's quantity
     int menuChoice; // To hold the user's menu choice
 
-    // read the shirts from the file
-    readShirtFIle();
+    readShirtFIle();    // Read the shirts from the file
 
     do{
-        // print the cart
-        printCart();
+        printCart(); // Print the cart
 
-        // Get the user's menu choice
-        menuChoice = getMenuChoice();
+        menuChoice = getMenuChoice();   // Get the user's menu choice
 
-        // Process the user's menu choice
-        for (int i = 0; i < NUM_SHIRTS; i++)
-        {
-            if (menuChoice == sdsuShirts[i].id + 1)
-            {
-                orderShirt(sdsuShirts[i].id);
-                break;
-            }
+        if (menuChoice > 0 && menuChoice < 6){
+            orderShirt(menuChoice - 1);
         }
+
+        // // Process the user's menu choice
+        // for (int i = 0; i < NUM_SHIRTS; i++)
+        // {
+        //     if (menuChoice == sdsuShirts[i].id + 1)
+        //     {
+        //         orderShirt(sdsuShirts[i].id);
+        //     }
+        // }
 
         if (menuChoice == 6){
             checkOut();
@@ -433,7 +399,6 @@ int main (){
             cout << "Invalid menu choice. Please enter number from 1 to 7" << endl;
         }
 
-        }
     } while (menuChoice != 7); // End of the do-while loop
 
     return 0;
