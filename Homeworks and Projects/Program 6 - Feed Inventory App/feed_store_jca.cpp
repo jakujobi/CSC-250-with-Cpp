@@ -82,11 +82,11 @@ int getChoice() {
         Line(16);
         cout << "USER MAIN MENU" << endl;
         do {
-            cout << "1. Add Item" 
-                << "2. Print Inventory"
-                << "3. Purchase Item"
-                << "4. Calculate Total"
-                << "5. Exit"
+            cout << "1. Add Item\n" 
+                << "2. Print Inventory\n"
+                << "3. Purchase Item\n"
+                << "4. Calculate Total\n"
+                << "5. Exit\n"
                 << endl;
             cout << "Enter your choice (1-5): ";
             cin.ignore();
