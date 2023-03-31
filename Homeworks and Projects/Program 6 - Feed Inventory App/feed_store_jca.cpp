@@ -89,8 +89,8 @@ int getChoice() {
                 << "5. Exit\n"
                 << endl;
             cout << "Enter your choice (1-5): ";
-            cin.ignore();
             cin >> choice;
+            cin.ignore();
             cin.clear();
 
             if (choice < 1 || choice > 5) {
@@ -100,7 +100,7 @@ int getChoice() {
         } while (choice < 1 || choice > 5); //repeat until the user enters a valid choice
 
         // Call the appropriate function based on user input
-        switch (choice) {
+        switch (choice-1) {
             case ADD_ITEM:
                 addItem();
                 break;
