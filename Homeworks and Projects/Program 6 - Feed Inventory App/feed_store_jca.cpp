@@ -70,8 +70,8 @@ int main () {
     loadingAnimation(3);
     cout << "\nHIYAA!!!\n"
     << "Welcome to the Feed Inventory SOftware!\nYou can call me FISO"
-    << "I can help you track your inventory by" 
-    << "adding new items, editing items, and buying stuff."
+    << "I can help you track your inventory by \n" 
+    << "adding new items, editing items, and buying stuff.\n"
     "Lets dive in"<< endl;
     getChoice();
     return 0;
@@ -97,7 +97,7 @@ int getChoice() {
 
     do {
         //Print the main menu
-        Line(16);
+        Line(50);
         cout << "FISO's USER MENU" << endl;
         do {
             cout<< "1. Add Item\n" 
@@ -105,10 +105,10 @@ int getChoice() {
                 << "3. Print Inventory\n"
                 << "4. Purchase Item\n"
                 << "5. Calculate Total\n"
-                << "6. Exit\n\n"
+                << "6. Exit\n"
                 << "Reset stuff\n"
-                << "   7. Reset Inventory\n"
-                << "   8. Erase Inevtory\n"
+                << "   7. Reset Inventory (Prices and Quantities)\n"
+                << "   8. Erase Inventory (Resets everything)\n"
                 << endl;
             cout << "Enter your choice (1-8): ";
             cin >> choice;
