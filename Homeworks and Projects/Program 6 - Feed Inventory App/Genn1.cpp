@@ -82,54 +82,54 @@ void purchaseItem() {
     cin >> purchaseQty;
     cin.ignore(); // Ignore newline character
 
-// Open the "feed.dat" file in binary mode
-fstream file;
-file.open("feed.dat", ios::in | ios::out | ios::binary);
+    // Open the "feed.dat" file in binary mode
+    fstream file;
+    file.open("feed.dat", ios::in | ios::out | ios::binary);
 
-// Check if the file is open
-if (!file.is_open()) {
-    cout << "Error opening file." << endl;
-    return;
-}
-
-// Loop through all the structures in the file and find the record that matches the item name
-Item buyItem;
-bool found = false;
-while (file.read(reinterpret_cast<char*>(&item), sizeof(Item))) {
-    if (strcmp(buyItem.item, item) == 0) {
-        found = true;
-        break;
-    }
-}
-
-// Check if the item is found in the inventory
-if (found) {
-    // Calculate the total price of the purchase
-    double purchasePrice = buyItem.price * purchaseQty;
-
-    // Check if the purchase quantity is greater than the available quantity
-    if (purchaseQty > buyItem.qty) {
-        cout << "Purchase quantity exceeds the available quantity." << endl;
-        file.close();
+    // Check if the file is open
+    if (!file.is_open()) {
+        cout << "Error opening file." << endl;
         return;
     }
 
-    // Update the quantity of the item in the record
-    buyItem.qty -= purchaseQty;
+    // Loop through all the structures in the file and find the record that matches the item name
+    Item buyItem;
+    bool found = false;
+    while (file.read(reinterpret_cast<char*>(&item), sizeof(Item))) {
+        if (strcmp(buyItem.item, item) == 0) {
+            found = true;
+            break;
+        }
+    }
 
-    // Write the updated record back to the file
-    file.seekp(static_cast<int>(file.tellg()) - static_cast<int>(sizeof(Item)), ios::beg);
-    file.write(reinterpret_cast<char*>(&item), sizeof(Item));
+    // Check if the item is found in the inventory
+    if (found) {
+        // Calculate the total price of the purchase
+        double purchasePrice = buyItem.price * purchaseQty;
 
-    cout << "Purchase successful." << endl;
-    cout << "Total price: $" << purchasePrice << endl;
-}
-else {
-    cout << "Item not found." << endl;
-}
+        // Check if the purchase quantity is greater than the available quantity
+        if (purchaseQty > buyItem.qty) {
+            cout << "Purchase quantity exceeds the available quantity." << endl;
+            file.close();
+            return;
+        }
 
-// Close the file
-file.close();
+        // Update the quantity of the item in the record
+        buyItem.qty -= purchaseQty;
+
+        // Write the updated record back to the file
+        file.seekp(static_cast<int>(file.tellg()) - static_cast<int>(sizeof(Item)), ios::beg);
+        file.write(reinterpret_cast<char*>(&item), sizeof(Item));
+
+        cout << "Purchase successful." << endl;
+        cout << "Total price: $" << purchasePrice << endl;
+    }
+    else {
+        cout << "Item not found." << endl;
+    }
+
+    // Close the file
+    file.close();
 }
 
 
