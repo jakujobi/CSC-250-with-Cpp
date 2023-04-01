@@ -1,11 +1,81 @@
-#include <iostream>
-#include <string>
-#include <iomanip>
-#include <fstream>
-#include <iomanip>
-#include <cstring>
-#include <thread>
-#include <chrono>
+/* Feed Inventory SOftware (FISO)
+FISO helps users to keep track of their inventory.
+-  adding items to the inventory
+-  editing items
+-  printing items
+-  purchasing items
+-  calculating the total value of items on hand
+
+John Akujobi
+CSC 250 - Program 6 - Feed Inventory App
+03/28/2023 - Started (mostly empty code, but did design)
+03/30/2023 - Updated
+03/31/2023 - Completed
+
+*/
+
+//Bugs
+/*
+Bug 1: searchItem function not working
+    Solution:
+    - combined the searchItem function with the purchaseItem function
+    - found out that i did not need the searchItem function
+    - fixed the bug
+Bug 2: purchaseItem function not working
+    - It worked well before i combined it with the searchItem function
+    Solution:
+    - asked my instance of claude+ AI to find errors in my code
+    - found out that it was with this line of code
+        - file.seekp(static_cast<int>(file.tellg()) - static_cast<int>(sizeof(Item)), ios::beg);
+        It is very difficult to remember and understand
+        The syntax is super complex so, i have copied and saved it to my 2nd-mind workspace
+    - fixed the bug
+Bug (Infinity) - had a whole lot of syntax errors
+    Solution:
+    - did a lotta rewriting
+    - fixed the bug...i mean bugs
+*/
+
+//Learnings
+/*
+    - used the file.fail instead of !file.is_open() to check if the file is open
+    - tried out recursion by calling functions again
+    - learn how to use animations in the loadingAnimation function
+    - got a better hold of enumerated types, at least for this purpose
+    - used "\a" for beeps in the loadingAnimation function
+
+    Added more features
+    - added a resetInventory function
+    - added a eraseInventory function
+    - added a searchItem function...ahhhh, not needed 
+    - added the loadingAnimation function
+        and tweaked it to make it not do the same everytime
+
+    Tried checking if there were ways of making cooler ui in terminal with c++
+    wellll...It was way more complex than i had expected
+    - it needed importing a whole library
+    - i am still learning and have a very long way to go to get there
+    - so, i shelfed the idea for later
+    Future John, you gotta learn it, coz it looks cool...like really cool
+*/
+
+//Struggles
+/*
+ - having problem with long complex syntax!!!!
+    especially with things like:
+    file.seekp(static_cast<int>(file.tellg()) - static_cast<int>(sizeof(Item)), ios::beg);
+    file.write(reinterpret_cast<char*>(&item), sizeof(Item));
+*/
+
+
+//Libraries
+#include <iostream> // cout, cin, endl
+#include <string>   // string class
+#include <iomanip>  // setw, setfill
+#include <fstream>  // ifstream, ofstream, fstream
+#include <cstring>  // strcpy
+#include <thread>   // this_thread::sleep_for in the loadingAnimation function
+#include <chrono>   // chrono::steady_clock
 
 using namespace std;
 
@@ -18,7 +88,6 @@ struct Item {
     char item [MAX_CHAR];
     int qty;
     float price;
-
 
     void printItemName() {
         //print the item name
@@ -110,6 +179,8 @@ int getChoice() {
                 << "   7. Reset Inventory (Prices and Quantities)\n"
                 << "   8. Erase Inventory (Resets everything)\n"
                 << endl;
+            
+            //Get the user's choice
             cout << "Enter your choice (1-8): ";
             cin >> choice;
             cin.ignore();
@@ -202,7 +273,7 @@ void addItem() {
 
     // Open the "feed.dat" file in binary append mode
     ofstream outFile("feed.dat", ios::binary | ios::app);
-    if (!outFile) {
+    if (outFile.fail()) {
         cerr << "Error: Unable to open file." << endl;
         return;
     }
@@ -239,7 +310,7 @@ void printInventory() {
 
     // Open the "feed.dat" file in binary read mode
     ifstream inFile("feed.dat", ios::binary);
-    if (!inFile) {
+    if (inFile.fail()) {
         cerr << "Error: Unable to open file." << endl;
         return;
     }
@@ -319,7 +390,7 @@ void purchaseItem() {
         return;
     }
 
-    // Loop through all the structures in the file and find the record that matches the item name
+    // Loop through all the structures in the file and find the item that matches the item name
     Item buyItem;
     bool found = false;
     while (file.read(reinterpret_cast<char*>(&buyItem), sizeof(buyItem))) {
@@ -341,10 +412,9 @@ void purchaseItem() {
             return;
         }
 
-        // Update the quantity of the item in the record
-        buyItem.qty -= purchaseQty;
+        buyItem.qty -= purchaseQty; //update the quantity
 
-        // Write the updated record back to the file
+        // Write the updated inventory back to the file
         file.seekp(static_cast<int>(file.tellg()) - static_cast<int>(sizeof(buyItem)), ios::beg);
         file.write(reinterpret_cast<char*>(&buyItem), sizeof(buyItem));
 
@@ -383,13 +453,12 @@ void calcTotal() {
 
     // Opening the "feed.dat" file in binary mode for reading
     ifstream inFile("feed.dat", ios::binary);
-    if (!inFile) {
+    if (inFile.fail()) {
     cerr << "Error: Unable to open file for reading" << endl;
     return;
     }
 
-    // Initialize total value to 0
-    double totalValue = 0.0;
+    double totalValue = 0.0;    //Initialize total value to 0.0
 
     // Read each structure from the file and add the value to totalValue
     Item currentItem;
@@ -397,12 +466,10 @@ void calcTotal() {
         totalValue += currentItem.qty * currentItem.price;
     }
 
-    // Close the file
-    inFile.close();
+    inFile.close();   // Close the file
 
     // Display the total value
     cout << "Total value of items on hand: $" << fixed << setprecision(2) << totalValue << endl;
-
 }
 
 
@@ -418,11 +485,11 @@ void editItem() {
     cout << "Enter the name of the item to edit: ";
     cin.getline(itemName, 50);
     
-    // Search for the record that matches the name
+    // Search for the item that matches the name
     int found = 0;
     fstream file;
     file.open("feed.dat", ios::binary|ios::in|ios::out);
-    if (!file) {
+    if (file.fail()) {
         cout << "Error opening file.";
         return;
     }
@@ -448,11 +515,11 @@ void editItem() {
     cin >> newPrice;
     cin.ignore();  // consume newline character left in buffer
     
-    // Update the record with the new values
+    // Update the inventory with the new values
     EdItem.qty = newQuantity;
     EdItem.price = newPrice;
-    file.seekp(-sizeof(EdItem), ios::cur);  // move back to the start of the record
-    file.write((char *)&EdItem, sizeof(EdItem));  // write the updated record back to file
+    file.seekp(-sizeof(EdItem), ios::cur);  // move back to the start of the item
+    file.write((char *)&EdItem, sizeof(EdItem));  // write the updated item back to file
     file.close();
     
     cout << "Item updated successfully." << endl;
@@ -493,29 +560,29 @@ void resetInventory() {
 
     // Open the "feed.dat" file in binary mode
     fstream file("feed.dat", ios::in | ios::out | ios::binary);
-    if (!file) {
+    if (file.fail()) {
         cout << "OOPS! ERROR: Unable to open file!" << endl;
         return;
     }
 
-    // Read and update the quantities and prices for each record in the file
+    // Read and update the quantities and prices for each item in the file
     Item resetItem;
     while (file.read((char*)&resetItem, sizeof(resetItem))) {
         // Reset the quantity to 0 and the price to 1.00
         resetItem.qty = 0;
         resetItem.price = 1.00;
         
-        // Move the file pointer back to the beginning of the record
+        // Move the file pointer back to the beginning of the inventory
         file.seekp(-sizeof(resetItem), ios::cur);
         
-        // Write the updated record back to the file
+        // Write the updated inventory back to the file
         file.write((char*)&resetItem, sizeof(resetItem));
     }
     
     // Close the file
     file.close();
     loadingAnimation (3);   // Display loading animation
-    cout << "\n Inventory reset complete!" << endl;
+    cout << "\n Inventory reset complete!\a" << endl;
     return;
 }
 
@@ -524,7 +591,7 @@ void eraseInventory() {
     // Open the file in write mode and truncate it to zero length
     ofstream file("feed.dat", ios::trunc);
     
-    if (!file.is_open()) {
+    if (file.fail()) {
         cout << "Failed to open file!" << endl;
         return;
     }
@@ -532,16 +599,16 @@ void eraseInventory() {
     file.close();    // close the file
 
     loadingAnimation (3);   // display loading animation
-    cout << "Inventory has been erased." << endl;
+    cout << "Inventory has been erased.\a" << endl;
 }
 
 void loadingAnimation(int seconds) {
-    string dots;
-    
+    string dots;    //to store the printed stuff
     cout << "Loading...";
+
     //picking the animation randomly
     int choose = rand() % 5;
-    switch choose {
+    switch (choose) {
         case 1:
             dots = "BEEP! ";
             break;
@@ -564,7 +631,7 @@ void loadingAnimation(int seconds) {
     //to make the loading animation
     for (int i = 0; i < seconds; i++) {
         this_thread::sleep_for(chrono::seconds(1));
-        cout << dots << flush;
+        cout << dots << flush << "\a";
     }
     cout << endl;
 }
