@@ -137,6 +137,7 @@ void loadingAnimation(int seconds); //Prints a loading animation
 
 int main () {
     loadingAnimation(3);
+
     cout << "\nHIYAA!!!\n"
     << "Welcome to the Feed Inventory SOftware!\nYou can call me FISO"
     << "I can help you track your inventory by \n" 
