@@ -115,6 +115,7 @@ int getChoice() {
             cin.ignore();
             cin.clear();
 
+            //Validate the user's choice
             if (choice < 1 || choice > 8) {
                 cout << "OOPS! Invalid choice. Please enter number from 1 to 5" << endl;
             }
@@ -140,12 +141,13 @@ int getChoice() {
                 break;
             case EXIT:
                 cout << "Goodbye!" << endl;
+                exit(0);
                 break;
             case RESET_INVENTORY:
                 resetInventory();
                 break;
             case ERASE_INVENTORY:
-                cout << "Erase Inventory" << endl;
+                eraseInventory();
                 break;
             default:
                 cout << "OOPS! Invalid choice. Please enter number from 1 to 6" << endl;
@@ -215,7 +217,7 @@ void addItem() {
     //uses recursive by calling addItem() again
     cout << "\nDo you want to add another item? (y/n): ";
     char repeat;
-    cin >> repeat;
+    cin >> repeat;  //get the user input for repeat
     cin.ignore();
     cin.clear();
     if (repeat == 'y' || repeat == 'Y') {
@@ -502,6 +504,8 @@ void eraseInventory() {
     }
     
     file.close();
+
+    loadingAnimation (3);
     cout << "Inventory has been erased." << endl;
 }
 
@@ -510,6 +514,21 @@ void loadingAnimation(int seconds) {
     string dots;
     
     cout << "Loading...";
+    switch choose {
+        case 1:
+            dots = "BEEP! ";
+            break;
+        case 2:
+            dots = ";) ";
+            break;
+        case 3:
+            dots = "(U 'w' U) ";
+            break;
+        default:
+            cout << "whe";
+            dots = "e";
+            break;
+    }
     if (choose == 1) {
         dots = "BEEP! ";
     }
@@ -525,12 +544,10 @@ void loadingAnimation(int seconds) {
     }
 
     //cout << "Loading ";
-
+    //to make the loading animation
     for (int i = 0; i < seconds; i++) {
         this_thread::sleep_for(chrono::seconds(1));
         cout << dots << flush;
     }
-
-
     cout << endl;
 }
