@@ -245,8 +245,8 @@ void printInventory() {
     }
 
     // Read all structures from the file and display in table form
-    Item currentItem;
-
+    Item currentItem;   //create a new item instance of Item struct
+                        //put it here so it only does so if the file is opened
     Line(MAX_CHAR + 44);    
 
     // Printing the table header
@@ -286,10 +286,10 @@ void printInventory() {
 
 
 
-// Function to search for an item by name
-void searchItem() {
-    //Not Needed
-}
+// // Function to search for an item by name
+// void searchItem() {
+//     //Not Needed
+// }
 
 
 
@@ -357,6 +357,20 @@ void purchaseItem() {
 
     // Close the file
     file.close();
+
+    //ask the user if they want to buy another item
+    //uses recursive by calling the function again
+    cout << "\nDo you want to purchase another item? (y/n): ";
+    char repeat;
+    cin >> repeat;  //get the user input for repeat
+    cin.ignore();
+    cin.clear();
+    if (repeat == 'y' || repeat == 'Y') {
+        purchaseItem();
+    }
+    else {
+        cout << "Returning to the main menu..." << endl;
+    }
 }
 
 
@@ -442,6 +456,20 @@ void editItem() {
     file.close();
     
     cout << "Item updated successfully." << endl;
+
+    //ask the user if they want to edit another item
+    //uses recursive by calling this function again
+    cout << "\nDo you want to edit another item? (y/n): ";
+    char repeat;
+    cin >> repeat;  //get the user input for repeat
+    cin.ignore();
+    cin.clear();
+    if (repeat == 'y' || repeat == 'Y') {
+        editItem();
+    }
+    else {
+        cout << "Returning to the main menu..." << endl;
+    }
 }
 
 
@@ -470,8 +498,6 @@ void resetInventory() {
         return;
     }
 
-    loadingAnimation (3);
-
     // Read and update the quantities and prices for each record in the file
     Item resetItem;
     while (file.read((char*)&resetItem, sizeof(resetItem))) {
@@ -488,7 +514,7 @@ void resetInventory() {
     
     // Close the file
     file.close();
-    
+    loadingAnimation (3);   // Display loading animation
     cout << "\n Inventory reset complete!" << endl;
     return;
 }
@@ -503,17 +529,18 @@ void eraseInventory() {
         return;
     }
     
-    file.close();
+    file.close();    // close the file
 
-    loadingAnimation (3);
+    loadingAnimation (3);   // display loading animation
     cout << "Inventory has been erased." << endl;
 }
 
 void loadingAnimation(int seconds) {
-    int choose = rand()%4;
     string dots;
     
     cout << "Loading...";
+    //picking the animation randomly
+    int choose = rand() % 5;
     switch choose {
         case 1:
             dots = "BEEP! ";
@@ -524,23 +551,13 @@ void loadingAnimation(int seconds) {
         case 3:
             dots = "(U 'w' U) ";
             break;
+        case 4:
+            dots = "BOOP! ";
+            break;
         default:
             cout << "whe";
-            dots = "e";
+            dots = "eee";
             break;
-    }
-    if (choose == 1) {
-        dots = "BEEP! ";
-    }
-    else if (choose == 2) {
-        dots = ";) ";
-    }
-    else if (choose == 3) {
-        dots = "(U 'w' U) ";
-    }
-    else {
-        cout << "whe";
-        dots = "e";
     }
 
     //cout << "Loading ";
