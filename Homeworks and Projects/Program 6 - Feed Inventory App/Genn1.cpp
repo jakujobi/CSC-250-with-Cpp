@@ -163,43 +163,43 @@ cout << "Total value of items on hand: $" << fixed << setprecision(2) << totalVa
 // Function to display the operations menu and handle user input
 void displayMenu() {
 int choice;
-do {
-    // Display the menu options
-    cout << endl;
-    cout << "Feed Store Inventory" << endl;
-    cout << "---------------------" << endl;
-    cout << "1. Add an item" << endl;
-    cout << "2. Print the information for all items, in table form" << endl;
-    cout << "3. Purchase an item" << endl;
-    cout << "4. Calculate and display the total value of the items on hand" << endl;
-    cout << "5. Exit" << endl;
+    do {
+        // Display the menu options
+        cout << endl;
+        cout << "Feed Store Inventory" << endl;
+        cout << "---------------------" << endl;
+        cout << "1. Add an item" << endl;
+        cout << "2. Print the information for all items, in table form" << endl;
+        cout << "3. Purchase an item" << endl;
+        cout << "4. Calculate and display the total value of the items on hand" << endl;
+        cout << "5. Exit" << endl;
 
-    // Get user input
-    cout << "Enter your choice (1-5): ";
-    cin >> choice;
+        // Get user input
+        cout << "Enter your choice (1-5): ";
+        cin >> choice;
 
-    // Call the appropriate function based on user input
-    switch (choice) {
-        case 1:
-            addItem();
-            break;
-        case 2:
-            printInventory();
-            break;
-        case 3:
-            purchaseItem();
-            break;
-        case 4:
-            calculateTotalValue();
-            break;
-        case 5:
-            cout << "Exiting program..." << endl;
-            break;
-        default:
-            cout << "Invalid choice. Please try again." << endl;
-            break;
-    }
-} while (choice != 5);
+        // Call the appropriate function based on user input
+        switch (choice) {
+            case 1:
+                addItem();
+                break;
+            case 2:
+                printInventory();
+                break;
+            case 3:
+                purchaseItem();
+                break;
+            case 4:
+                calculateTotalValue();
+                break;
+            case 5:
+                cout << "Exiting program..." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+                break;
+        }
+    } while (choice != 5);
 }
 
 
