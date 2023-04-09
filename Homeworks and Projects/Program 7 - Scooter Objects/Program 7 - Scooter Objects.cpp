@@ -51,9 +51,7 @@ using namespace std;
 //Constants
 const int ACCEL = 2; // Acceleration in mph
 const int DECEL = 3; // Deceleration in mph
-
-//Functions
-void loadingAnimation(); // displays a loading animation
+const int HIGHEST_MAX = 100; // Maximum speed in mph
 
 
 
@@ -69,7 +67,7 @@ class Scooter
 		// Default Constructor
 		Scooter();
 		//Scooter() : type(""), max_speed(0.0), current_speed(0.0), time_driven(0.0) {}
-			//Learned this from stacckoverflow showing how to put a function on a single line
+			//Learned this from StackOverflow showing how to put a function on a single line
 
 		// 2nd Constructor that accepts the scooter’s name and max speed as arguments.
 		Scooter(string userTypeAndModel, float userMaxSpeed);
@@ -167,7 +165,8 @@ void Scooter::hardStop() {
 
 // Other Functions
 void Line(int num);	// draws a line of dots
-void loadingAnimation(); // displays a loading animation
+void loadingAnimation(int seconds); // displays a loading animation
+void configureScooter (Scooter *scooter); // prompts the user for brand and model
 
 //!______________________________________________________________
 int main()
@@ -176,79 +175,18 @@ int main()
 	string userType; // brand and model
 	float userMaxSpeed; // maximum speed in mph
 
-	int choice; // user choice
-
 	// Loading Animation
-	loadingAnimation();
+	loadingAnimation(3);
 
-do {
-		//Print the main menu
-		Line(50);
-		cout << "SCOOTER CONTROLLER" << endl;
-		do {
-			cout
-				<< "1. Speed Up\n"
-				<< "2. Slow Down\n"
-				<< "3. Hard Stop\n"
-				<< "4. Honk Horn\n"
-				<< "5. Exit\n"
-				<< endl;
+	Scooter scooter; // create a scooter object with the default constructor
 
-			//Get the user's choice
-			cout << "Enter your choice (1-8): ";
-			cin >> choice;
-			cin.ignore();
-			cin.clear();
-
-			//Validate the user's choice
-			if (choice < 1 || choice > 5) {
-				cout << "OOPS! Invalid choice. Please enter number from 1 to 5" << endl;
-			}
-		} while (choice < 1 || choice > 5); //repeat until the user enters a valid choice
-
-		switch (choice) { // Call the appropriate function based on user input
-		case 1:
-				scooter.speedUp();
-				break;
-		case 2:
-				scooter.slowDown();
-				break;
-		case 3:
-				scooter.hardStop();
-				break;
-		case 4:
-				scooter.honkHorn();
-				break;
-		case 5:
-				cout << "/nGoodBye" << endl;
-				loadingAnimation(3);
-				exit(0);
-		default:
-			cout << "OOPS! Invalid choice. Please enter number from 1 to 6" << endl;
-			break;
-		}
-	} while (choice != 5);
-
-	// User Input
-	cout << "Enter the type and model of the scooter: ";
-	getline(cin, userType);
-	cout << "Enter the maximum speed of the scooter: ";
-	cin >> userMaxSpeed;
-	// Object Creation
-	Scooter scooter(userType, userMaxSpeed);
-	// Display the current speed of the scooter
-	scooter.displaySpeed();
-	// Increase the speed of the scooter
-	scooter.speedUp();
-	// Decrease the speed of the scooter
-	scooter.slowDown();
-	// Pause the program
-	system("pause");
-	return 0;
+	// Get the user's choice
+	configureScooter(&scooter);
 }
 
+
+
 //Functions
-// Asks the user for choice and calls the appropriate function
 
 // Prints a line of dashes
 void Line(int num) {
@@ -260,12 +198,7 @@ void Line(int num) {
 	//cout << setfill('-') << setw(50) << "-" << setfill(' ') << endl;
 }
 
-void createScooter (string *userType, float *userMaxSpeed){
-
-}
-
-
-void loadingAnimation(int seconds) {
+void loadingAnimation(int seconds) {	// displays a loading animation
 	string dots;    //to store the printed stuff
 	cout << "Loading...";
 
@@ -278,6 +211,103 @@ void loadingAnimation(int seconds) {
 		cout << dots << flush << "\a";
 	}
 	cout << endl;
+}
+
+// Prompts the user for brand and model and sets them to the object's properties
+void configureScooter (Scooter *scooter){
+	string userType;	//type and model
+	float userMaxSpeed;	//max speed in mph
+
+	do{
+	//ask user for name and model
+	cout << "Enter the type and model of the scooter: ";
+	getline(cin, userType);
+	cin.ignore();
+	cin.clear();
+	//verify length of name and model
+	if (userType.length() < 1) {
+		cout << "OOPS! Name and model cannot be empty!" << endl;
+	}
+	} while (userType.length() < 1); //repeat until the user enters a valid name and model
+	cout << "Name and model: " << userType << endl;
+
+	do {
+	//ask user for max speed
+	cout << "Enter the maximum speed of the scooter: ";
+	cin >> userMaxSpeed;
+	cin.ignore();
+	cin.clear();
+	//verify max speed
+	if (userMaxSpeed < 0) {
+		cout << "OOPS! Maximum speed cannot be negative!" << endl;
+	}
+	else if (userMaxSpeed > HIGHEST_MAX) {
+		cout << "WHOA!! These scooters can't go as fast as "
+		<< HIGHEST_MAX
+		<< "MPH"
+		<<"\nSorry the max speed has gotta be lower for safety reasons."<< endl;
+	}
+	} while (userMaxSpeed < 0); //repeat until the user enters a valid max speed
+	cout << "Maximum speed: " << setw(4) << userMaxSpeed << endl;
+
+	//Assign the values to the object
+	scooter->setType(userType);
+	scooter->setMaxSpeed(userMaxSpeed);
+
+}
+
+
+void getControls(Scooter *scooter) {	// prompts the user for brand and model
+	int choice; // user choice
+	do {
+			//Print the main menu
+			Line(50);
+			cout << "SCOOTER CONTROLLER" << endl;
+			do {
+				cout
+					<< "1. Speed Up\n"
+					<< "2. Slow Down\n"
+					<< "3. Hard Stop\n"
+					<< "4. Honk Horn\n"
+					<< "5. Exit\n"
+					<< endl;
+
+				//Get the user's choice
+				cout << "Enter your choice (1-8): ";
+				cin >> choice;
+				cin.ignore();
+				cin.clear();
+
+				//Validate the user's choice
+				if (choice < 1 || choice > 5) {
+					cout << "OOPS! Invalid choice. Please enter number from 1 to 5" << endl;
+				}
+			} while (choice < 1 || choice > 5); //repeat until the user enters a valid choice
+
+			switch (choice) { // Call the appropriate function based on user input
+			case 1:
+					scooter->speedUp();
+					break;
+			case 2:
+					scooter->slowDown();
+					break;
+			case 3:
+					scooter->hardStop();
+					break;
+			case 4:
+					scooter->honkHorn();
+					break;
+			case 5:
+					cout << "/nGoodBye" << endl;
+					loadingAnimation(3);
+					exit(0);
+			default:
+				cout << "OOPS! Invalid choice. Please enter number from 1 to 6" << endl;
+				break;
+			}
+		} while (choice != 5);
+
+		system("pause");
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
