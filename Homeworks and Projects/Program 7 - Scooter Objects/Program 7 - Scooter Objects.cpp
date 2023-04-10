@@ -149,10 +149,9 @@ void Scooter::slowDown() { // decreases the speed of the scooter by the decelera
 }
 
 void Scooter::displaySpeed() { // displays the current speed of the scooter like a digital speedometer
-	while (true) {
 		cout << "\rCurrent speed: " << current_speed << " km/h" << flush;
 		this_thread::sleep_for(chrono::milliseconds(500)); // 500 milliseconds pause
-	} // the while loop is used to keep the displaySpeed function running
+		// the while loop is used to keep the displaySpeed function running
 		// the \r is used to return to the beginning of the line
 		// the flush is used to flush the buffer
 		// Then it pauses for 500 milliseconds and uses the thread and chrono libraries
@@ -178,7 +177,7 @@ void Scooter::hardStop() {
 void Line(int num);	// draws a line of dots
 void loadingAnimation(int seconds); // displays a loading animation
 void configureScooter (Scooter *scooter); // prompts the user for brand and model
-void getControls(Scooter *scooter); // prompts the user for max speed
+int getControls(Scooter *scooter); // prompts the user for max speed
 void displaySpeed(Scooter *scooter); // displays the scooter's speed as a digital speedometer
 
 //!______________________________________________________________
@@ -191,9 +190,14 @@ int main()
 	Scooter scooter; // creates a scooter object with the default constructor
 
 	configureScooter(&scooter); // set up the scooter properties from the user
-	scooter.displaySpeed(); // display the current speed of the scooter
-	getControls(&scooter);	// get controls from the user
-	scooter.displaySpeed(); // display the current speed of the scooter
+
+	int choice;
+
+	do {
+		cout << endl;
+		scooter.displaySpeed(); // display the current speed of the scooter
+		choice = getControls(&scooter);	// get controls from the user
+	} while (choice != 5);
 
 	return 0;
 }
@@ -230,10 +234,10 @@ void configureScooter (Scooter *scooter){
 
 	do{
 		//ask user for name and model
-		cout << "Enter the type and model of the scooter: ";
+		cout << "\nEnter the type and model of the scooter: ";
 		getline(cin, userType);
 		cin.clear();
-		cin.ignore();
+		//cin.ignore();
 
 		//verify length of name and model
 		if (userType.length() < 2) {
@@ -244,7 +248,7 @@ void configureScooter (Scooter *scooter){
 
 	do {
 		//ask user for max speed
-		cout << "Enter the maximum speed of the scooter: ";
+		cout << "\nEnter the maximum speed of the scooter: ";
 		cin >> userMaxSpeed;
 		cin.ignore();
 		cin.clear();
@@ -269,53 +273,52 @@ void configureScooter (Scooter *scooter){
 
 int getControls(Scooter *scooter) {	// prompts the user for brand and model
 	int choice; // user choice
+
+	//Print the main menu
+	Line(50);
+	cout << "SCOOTER CONTROLLER" << endl;
 	do {
-			//Print the main menu
-			Line(50);
-			cout << "SCOOTER CONTROLLER" << endl;
-			do {
-				cout
-					<< "1. Speed Up\n"
-					<< "2. Slow Down\n"
-					<< "3. Hard Stop\n"
-					<< "4. Honk Horn\n"
-					<< "5. Exit\n"
-					<< endl;
+		cout
+			<< "1. Speed Up\n"
+			<< "2. Slow Down\n"
+			<< "3. Hard Stop\n"
+			<< "4. Honk Horn\n"
+			<< "5. Exit\n"
+			<< endl;
 				
-				//Get the user's choice
-				cout << "Enter your choice (1-5): ";
-				cin >> choice;
-				cin.ignore();
-				cin.clear();
+		//Get the user's choice
+		cout << "Enter your choice (1-5): ";
+		cin >> choice;
+		cin.ignore();
+		cin.clear();
 
-				//Validate the user's choice
-				if (choice < 1 || choice > 5) {
-					cout << "OOPS! Invalid choice. Please enter number from 1 to 5" << endl;
-				}
-			} while (choice < 1 || choice > 5); //repeat until the user enters a valid choice
+		//Validate the user's choice
+		if (choice < 1 || choice > 5) {
+			cout << "OOPS! Invalid choice. Please enter number from 1 to 5" << endl;
+		}
+	} while (choice < 1 || choice > 5); //repeat until the user enters a valid choice
 
-			switch (choice) { // Call the appropriate function based on user input
-			case 1:
-					scooter->speedUp();
-					break;
-			case 2:
-					scooter->slowDown();
-					break;
-			case 3:
-					scooter->hardStop();
-					break;
-			case 4:
-					//scooter->honkHorn();
-					break;
-			case 5:
-					cout << "/nGoodBye" << endl;
-					loadingAnimation(3);
-					exit(0);
-			default:
-				cout << "OOPS! Invalid choice. Please enter number from 1 to 6" << endl;
-				break;
-			}
-		} while (choice != 5);
+	switch (choice) { // Call the appropriate function based on user input
+	case 1:
+			scooter->speedUp();
+			break;
+	case 2:
+			scooter->slowDown();
+			break;
+	case 3:
+			scooter->hardStop();
+			break;
+	case 4:
+			//scooter->honkHorn();
+			break;
+	case 5:
+			cout << "/nGoodBye" << endl;
+			loadingAnimation(3);
+			exit(0);
+	default:
+		cout << "OOPS! Invalid choice. Please enter number from 1 to 6" << endl;
+		break;
+	}
 
 		//system("pause"); //pause the program
 		return choice;
