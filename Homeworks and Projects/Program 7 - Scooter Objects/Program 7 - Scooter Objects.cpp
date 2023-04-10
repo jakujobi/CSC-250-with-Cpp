@@ -45,7 +45,7 @@ Then use a second loop to decrease the speed by decrements of 3 mph down to 0, p
 #include <cstring>  // strcpy
 #include <thread>   // this_thread::sleep_for in the loadingAnimation function
 #include <chrono>   // chrono::steady_clock
-#include <conio.h> // for reading the arrow keys
+//#include <conio.h> // for reading the arrow keys
 using namespace std;
 
 
@@ -164,16 +164,16 @@ void Scooter::hardStop() {
 	current_speed = 0;
 }
 
-void Scooter::controlSpeed(Scooter& scooter) {
-    while (true) {
-        char ch = _getch();
-        if (ch == 72) { // up arrow
-            scooter.speedUp();
-        } else if (ch == 80) { // down arrow
-            scooter.slowDown();
-        }
-    }
-}
+// void Scooter::controlSpeed(Scooter& scooter) {
+//     while (true) {
+//         char ch = getch();
+//         if (ch == 72) { // up arrow
+//             scooter.speedUp();
+//         } else if (ch == 80) { // down arrow
+//             scooter.slowDown();
+//         }
+//     }
+// }
 
 
 // Other Functions
@@ -186,10 +186,6 @@ void displaySpeed(Scooter *scooter); // displays the scooter's speed as a digita
 //!______________________________________________________________
 int main()
 {
-	// Variables
-	string userType; // brand and model
-	float userMaxSpeed; // maximum speed in mph
-
 	// Loading Animation
 	loadingAnimation(3);
 
@@ -218,7 +214,7 @@ void Line(int num) {
 void loadingAnimation(int seconds) {	// displays a loading animation
 	string dots;    //to store the printed stuff
 	cout << "Loading...";
-	dots = "Beep! 🛴";
+	dots = "Beep! ";//🛴
 	//to make the loading animation
 	for (int i = 0; i < seconds; i++) {
 		this_thread::sleep_for(chrono::seconds(1));
@@ -240,8 +236,8 @@ void configureScooter (Scooter *scooter){
 		//cin.clear();
 
 		//verify length of name and model
-		if (userType.length() < 1) {
-			cout << "OOPS! Name and model cannot be empty!" << endl;
+		if (userType.length() < 2) {
+			cout << "OOPS! Name and model cannot be that empty!" << endl;
 		}
 	} while (userType.length() < 1); //repeat until the user enters a valid name and model
 	cout << "Name and model: " << userType << endl;
