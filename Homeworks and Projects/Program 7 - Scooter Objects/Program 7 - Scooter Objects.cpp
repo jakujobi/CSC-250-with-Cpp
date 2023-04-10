@@ -167,6 +167,7 @@ void Scooter::hardStop() {
 void Line(int num);	// draws a line of dots
 void loadingAnimation(int seconds); // displays a loading animation
 void configureScooter (Scooter *scooter); // prompts the user for brand and model
+void getControls(Scooter *scooter); // prompts the user for max speed
 
 //!______________________________________________________________
 int main()
@@ -182,6 +183,7 @@ int main()
 
 	// Get the user's choice
 	configureScooter(&scooter);
+	getControls(&scooter);
 }
 
 
@@ -307,7 +309,7 @@ void getControls(Scooter *scooter) {	// prompts the user for brand and model
 			}
 		} while (choice != 5);
 
-		system("pause");
+		//system("pause"); //pause the program
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
