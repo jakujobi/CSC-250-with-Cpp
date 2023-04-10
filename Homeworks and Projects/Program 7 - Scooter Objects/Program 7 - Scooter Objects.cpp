@@ -168,6 +168,7 @@ void Line(int num);	// draws a line of dots
 void loadingAnimation(int seconds); // displays a loading animation
 void configureScooter (Scooter *scooter); // prompts the user for brand and model
 void getControls(Scooter *scooter); // prompts the user for max speed
+void displaySpeed (Scooter *scooter); // displays the scooter's speed as a digital speedometer
 
 //!______________________________________________________________
 int main()
@@ -310,6 +311,16 @@ void getControls(Scooter *scooter) {	// prompts the user for brand and model
 		} while (choice != 5);
 
 		//system("pause"); //pause the program
+}
+
+void displaySpeed (Scooter *scooter){ // displays the current speed of the scooter like a digital speedometer
+	while (true) {
+		cout << "\rCurrent speed: " << scooter->getCurrentSpeed << " km/h" << flush;
+		this_thread::sleep_for(chrono::milliseconds(500)); // 500 milliseconds pause
+	} // the while loop is used to keep the displaySpeed function running
+		// the \r is used to return to the beginning of the line
+		// the flush is used to flush the buffer
+		// Then it pauses for 500 milliseconds and uses the thread and chrono libraries
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
