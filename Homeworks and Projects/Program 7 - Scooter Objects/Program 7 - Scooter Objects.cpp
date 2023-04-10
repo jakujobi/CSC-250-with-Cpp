@@ -45,6 +45,7 @@ Then use a second loop to decrease the speed by decrements of 3 mph down to 0, p
 #include <cstring>  // strcpy
 #include <thread>   // this_thread::sleep_for in the loadingAnimation function
 #include <chrono>   // chrono::steady_clock
+#include <conio.h> // for reading the arrow keys
 using namespace std;
 
 
@@ -162,6 +163,17 @@ void Scooter::hardStop() {
 	current_speed = 0;
 }
 
+void Scooter::controlSpeed(Scooter& scooter) {
+    while (true) {
+        char ch = _getch();
+        if (ch == 72) { // up arrow
+            scooter.speedUp();
+        } else if (ch == 80) { // down arrow
+            scooter.slowDown();
+        }
+    }
+}
+
 
 // Other Functions
 void Line(int num);	// draws a line of dots
@@ -197,17 +209,13 @@ void Line(int num) {
 		cout << "-";
 	}
 	cout << endl;
-
 	//cout << setfill('-') << setw(50) << "-" << setfill(' ') << endl;
 }
 
 void loadingAnimation(int seconds) {	// displays a loading animation
 	string dots;    //to store the printed stuff
 	cout << "Loading...";
-
 	dots = "Beep! 🛴";
-
-	//cout << "Loading ";
 	//to make the loading animation
 	for (int i = 0; i < seconds; i++) {
 		this_thread::sleep_for(chrono::seconds(1));
@@ -315,7 +323,7 @@ void getControls(Scooter *scooter) {	// prompts the user for brand and model
 
 void displaySpeed (Scooter *scooter){ // displays the current speed of the scooter like a digital speedometer
 	while (true) {
-		cout << "\rCurrent speed: " << scooter->getCurrentSpeed << " km/h" << flush;
+		cout << "\rCurrent speed: " << scooter->getCurrentSpeed() << " km/h" << flush;
 		this_thread::sleep_for(chrono::milliseconds(500)); // 500 milliseconds pause
 	} // the while loop is used to keep the displaySpeed function running
 		// the \r is used to return to the beginning of the line
