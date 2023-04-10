@@ -87,6 +87,7 @@ class Scooter
 		void displaySpeed(); // displays the current speed of the scooter like a digital speedometer
 		void hardStop(); // sets the current speed to 0
 		void honkHorn(); // honks a horn
+		void controlSpeed(Scooter& scooter); // controls the speed of the scooter using the arrow keys
 };
 
 // Member Methods
@@ -180,7 +181,7 @@ void Line(int num);	// draws a line of dots
 void loadingAnimation(int seconds); // displays a loading animation
 void configureScooter (Scooter *scooter); // prompts the user for brand and model
 void getControls(Scooter *scooter); // prompts the user for max speed
-void displaySpeed (Scooter *scooter); // displays the scooter's speed as a digital speedometer
+void displaySpeed(Scooter *scooter); // displays the scooter's speed as a digital speedometer
 
 //!______________________________________________________________
 int main()
@@ -197,6 +198,8 @@ int main()
 	// Get the user's choice
 	configureScooter(&scooter);
 	getControls(&scooter);
+
+	return 0;
 }
 
 
@@ -230,34 +233,35 @@ void configureScooter (Scooter *scooter){
 	float userMaxSpeed;	//max speed in mph
 
 	do{
-	//ask user for name and model
-	cout << "Enter the type and model of the scooter: ";
-	getline(cin, userType);
-	cin.ignore();
-	cin.clear();
-	//verify length of name and model
-	if (userType.length() < 1) {
-		cout << "OOPS! Name and model cannot be empty!" << endl;
-	}
+		//ask user for name and model
+		cout << "Enter the type and model of the scooter: ";
+		getline(cin, userType);
+		cin.ignore();
+		//cin.clear();
+
+		//verify length of name and model
+		if (userType.length() < 1) {
+			cout << "OOPS! Name and model cannot be empty!" << endl;
+		}
 	} while (userType.length() < 1); //repeat until the user enters a valid name and model
 	cout << "Name and model: " << userType << endl;
 
 	do {
-	//ask user for max speed
-	cout << "Enter the maximum speed of the scooter: ";
-	cin >> userMaxSpeed;
-	cin.ignore();
-	cin.clear();
-	//verify max speed
-	if (userMaxSpeed < 0) {
-		cout << "OOPS! Maximum speed cannot be negative!" << endl;
-	}
-	else if (userMaxSpeed > HIGHEST_MAX) {
-		cout << "WHOA!! These scooters can't go as fast as "
-		<< HIGHEST_MAX
-		<< "MPH"
-		<<"\nSorry the max speed has gotta be lower for safety reasons."<< endl;
-	}
+		//ask user for max speed
+		cout << "Enter the maximum speed of the scooter: ";
+		cin >> userMaxSpeed;
+		cin.ignore();
+		cin.clear();
+		//verify max speed
+		if (userMaxSpeed < 0) {
+			cout << "OOPS! Maximum speed cannot be negative!" << endl;
+		}
+		else if (userMaxSpeed > HIGHEST_MAX) {
+			cout << "WHOA!! These scooters can't go as fast as "
+			<< HIGHEST_MAX
+			<< "MPH"
+			<<"\nSorry the max speed has gotta be lower for safety reasons."<< endl;
+		}
 	} while (userMaxSpeed < 0); //repeat until the user enters a valid max speed
 	cout << "Maximum speed: " << setw(4) << userMaxSpeed << endl;
 
