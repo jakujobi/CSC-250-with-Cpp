@@ -54,8 +54,6 @@ const int ACCEL = 2; // Acceleration in mph
 const int DECEL = 3; // Deceleration in mph
 const int HIGHEST_MAX = 100; // Maximum speed in mph
 
-
-
 //Class Definition for Scooter
 class Scooter
 {
@@ -86,7 +84,7 @@ class Scooter
 		void slowDown(); // decreases the speed of the scooter by the deceleration constant if the current speed is greater than 0
 		void displaySpeed(); // displays the current speed of the scooter like a digital speedometer
 		void hardStop(); // sets the current speed to 0
-		void honkHorn(); // honks a horn
+		//void honkHorn(); // honks a horn
 		void controlSpeed(Scooter& scooter); // controls the speed of the scooter using the arrow keys
 };
 
@@ -232,8 +230,8 @@ void configureScooter (Scooter *scooter){
 		//ask user for name and model
 		cout << "Enter the type and model of the scooter: ";
 		getline(cin, userType);
+		cin.clear();
 		cin.ignore();
-		//cin.clear();
 
 		//verify length of name and model
 		if (userType.length() < 2) {
@@ -282,9 +280,9 @@ void getControls(Scooter *scooter) {	// prompts the user for brand and model
 					<< "4. Honk Horn\n"
 					<< "5. Exit\n"
 					<< endl;
-
+				
 				//Get the user's choice
-				cout << "Enter your choice (1-8): ";
+				cout << "Enter your choice (1-5): ";
 				cin >> choice;
 				cin.ignore();
 				cin.clear();
@@ -306,7 +304,7 @@ void getControls(Scooter *scooter) {	// prompts the user for brand and model
 					scooter->hardStop();
 					break;
 			case 4:
-					scooter->honkHorn();
+					//scooter->honkHorn();
 					break;
 			case 5:
 					cout << "/nGoodBye" << endl;
