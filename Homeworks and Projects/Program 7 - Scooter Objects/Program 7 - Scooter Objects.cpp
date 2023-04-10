@@ -184,21 +184,23 @@ void displaySpeed(Scooter *scooter); // displays the scooter's speed as a digita
 //!______________________________________________________________
 int main()
 {
-	// Loading Animation
-	loadingAnimation(3);
+	system("cls");	// clears the screen
+					// learned from StackOverflow
+	loadingAnimation(3);	// displays a loading animation
 
-	Scooter scooter; // create a scooter object with the default constructor
+	Scooter scooter; // creates a scooter object with the default constructor
 
-	// Get the user's choice
-	configureScooter(&scooter);
-	getControls(&scooter);
+	configureScooter(&scooter); // set up the scooter properties from the user
+	scooter.displaySpeed(); // display the current speed of the scooter
+	getControls(&scooter);	// get controls from the user
+	scooter.displaySpeed(); // display the current speed of the scooter
 
 	return 0;
 }
 
 
 
-//Functions
+//!Functions_________________________________________________________________________________________________
 
 // Prints a line of dashes
 void Line(int num) {
@@ -262,11 +264,10 @@ void configureScooter (Scooter *scooter){
 	//Assign the values to the object
 	scooter->setType(userType);
 	scooter->setMaxSpeed(userMaxSpeed);
-
 }
 
 
-void getControls(Scooter *scooter) {	// prompts the user for brand and model
+int getControls(Scooter *scooter) {	// prompts the user for brand and model
 	int choice; // user choice
 	do {
 			//Print the main menu
@@ -317,6 +318,7 @@ void getControls(Scooter *scooter) {	// prompts the user for brand and model
 		} while (choice != 5);
 
 		//system("pause"); //pause the program
+		return choice;
 }
 
 void displaySpeed (Scooter *scooter){ // displays the current speed of the scooter like a digital speedometer
