@@ -1,4 +1,5 @@
-﻿// Member Methods
+﻿
+// Member Methods
 
 // Default Constructor
 Scooter::Scooter() {

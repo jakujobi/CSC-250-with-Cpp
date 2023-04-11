@@ -18,5 +18,13 @@
     <ClCompile Include="Program 7 - Scooter Objects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scooter.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scooter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

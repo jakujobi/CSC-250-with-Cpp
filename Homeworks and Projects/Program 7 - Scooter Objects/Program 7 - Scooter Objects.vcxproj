@@ -128,6 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Program 7 - Scooter Objects.cpp" />
+    <ClCompile Include="Scooter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scooter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
