@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1584205420 source:c:\users\sbl-loaner\onedrive - south dakota state university - sdsu\desktop\program 7 - scooter object codeblock project\main.cpp
+	<iostream>
+
+1681357317 source:c:\users\sbl-loaner\onedrive - south dakota state university - sdsu\desktop\program 7 - scooter object codeblock project\scooter.cpp
+	"Scooter.h"
+
+1681357657 c:\users\sbl-loaner\onedrive - south dakota state university - sdsu\desktop\program 7 - scooter object codeblock project\scooter.h
+	<string>
+
