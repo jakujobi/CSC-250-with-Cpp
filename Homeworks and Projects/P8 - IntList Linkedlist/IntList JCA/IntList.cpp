@@ -2,6 +2,7 @@
 #include "IntList.h"
 using namespace std;
 
+// Constructor
 IntList::IntList(const IntList& other) {
     head = nullptr;
     ListNode* current = other.head;
@@ -11,6 +12,7 @@ IntList::IntList(const IntList& other) {
     }
 }
 
+// Destructor
 IntList::~IntList() {
     ListNode* current = head;
     while (current) {
@@ -20,6 +22,7 @@ IntList::~IntList() {
     }
 }
 
+// Append a node to the end of the list
 void IntList::appendNode(int value) {
     if (!head) {
         head = new ListNode(value);
@@ -33,6 +36,7 @@ void IntList::appendNode(int value) {
     }
 }
 
+// Insert a node in the list
 void IntList::insertNode(int value) {
     if (!head || head->value >= value) {
         head = new ListNode(value, head);
@@ -46,6 +50,7 @@ void IntList::insertNode(int value) {
     }
 }
 
+// Delete a node from the list
 void IntList::deleteNode(int value) {
     if (!head) return;
 
@@ -68,6 +73,7 @@ void IntList::deleteNode(int value) {
     }
 }
 
+// Display the list
 void IntList::displayList() const {
     int nodeNumber = 1;
     ListNode* current = head;
@@ -78,10 +84,12 @@ void IntList::displayList() const {
     }
 }
 
+// Count the number of nodes in the list
 int IntList::countNodes() const {
     return countNodes(head);
 }
 
+// Count the number of nodes in the list - private function wrapper
 int IntList::countNodes(ListNode* node) const {
     if (!node) {
         return 0;

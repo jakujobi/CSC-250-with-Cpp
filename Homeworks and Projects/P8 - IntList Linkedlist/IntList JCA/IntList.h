@@ -2,7 +2,7 @@
 #ifndef INTLIST_H
 #define INTLIST_H
 
-#include <iostream>
+#include <iostream> // for cout
 
 class IntList {
 public:
@@ -30,7 +30,7 @@ private:
         ListNode(int value, ListNode* next = nullptr) : value(value), next(next) {}
     };
 
-    ListNode* head;
+    ListNode* head; // List head pointer
 
     // Private recursive function to count nodes
     int countNodes(ListNode* node) const;
