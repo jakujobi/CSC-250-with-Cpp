@@ -1,4 +1,4 @@
-// write a program that converts the date from numeric form to word form
+// Program that converts the date from numeric form to word form
 // for example 10/29/2014 will be converted to January Twenty Nine, Two Thousand and Fourteen
 
 
