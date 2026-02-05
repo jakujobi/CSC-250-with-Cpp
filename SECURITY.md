@@ -6,21 +6,23 @@ This repository contains educational C++ code for academic purposes. While secur
 
 ## Security Context
 
-**Type**: Academic portfolio/coursework  
-**Environment**: Local execution, no network services  
-**Data**: Sample text files, no sensitive information  
+**Type**: Academic portfolio/coursework
+**Environment**: Local execution, no network services
+**Data**: Sample text files, no sensitive information
 
 ### Current Security Posture
 
 These projects were designed as learning exercises and include:
 
-✅ **What is implemented**:
+**What is implemented**:
+
 - Basic input validation for menu choices
 - File access validation
 - Memory cleanup (destructors in OOP projects)
 - No network communication (zero attack surface from network)
 
-⚠️ **Known limitations** (acceptable for educational scope):
+**Known limitations** (acceptable for educational scope):
+
 - Limited input sanitization
 - Fixed-size buffers in some projects
 - Basic error handling
@@ -30,22 +32,28 @@ These projects were designed as learning exercises and include:
 ## Security Considerations by Project
 
 ### P1-P6: File I/O Projects
+
 **Potential Concerns**:
+
 - File path validation is minimal
 - Buffer sizes are fixed
 - No validation of file content format
 
 **Mitigation**:
+
 - Programs only read from specified local files
 - No user-controlled file paths
 - No network access
 
 ### P7-P8: Object-Oriented Projects
+
 **Potential Concerns**:
+
 - Dynamic memory allocation without smart pointers
 - Manual memory management
 
 **Mitigation**:
+
 - Destructors properly implemented
 - Copy constructors handle deep copies
 - Tested for basic memory leaks
@@ -84,6 +92,7 @@ If you have suggestions for improving security practices as learning examples:
 If you're a student learning from this code, consider these improvements for your own projects:
 
 ### Input Validation
+
 ```cpp
 // Basic validation (current approach)
 if (choice < 1 || choice > 3) {
@@ -99,6 +108,7 @@ if (cin.fail()) {
 ```
 
 ### Buffer Safety
+
 ```cpp
 // Fixed-size array (current approach in some projects)
 char buffer[100];
@@ -109,6 +119,7 @@ vector<int> data;  // Dynamically sized array
 ```
 
 ### Memory Management
+
 ```cpp
 // Manual management (current approach in P8)
 ~IntList() {
@@ -125,6 +136,7 @@ unique_ptr<ListNode> head;  // Automatic cleanup
 ```
 
 ### File Access
+
 ```cpp
 // Basic approach (current)
 ifstream file("data.txt");
@@ -163,11 +175,13 @@ When writing your own C++ programs, consider:
 ## Scope
 
 This security policy applies to:
+
 - All C++ source code in this repository
 - Build configurations and scripts
 - Documentation
 
 This security policy does NOT apply to:
+
 - Third-party tools (compilers, IDEs)
 - Operating system security
 - Network security (no network code exists)
@@ -175,6 +189,7 @@ This security policy does NOT apply to:
 ## Updates
 
 This security policy may be updated as:
+
 - New security considerations are identified
 - The codebase evolves
 - Security best practices change
@@ -184,6 +199,7 @@ Last updated: February 5, 2026
 ## Disclaimer
 
 This is educational code. It is provided "as is" without warranty of any kind. Users should:
+
 - Review and understand code before running
 - Use appropriate security practices in production code
 - Not use this code in security-critical applications without thorough review and hardening
